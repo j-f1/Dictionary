@@ -13,6 +13,7 @@
 		85BAEC432626827D00E56D06 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 85BAEC412626827D00E56D06 /* Main.storyboard */; };
 		85BAEC452626827F00E56D06 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 85BAEC442626827F00E56D06 /* Assets.xcassets */; };
 		85BAEC482626827F00E56D06 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 85BAEC462626827F00E56D06 /* LaunchScreen.storyboard */; };
+		85BAEC50262684B200E56D06 /* word-list.json in Resources */ = {isa = PBXBuildFile; fileRef = 85BAEC4F262684B200E56D06 /* word-list.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		85BAEC442626827F00E56D06 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		85BAEC472626827F00E56D06 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		85BAEC492626827F00E56D06 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		85BAEC4F262684B200E56D06 /* word-list.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "word-list.json"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +64,7 @@
 				85BAEC412626827D00E56D06 /* Main.storyboard */,
 				85BAEC442626827F00E56D06 /* Assets.xcassets */,
 				85BAEC462626827F00E56D06 /* LaunchScreen.storyboard */,
+				85BAEC4F262684B200E56D06 /* word-list.json */,
 				85BAEC492626827F00E56D06 /* Info.plist */,
 			);
 			path = Dictionary;
@@ -127,6 +130,7 @@
 				85BAEC482626827F00E56D06 /* LaunchScreen.storyboard in Resources */,
 				85BAEC452626827F00E56D06 /* Assets.xcassets in Resources */,
 				85BAEC432626827D00E56D06 /* Main.storyboard in Resources */,
+				85BAEC50262684B200E56D06 /* word-list.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

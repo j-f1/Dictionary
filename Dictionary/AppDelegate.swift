@@ -23,7 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       ) as! [String]
 
       DispatchQueue.main.async {
-        <#code#>
+//        <#code#>
       }
     }
 
