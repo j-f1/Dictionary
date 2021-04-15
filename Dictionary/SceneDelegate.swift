@@ -20,9 +20,25 @@ struct WordLetter: Decodable {
   }
 }
 
+class SplitViewDelegate: NSObject, UISplitViewControllerDelegate {
+  func splitViewController(
+    _ svc: UISplitViewController,
+    topColumnForCollapsingToProposedTopColumn proposedTopColumn: UISplitViewController.Column
+  ) -> UISplitViewController.Column {
+    if let vc = (
+      (svc.viewController(for: .secondary) as? UINavigationController)?.viewControllers.first as? ViewController
+    ) {
+      return vc.word == nil ? .primary : .secondary
+    }
+    return .primary
+  }
+}
+
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {  
 
   var window: UIWindow?
+
+  let splitDelegate = SplitViewDelegate()
 
 
   func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
@@ -44,13 +60,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
       let reorderedSections = SECTIONS.map { name in allWords.first { $0.letter.uppercased() == name }! }
 
       DispatchQueue.main.async { [self] in
-        if let navStack = window?.rootViewController?.storyboard?.instantiateViewController(identifier: "PrimaryNavStack") as? UISplitViewController {
-          if let primaryNavStack = navStack.viewController(for: .primary) as? UINavigationController,
+        if let splitVC = window?.rootViewController?.storyboard?.instantiateViewController(identifier: "PrimaryNavStack") as? UISplitViewController {
+          splitVC.delegate = splitDelegate
+          if let primaryNavStack = splitVC.viewController(for: .primary) as? UINavigationController,
              let wordListVC = primaryNavStack.topViewController as? WordsTableViewController {
             wordListVC.allWords = reorderedSections
-            navStack.setViewController(primaryNavStack, for: .compact)
           }
-          window?.rootViewController = navStack
+          window?.rootViewController = splitVC
         }
       }
     }

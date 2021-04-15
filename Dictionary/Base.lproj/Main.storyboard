@@ -23,7 +23,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9WD-86-jIM" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="375" y="-860"/>
+            <point key="canvasLocation" x="1325" y="-814"/>
         </scene>
         <!--Dictionary-->
         <scene sceneID="vrp-C0-44Y">
@@ -51,7 +51,10 @@
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <segue destination="AyJ-4Y-i62" kind="show" id="aQO-LF-CJ7"/>
+                                    <segue destination="fdB-PD-nF5" kind="showDetail" id="bZ0-ez-V1i">
+                                        <segue key="commit" inheritsFrom="parent" id="VSp-kq-NsR"/>
+                                        <segue key="preview" inheritsFrom="commit" id="Ikw-kY-8Gp"/>
+                                    </segue>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -88,7 +91,7 @@
                 <splitViewController storyboardIdentifier="PrimaryNavStack" allowDoubleColumnStyle="YES" preferredDisplayMode="beside" presentsWithGesture="NO" id="0cF-Jt-apd" sceneMemberID="viewController">
                     <connections>
                         <segue destination="M4P-nU-oC6" kind="relationship" relationship="masterViewController" id="qIp-Ro-a5r"/>
-                        <segue destination="AyJ-4Y-i62" kind="relationship" relationship="detailViewController" id="w4M-Ac-G0W"/>
+                        <segue destination="fdB-PD-nF5" kind="relationship" relationship="detailViewController" id="gIC-OO-C5J"/>
                     </connections>
                 </splitViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tdP-wS-kV0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -147,9 +150,25 @@
             </objects>
             <point key="canvasLocation" x="-3281" y="-1207"/>
         </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="7ix-Ua-BJ4">
+            <objects>
+                <navigationController id="fdB-PD-nF5" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="YeN-aI-RTp">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="AyJ-4Y-i62" kind="relationship" relationship="rootViewController" id="0MH-7P-WmL"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ycI-JH-d6L" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="512" y="-814"/>
+        </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="aQO-LF-CJ7"/>
+        <segue reference="gIC-OO-C5J"/>
     </inferredMetricsTieBreakers>
     <resources>
         <systemColor name="secondaryLabelColor">
