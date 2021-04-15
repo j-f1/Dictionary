@@ -26,13 +26,39 @@ class WordsTableViewController: UITableViewController, UISearchResultsUpdating {
     searchController.hidesNavigationBarDuringPresentation = false
     searchController.obscuresBackgroundDuringPresentation = false
     searchController.searchBar.searchBarStyle = .prominent
-    navigationItem.hidesSearchBarWhenScrolling = false
+    searchController.searchBar.returnKeyType = .done
     navigationItem.searchController = searchController
+    navigationItem.hidesSearchBarWhenScrolling = false
+  }
+
+  func findButton(in view: UIView) -> UIButton? {
+    if view is UITextField {
+      return nil
+    }
+    if let button = view as? UIButton {
+      return button
+    }
+    for child in view.subviews {
+      if let result = findButton(in: child) {
+        return result
+      }
+    }
+    return nil
   }
 
   // MARK: - UISearchResultsUpdatingr
   func updateSearchResults(for searchController: UISearchController) {
-//    <#code#>
+    DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(100)) {
+      let btn = self.findButton(in: searchController.searchBar)
+      btn?.setTitle("Done", for: .normal)
+      print(btn?.titleLabel?.font.fontDescriptor.fontAttributes)
+    }
+
+    guard let query = searchController.searchBar.text?.lowercased().trimmingCharacters(in: .whitespacesAndNewlines) else { return }
+    guard let section = allWords.firstIndex(where: { query.first == $0.letter.first }) else { return }
+    if let row = allWords[section].words.firstIndex(where: { $0 > query }) {
+      tableView.scrollToRow(at: IndexPath(row: row == 0 ? row : row - 1, section: section), at: .top, animated: false)
+    }
   }
 
 
