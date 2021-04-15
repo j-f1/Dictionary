@@ -51,10 +51,7 @@
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <segue destination="fdB-PD-nF5" kind="showDetail" id="bZ0-ez-V1i">
-                                        <segue key="commit" inheritsFrom="parent" id="VSp-kq-NsR"/>
-                                        <segue key="preview" inheritsFrom="commit" id="Ikw-kY-8Gp"/>
-                                    </segue>
+                                    <segue destination="fdB-PD-nF5" kind="showDetail" id="bZ0-ez-V1i"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -168,7 +165,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="gIC-OO-C5J"/>
+        <segue reference="bZ0-ez-V1i"/>
     </inferredMetricsTieBreakers>
     <resources>
         <systemColor name="secondaryLabelColor">
