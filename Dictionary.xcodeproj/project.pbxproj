@@ -3,10 +3,12 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		85A5F9CB2628A44800030C47 /* ZIPFoundation in Frameworks */ = {isa = PBXBuildFile; productRef = 85A5F9CA2628A44800030C47 /* ZIPFoundation */; };
+		85A5F9CD2628A6B000030C47 /* styles.css in Resources */ = {isa = PBXBuildFile; fileRef = 85A5F9CC2628A6B000030C47 /* styles.css */; };
 		85BA7EA9262894C4005A1106 /* words-by-letter.json in Resources */ = {isa = PBXBuildFile; fileRef = 85BA7EA7262894C4005A1106 /* words-by-letter.json */; };
 		85BA7EAA262894C4005A1106 /* dict.zip in Resources */ = {isa = PBXBuildFile; fileRef = 85BA7EA8262894C4005A1106 /* dict.zip */; };
 		85BAEC3C2626827D00E56D06 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85BAEC3B2626827D00E56D06 /* AppDelegate.swift */; };
@@ -20,6 +22,12 @@
 
 /* Begin PBXFileReference section */
 		852062CC2627EEE300B08C9D /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		85A5F9CC2628A6B000030C47 /* styles.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = styles.css; sourceTree = "<group>"; };
+		85A5F9CE2628A72A00030C47 /* GentiumPlus-R-smcp.woff */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GentiumPlus-R-smcp.woff"; sourceTree = "<group>"; };
+		85A5F9CF2628A72A00030C47 /* GentiumPlus-I.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GentiumPlus-I.ttf"; sourceTree = "<group>"; };
+		85A5F9D02628A72A00030C47 /* GentiumPlus-I-smcp.woff */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GentiumPlus-I-smcp.woff"; sourceTree = "<group>"; };
+		85A5F9D12628A72A00030C47 /* GentiumPlus-R.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GentiumPlus-R.ttf"; sourceTree = "<group>"; };
+		85A5F9D22628A72A00030C47 /* GenBasB.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = GenBasB.ttf; sourceTree = "<group>"; };
 		85BA7EA7262894C4005A1106 /* words-by-letter.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "words-by-letter.json"; sourceTree = "<group>"; };
 		85BA7EA8262894C4005A1106 /* dict.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = dict.zip; sourceTree = "<group>"; };
 		85BAEC382626827D00E56D06 /* Dictionary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dictionary.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -38,6 +46,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				85A5F9CB2628A44800030C47 /* ZIPFoundation in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -47,8 +56,14 @@
 		85A5F9C82628950500030C47 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				85A5F9CC2628A6B000030C47 /* styles.css */,
 				85BA7EA8262894C4005A1106 /* dict.zip */,
 				85BA7EA7262894C4005A1106 /* words-by-letter.json */,
+				85A5F9D22628A72A00030C47 /* GenBasB.ttf */,
+				85A5F9D02628A72A00030C47 /* GentiumPlus-I-smcp.woff */,
+				85A5F9CF2628A72A00030C47 /* GentiumPlus-I.ttf */,
+				85A5F9CE2628A72A00030C47 /* GentiumPlus-R-smcp.woff */,
+				85A5F9D12628A72A00030C47 /* GentiumPlus-R.ttf */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -102,6 +117,9 @@
 			dependencies = (
 			);
 			name = Dictionary;
+			packageProductDependencies = (
+				85A5F9CA2628A44800030C47 /* ZIPFoundation */,
+			);
 			productName = Dictionary;
 			productReference = 85BAEC382626827D00E56D06 /* Dictionary.app */;
 			productType = "com.apple.product-type.application";
@@ -129,6 +147,9 @@
 				Base,
 			);
 			mainGroup = 85BAEC2F2626827D00E56D06;
+			packageReferences = (
+				85A5F9C92628A44800030C47 /* XCRemoteSwiftPackageReference "ZIPFoundation" */,
+			);
 			productRefGroup = 85BAEC392626827D00E56D06 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -146,6 +167,7 @@
 				85BA7EA9262894C4005A1106 /* words-by-letter.json in Resources */,
 				85BAEC482626827F00E56D06 /* LaunchScreen.storyboard in Resources */,
 				85BAEC452626827F00E56D06 /* Assets.xcassets in Resources */,
+				85A5F9CD2628A6B000030C47 /* styles.css in Resources */,
 				85BAEC432626827D00E56D06 /* Main.storyboard in Resources */,
 				85BA7EAA262894C4005A1106 /* dict.zip in Resources */,
 			);
@@ -363,6 +385,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		85A5F9C92628A44800030C47 /* XCRemoteSwiftPackageReference "ZIPFoundation" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/weichsel/ZIPFoundation";
+			requirement = {
+				kind = upToNextMinorVersion;
+				minimumVersion = 0.9.12;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		85A5F9CA2628A44800030C47 /* ZIPFoundation */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 85A5F9C92628A44800030C47 /* XCRemoteSwiftPackageReference "ZIPFoundation" */;
+			productName = ZIPFoundation;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 85BAEC302626827D00E56D06 /* Project object */;
 }
