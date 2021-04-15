@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="0cF-Jt-apd">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="YQe-qN-HS5">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18092"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="Stack View standard spacing" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -27,23 +28,23 @@
         <!--Dictionary-->
         <scene sceneID="vrp-C0-44Y">
             <objects>
-                <tableViewController clearsSelectionOnViewWillAppear="NO" id="qWb-Pz-UUN" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="eZT-oe-FUu">
+                <tableViewController clearsSelectionOnViewWillAppear="NO" id="qWb-Pz-UUN" customClass="WordsTableViewController" customModule="Dictionary" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" sectionIndexMinimumDisplayRowCount="9" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="eZT-oe-FUu">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" textLabel="w49-Lk-K0F" style="IBUITableViewCellStyleDefault" id="XtC-UK-1ct">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="WordRow" textLabel="w49-Lk-K0F" style="IBUITableViewCellStyleDefault" id="XtC-UK-1ct">
                                 <rect key="frame" x="0.0" y="24.5" width="414" height="43.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="XtC-UK-1ct" id="Ad6-G2-iVd">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="384.5" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="w49-Lk-K0F">
-                                            <rect key="frame" x="20" y="0.0" width="374" height="43.5"/>
+                                            <rect key="frame" x="20" y="0.0" width="356.5" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="0.0"/>
+                                            <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
@@ -59,7 +60,7 @@
                             <outlet property="delegate" destination="qWb-Pz-UUN" id="0WM-st-lIQ"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Dictionary" id="LQo-ca-tPh"/>
+                    <navigationItem key="navigationItem" title="Dictionary" largeTitleDisplayMode="always" id="LQo-ca-tPh"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uJl-qF-PWO" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -79,12 +80,12 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gj6-fG-1Fu" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-513" y="-1583"/>
+            <point key="canvasLocation" x="-472" y="-1583"/>
         </scene>
         <!--Split View Controller-->
         <scene sceneID="3ps-pT-HKV">
             <objects>
-                <splitViewController allowDoubleColumnStyle="YES" preferredDisplayMode="beside" presentsWithGesture="NO" id="0cF-Jt-apd" sceneMemberID="viewController">
+                <splitViewController storyboardIdentifier="PrimaryNavStack" allowDoubleColumnStyle="YES" preferredDisplayMode="beside" presentsWithGesture="NO" id="0cF-Jt-apd" sceneMemberID="viewController">
                     <connections>
                         <segue destination="M4P-nU-oC6" kind="relationship" relationship="masterViewController" id="qIp-Ro-a5r"/>
                         <segue destination="AyJ-4Y-i62" kind="relationship" relationship="detailViewController" id="w4M-Ac-G0W"/>
@@ -94,38 +95,65 @@
             </objects>
             <point key="canvasLocation" x="-1402" y="-1280"/>
         </scene>
-        <!--View Controller-->
+        <!--Dictionary-->
         <scene sceneID="0Vr-ot-6vm">
             <objects>
                 <viewController id="WsT-gT-844" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="61B-Db-aXB">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="wx7-7z-KPA">
+                                <rect key="frame" x="138" y="414" width="138" height="68"/>
+                                <subviews>
+                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="Bhl-hA-hjQ">
+                                        <rect key="frame" x="50.5" y="0.0" width="37" height="37"/>
+                                    </activityIndicatorView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loading words…" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LtR-iK-Oz3">
+                                        <rect key="frame" x="0.0" y="45" width="138" height="23"/>
+                                        <fontDescription key="fontDescription" style="UICTFontTextStyleTitle2"/>
+                                        <color key="textColor" systemColor="secondaryLabelColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </stackView>
+                        </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="wx7-7z-KPA" firstAttribute="centerX" secondItem="61B-Db-aXB" secondAttribute="centerX" id="6pX-pR-R7w"/>
+                            <constraint firstItem="wx7-7z-KPA" firstAttribute="centerY" secondItem="61B-Db-aXB" secondAttribute="centerY" id="BuI-T9-qnv"/>
+                        </constraints>
                     </view>
+                    <navigationItem key="navigationItem" title="Dictionary" id="QCq-2b-ntn"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="01y-yS-tBW" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="-2362" y="-1207"/>
         </scene>
-        <!--View Controller-->
-        <scene sceneID="abO-Q3-oZv">
+        <!--Navigation Controller-->
+        <scene sceneID="Jo6-JG-whF">
             <objects>
-                <viewController id="ViB-gs-Jeh" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="p6e-JD-J2W">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="ZLE-Uw-v2s" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <navigationController id="YQe-qN-HS5" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="miQ-5h-O8w">
+                        <rect key="frame" x="0.0" y="44" width="414" height="96"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="WsT-gT-844" kind="relationship" relationship="rootViewController" id="Fe1-3t-LzK"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="4xu-9a-Sp9" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2309" y="-1758"/>
+            <point key="canvasLocation" x="-3281" y="-1207"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="w4M-Ac-G0W"/>
+        <segue reference="aQO-LF-CJ7"/>
     </inferredMetricsTieBreakers>
     <resources>
+        <systemColor name="secondaryLabelColor">
+            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

@@ -11,22 +11,6 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-
-    DispatchQueue.global(qos: .userInitiated).async {
-      let allWords = try! JSONSerialization.jsonObject(
-        with: Data(
-          contentsOf: Bundle.main.url(
-            forResource: "word-list",
-            withExtension: "json"
-          )!
-        )
-      ) as! [String]
-
-      DispatchQueue.main.async {
-//        <#code#>
-      }
-    }
-
     return true
   }
 

@@ -7,7 +7,20 @@
 
 import UIKit
 
-class SceneDelegate: UIResponder, UIWindowSceneDelegate {
+fileprivate let SECTIONS = Array("ABCDEFGHIJKLMNOPQRSTUVWXYZ'-").map(String.init)
+
+struct WordLetter: Decodable {
+  let letter: String
+  let words: [String]
+
+  init(from decoder: Decoder) throws {
+    var container = try decoder.unkeyedContainer()
+    letter = try container.decode(String.self)
+    words = try container.decode([String].self)
+  }
+}
+
+class SceneDelegate: UIResponder, UIWindowSceneDelegate {  
 
   var window: UIWindow?
 
@@ -17,6 +30,30 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
     // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
     guard let _ = (scene as? UIWindowScene) else { return }
+    DispatchQueue.global(qos: .userInitiated).async {
+      let allWords = try! JSONDecoder().decode(
+        [WordLetter].self,
+        from: Data(
+          contentsOf: Bundle.main.url(
+            forResource: "words-by-letter",
+            withExtension: "json"
+          )!
+        )
+      )
+
+      let reorderedSections = SECTIONS.map { name in allWords.first { $0.letter.uppercased() == name }! }
+
+      DispatchQueue.main.async { [self] in
+        if let navStack = window?.rootViewController?.storyboard?.instantiateViewController(identifier: "PrimaryNavStack") as? UISplitViewController {
+          if let primaryNavStack = navStack.viewController(for: .primary) as? UINavigationController,
+             let wordListVC = primaryNavStack.topViewController as? WordsTableViewController {
+            wordListVC.allWords = reorderedSections
+            navStack.setViewController(primaryNavStack, for: .compact)
+          }
+          window?.rootViewController = navStack
+        }
+      }
+    }
   }
 
   func sceneDidDisconnect(_ scene: UIScene) {
