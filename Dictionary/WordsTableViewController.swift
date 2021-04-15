@@ -24,6 +24,7 @@ class WordsTableViewController: UITableViewController, UISearchResultsUpdating {
 
     searchController.searchResultsUpdater = self
     searchController.hidesNavigationBarDuringPresentation = false
+    searchController.automaticallyShowsCancelButton = false
     searchController.obscuresBackgroundDuringPresentation = false
     searchController.searchBar.searchBarStyle = .prominent
     searchController.searchBar.returnKeyType = .done
@@ -31,29 +32,8 @@ class WordsTableViewController: UITableViewController, UISearchResultsUpdating {
     navigationItem.hidesSearchBarWhenScrolling = false
   }
 
-  func findButton(in view: UIView) -> UIButton? {
-    if view is UITextField {
-      return nil
-    }
-    if let button = view as? UIButton {
-      return button
-    }
-    for child in view.subviews {
-      if let result = findButton(in: child) {
-        return result
-      }
-    }
-    return nil
-  }
-
   // MARK: - UISearchResultsUpdatingr
   func updateSearchResults(for searchController: UISearchController) {
-    DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(100)) {
-      let btn = self.findButton(in: searchController.searchBar)
-      btn?.setTitle("Done", for: .normal)
-      print(btn?.titleLabel?.font.fontDescriptor.fontAttributes)
-    }
-
     guard let query = searchController.searchBar.text?.lowercased().trimmingCharacters(in: .whitespacesAndNewlines) else { return }
     guard let section = allWords.firstIndex(where: { query.first == $0.letter.first }) else { return }
     if let row = allWords[section].words.firstIndex(where: { $0 > query }) {
