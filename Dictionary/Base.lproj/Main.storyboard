@@ -80,6 +80,13 @@
                         </connections>
                     </tableView>
                     <toolbarItems>
+                        <barButtonItem title="About" image="info.circle" catalog="system" id="Yh1-Z2-7Z9">
+                            <connections>
+                                <segue destination="uzy-Ak-xCo" kind="popoverPresentation" popoverAnchorBarButtonItem="Yh1-Z2-7Z9" id="1Bw-3H-O31">
+                                    <popoverArrowDirection key="popoverArrowDirection" up="YES"/>
+                                </segue>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="R60-s1-W6D"/>
                         <barButtonItem title="Random" id="Qib-ok-Nja">
                             <imageReference key="image" image="die.face.5" catalog="system" symbolScale="default"/>
@@ -94,6 +101,21 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uJl-qF-PWO" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="376" y="-1583"/>
+        </scene>
+        <!--About Screen View Controller-->
+        <scene sceneID="dZp-zv-7mc">
+            <objects>
+                <viewController id="uzy-Ak-xCo" customClass="AboutScreenViewController" customModule="Dictionary" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="9iD-16-5gZ">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="ven-z1-Ifq"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="wtK-Ui-phZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1201" y="-1583"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="zGG-B6-Xs6">
@@ -146,6 +168,7 @@
     </inferredMetricsTieBreakers>
     <resources>
         <image name="die.face.5" catalog="system" width="128" height="114"/>
+        <image name="info.circle" catalog="system" width="128" height="121"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

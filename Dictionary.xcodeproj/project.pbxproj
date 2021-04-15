@@ -48,6 +48,8 @@
 		85BAEC452626827F00E56D06 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 85BAEC442626827F00E56D06 /* Assets.xcassets */; };
 		85BAEC482626827F00E56D06 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 85BAEC462626827F00E56D06 /* LaunchScreen.storyboard */; };
 		85BAEC52262685AA00E56D06 /* WordsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85BAEC51262685AA00E56D06 /* WordsTableViewController.swift */; };
+		85CF52672628F3F900E96928 /* AboutScreen in Frameworks */ = {isa = PBXBuildFile; productRef = 85CF52662628F3F900E96928 /* AboutScreen */; };
+		85CF52692628F46700E96928 /* AboutScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85CF52682628F46700E96928 /* AboutScreenViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -99,6 +101,7 @@
 		85BAEC472626827F00E56D06 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		85BAEC492626827F00E56D06 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		85BAEC51262685AA00E56D06 /* WordsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordsTableViewController.swift; sourceTree = "<group>"; };
+		85CF52682628F46700E96928 /* AboutScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutScreenViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,6 +109,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				85CF52672628F3F900E96928 /* AboutScreen in Frameworks */,
 				85A5F9CB2628A44800030C47 /* ZIPFoundation in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -190,6 +194,7 @@
 				85A5FA102628EB3200030C47 /* SplitViewController.swift */,
 				85BAEC3F2626827D00E56D06 /* ViewController.swift */,
 				85BAEC412626827D00E56D06 /* Main.storyboard */,
+				85CF52682628F46700E96928 /* AboutScreenViewController.swift */,
 				85BAEC51262685AA00E56D06 /* WordsTableViewController.swift */,
 				85BAEC442626827F00E56D06 /* Assets.xcassets */,
 				85BAEC462626827F00E56D06 /* LaunchScreen.storyboard */,
@@ -217,6 +222,7 @@
 			name = Dictionary;
 			packageProductDependencies = (
 				85A5F9CA2628A44800030C47 /* ZIPFoundation */,
+				85CF52662628F3F900E96928 /* AboutScreen */,
 			);
 			productName = Dictionary;
 			productReference = 85BAEC382626827D00E56D06 /* Dictionary.app */;
@@ -247,6 +253,7 @@
 			mainGroup = 85BAEC2F2626827D00E56D06;
 			packageReferences = (
 				85A5F9C92628A44800030C47 /* XCRemoteSwiftPackageReference "ZIPFoundation" */,
+				85CF52652628F3F900E96928 /* XCRemoteSwiftPackageReference "AboutScreen" */,
 			);
 			productRefGroup = 85BAEC392626827D00E56D06 /* Products */;
 			projectDirPath = "";
@@ -307,6 +314,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				85CF52692628F46700E96928 /* AboutScreenViewController.swift in Sources */,
 				85A5FA112628EB3200030C47 /* SplitViewController.swift in Sources */,
 				85BAEC402626827D00E56D06 /* ViewController.swift in Sources */,
 				85BAEC3C2626827D00E56D06 /* AppDelegate.swift in Sources */,
@@ -523,6 +531,14 @@
 				minimumVersion = 0.9.12;
 			};
 		};
+		85CF52652628F3F900E96928 /* XCRemoteSwiftPackageReference "AboutScreen" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/j-f1/AboutScreen.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.5.8;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -530,6 +546,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 85A5F9C92628A44800030C47 /* XCRemoteSwiftPackageReference "ZIPFoundation" */;
 			productName = ZIPFoundation;
+		};
+		85CF52662628F3F900E96928 /* AboutScreen */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 85CF52652628F3F900E96928 /* XCRemoteSwiftPackageReference "AboutScreen" */;
+			productName = AboutScreen;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

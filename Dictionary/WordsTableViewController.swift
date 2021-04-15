@@ -40,7 +40,7 @@ class WordsTableViewController: UITableViewController, UISearchResultsUpdating, 
     searchController.searchBar.enablesReturnKeyAutomatically = false
     navigationItem.hidesSearchBarWhenScrolling = false
     navigationItem.titleView = searchController.searchBar
-    navigationController?.isToolbarHidden = false
+    navigationController?.setToolbarHidden(false, animated: true)
 
     DispatchQueue.main.async {
       self.splitViewController?.delegate = self
@@ -63,7 +63,6 @@ class WordsTableViewController: UITableViewController, UISearchResultsUpdating, 
         }
       }
     }
-
   }
 
   // MARK: - UISearchResultsUpdatingr
