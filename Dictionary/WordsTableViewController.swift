@@ -28,6 +28,7 @@ class WordsTableViewController: UITableViewController, UISearchResultsUpdating {
     searchController.obscuresBackgroundDuringPresentation = false
     searchController.searchBar.searchBarStyle = .prominent
     searchController.searchBar.returnKeyType = .done
+    searchController.searchBar.enablesReturnKeyAutomatically = false
     navigationItem.searchController = searchController
     navigationItem.hidesSearchBarWhenScrolling = false
   }
