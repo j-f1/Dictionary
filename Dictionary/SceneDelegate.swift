@@ -7,8 +7,6 @@
 
 import UIKit
 
-fileprivate let SECTIONS = Array("ABCDEFGHIJKLMNOPQRSTUVWXYZ'-").map(String.init)
-
 struct WordLetter: Decodable {
   let letter: String
   let words: [String]
@@ -20,56 +18,15 @@ struct WordLetter: Decodable {
   }
 }
 
-class SplitViewDelegate: NSObject, UISplitViewControllerDelegate {
-  func splitViewController(
-    _ svc: UISplitViewController,
-    topColumnForCollapsingToProposedTopColumn proposedTopColumn: UISplitViewController.Column
-  ) -> UISplitViewController.Column {
-    if let vc = (
-      (svc.viewController(for: .secondary) as? UINavigationController)?.viewControllers.first as? ViewController
-    ) {
-      return vc.word == nil ? .primary : .secondary
-    }
-    return .primary
-  }
-}
-
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {  
 
   var window: UIWindow?
-
-  let splitDelegate = SplitViewDelegate()
-
 
   func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
     // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
     // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
     // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
     guard let _ = (scene as? UIWindowScene) else { return }
-    DispatchQueue.global(qos: .userInitiated).async {
-      let allWords = try! JSONDecoder().decode(
-        [WordLetter].self,
-        from: Data(
-          contentsOf: Bundle.main.url(
-            forResource: "words-by-letter",
-            withExtension: "json"
-          )!
-        )
-      )
-
-      let reorderedSections = SECTIONS.map { name in allWords.first { $0.letter.uppercased() == name }! }
-
-      DispatchQueue.main.async { [self] in
-        if let splitVC = window?.rootViewController?.storyboard?.instantiateViewController(identifier: "PrimaryNavStack") as? UISplitViewController {
-          splitVC.delegate = splitDelegate
-          if let primaryNavStack = splitVC.viewController(for: .primary) as? UINavigationController,
-             let wordListVC = primaryNavStack.topViewController as? WordsTableViewController {
-            wordListVC.allWords = reorderedSections
-          }
-          window?.rootViewController = splitVC
-        }
-      }
-    }
   }
 
   func sceneDidDisconnect(_ scene: UIScene) {

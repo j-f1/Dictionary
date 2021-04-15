@@ -7,11 +7,20 @@
 
 import UIKit
 
-class WordsTableViewController: UITableViewController, UISearchResultsUpdating {
+func loadWords(from url: URL) -> [WordLetter] {
+  let data = try! JSONDecoder().decode([WordLetter].self, from: Data(contentsOf: url))
+
+  return Array("ABCDEFGHIJKLMNOPQRSTUVWXYZ'-").map { name in
+    data.first { $0.letter.uppercased() == String(name) }!
+  }
+}
+
+
+class WordsTableViewController: UITableViewController, UISearchResultsUpdating, UISplitViewControllerDelegate {
 
   let searchController = UISearchController(searchResultsController: nil)
 
-  var allWords: [WordLetter]!
+  var allWords: [WordLetter]? { didSet { tableView.reloadData() } }
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -29,34 +38,56 @@ class WordsTableViewController: UITableViewController, UISearchResultsUpdating {
     searchController.searchBar.searchBarStyle = .prominent
     searchController.searchBar.returnKeyType = .done
     searchController.searchBar.enablesReturnKeyAutomatically = false
-    navigationItem.searchController = searchController
     navigationItem.hidesSearchBarWhenScrolling = false
-    navigationItem.largeTitleDisplayMode = .never // work around bug
+    navigationItem.titleView = searchController.searchBar
+
+
+    DispatchQueue.main.async {
+      self.splitViewController?.delegate = self
+      self.allWords = loadWords(
+        from: Bundle.main.url(
+          forResource: "boot",
+          withExtension: "json"
+        )!
+      )
+      DispatchQueue.global(qos: .userInitiated).async {
+        let allWords = loadWords(
+          from: Bundle.main.url(
+            forResource: "words-by-letter",
+            withExtension: "json"
+          )!
+        )
+
+        DispatchQueue.main.async {
+          self.allWords = allWords
+        }
+      }
+    }
+
   }
 
   // MARK: - UISearchResultsUpdatingr
   func updateSearchResults(for searchController: UISearchController) {
     guard let query = searchController.searchBar.text?.lowercased().trimmingCharacters(in: .whitespacesAndNewlines) else { return }
-    guard let section = allWords.firstIndex(where: { query.first == $0.letter.first }) else { return }
-    if let row = allWords[section].words.firstIndex(where: { $0 > query }) {
+    guard let section = allWords!.firstIndex(where: { query.first == $0.letter.first }) else { return }
+    if let row = allWords![section].words.firstIndex(where: { $0 > query }) {
       tableView.scrollToRow(at: IndexPath(row: row == 0 ? row : row - 1, section: section), at: .top, animated: false)
     }
   }
 
-
   // MARK: - Table view data source
 
   override func numberOfSections(in tableView: UITableView) -> Int {
-    allWords.count
+    allWords?.count ?? 0
   }
 
   override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    allWords[section].words.count
+    allWords![section].words.count
   }
 
   override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: "WordRow", for: indexPath)
-    cell.textLabel?.text = allWords[indexPath.section].words[indexPath.row]
+    cell.textLabel?.text = allWords![indexPath.section].words[indexPath.row]
     return cell
   }
 
@@ -65,7 +96,7 @@ class WordsTableViewController: UITableViewController, UISearchResultsUpdating {
   }
 
   override func sectionIndexTitles(for tableView: UITableView) -> [String]? {
-    allWords.map { $0.letter.uppercased() }
+    allWords?.map { $0.letter.uppercased() }
   }
 
    // MARK: - Navigation
@@ -74,7 +105,7 @@ class WordsTableViewController: UITableViewController, UISearchResultsUpdating {
    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     if let dest = (segue.destination as? UINavigationController)?.topViewController as? ViewController,
        let selection = tableView.indexPathForSelectedRow {
-      dest.word = allWords[selection.section].words[selection.row]
+      dest.word = allWords![selection.section].words[selection.row]
     }
    }
 }
