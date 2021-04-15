@@ -3,6 +3,7 @@
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18092"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -69,7 +70,7 @@
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <segue destination="fdB-PD-nF5" kind="showDetail" id="bZ0-ez-V1i"/>
+                                    <segue destination="fdB-PD-nF5" kind="showDetail" identifier="selectWord" id="bZ0-ez-V1i"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -78,7 +79,17 @@
                             <outlet property="delegate" destination="qWb-Pz-UUN" id="0WM-st-lIQ"/>
                         </connections>
                     </tableView>
+                    <toolbarItems>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="R60-s1-W6D"/>
+                        <barButtonItem title="Random" id="Qib-ok-Nja">
+                            <imageReference key="image" image="die.face.5" catalog="system" symbolScale="default"/>
+                            <connections>
+                                <action selector="goToRandomWord:" destination="qWb-Pz-UUN" id="06G-3M-bCd"/>
+                            </connections>
+                        </barButtonItem>
+                    </toolbarItems>
                     <navigationItem key="navigationItem" title="Words" largeTitleDisplayMode="never" id="LQo-ca-tPh"/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uJl-qF-PWO" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -134,6 +145,7 @@
         <segue reference="bZ0-ez-V1i"/>
     </inferredMetricsTieBreakers>
     <resources>
+        <image name="die.face.5" catalog="system" width="128" height="114"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

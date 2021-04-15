@@ -40,7 +40,7 @@ class WordsTableViewController: UITableViewController, UISearchResultsUpdating, 
     searchController.searchBar.enablesReturnKeyAutomatically = false
     navigationItem.hidesSearchBarWhenScrolling = false
     navigationItem.titleView = searchController.searchBar
-
+    navigationController?.isToolbarHidden = false
 
     DispatchQueue.main.async {
       self.splitViewController?.delegate = self
@@ -73,6 +73,20 @@ class WordsTableViewController: UITableViewController, UISearchResultsUpdating, 
     if let row = allWords![section].words.firstIndex(where: { $0 > query }) {
       tableView.scrollToRow(at: IndexPath(row: row == 0 ? row : row - 1, section: section), at: .top, animated: false)
     }
+  }
+
+  @IBAction func goToRandomWord(_ sender: Any) {
+    let lengths = allWords!.map(\.words.count)
+    let totalLength = lengths.reduce(0, +)
+    var row = Int.random(in: 0..<totalLength)
+    var section = 0
+    while row >= lengths[section] {
+      row -= lengths[section]
+      section += 1
+    }
+    let path = IndexPath(row: row, section: section)
+    tableView.selectRow(at: path, animated: true, scrollPosition: .middle)
+    self.performSegue(withIdentifier: "selectWord", sender: tableView.cellForRow(at: path))
   }
 
   // MARK: - Table view data source
