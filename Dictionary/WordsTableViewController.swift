@@ -31,6 +31,7 @@ class WordsTableViewController: UITableViewController, UISearchResultsUpdating {
     searchController.searchBar.enablesReturnKeyAutomatically = false
     navigationItem.searchController = searchController
     navigationItem.hidesSearchBarWhenScrolling = false
+    navigationItem.largeTitleDisplayMode = .never // work around bug
   }
 
   // MARK: - UISearchResultsUpdatingr
