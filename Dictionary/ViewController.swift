@@ -9,9 +9,41 @@ import UIKit
 import ZIPFoundation
 import WebKit
 
-class ViewController: UIViewController, UIScrollViewDelegate {
+class DictionaryProvider {
+  static let shared = DictionaryProvider()
 
-  static var archive = ZIPFoundation.Archive(url: Bundle.main.url(forResource: "dict", withExtension: "zip")!, accessMode: .read)!
+  private var archives: [String: ZIPFoundation.Archive] = [:]
+
+  subscript(_ word: String, callback: @escaping (Data) -> ()) -> () {
+    get {
+      DispatchQueue.global(qos: .userInitiated).async { [self] in
+        let key = String(word.first!)
+        if archives[key] == nil {
+          archives[key] = ZIPFoundation.Archive(
+            url: Bundle.main.url(forResource: key, withExtension: "zip")!,
+            accessMode: .read
+          )!
+        }
+        var data = """
+        <meta name="viewport" content="width=device-width" />
+        <link rel="stylesheet" href="styles.css" />
+        <style>body { margin: 20px; } </style>
+      """.data(using: .utf8)!
+        if let archive = archives[key],
+           let entry = archive["\(word).html"] {
+          _ = try! archive.extract(entry) { chunk in
+            data += chunk
+          }
+          DispatchQueue.main.async {
+            callback(data)
+          }
+        }
+      }
+    }
+  }
+}
+
+class ViewController: UIViewController, UIScrollViewDelegate {
 
   var word: String? {
     didSet {
@@ -48,17 +80,10 @@ class ViewController: UIViewController, UIScrollViewDelegate {
   }
   
   func loadPage() {
-    var data = """
-      <meta name="viewport" content="width=device-width" />
-      <link rel="stylesheet" href="styles.css" />
-      <style>body { margin: 20px; } </style>
-    """.data(using: .utf8)!
-    if let word = word,
-       let entry = Self.archive["defs/\(word).html"] {
-      _ = try! Self.archive.extract(entry) { chunk in
-        data += chunk
+    if let word = word {
+      DictionaryProvider.shared[word] {
+        self.webView.load($0, mimeType: "text/html", characterEncodingName: "utf-8", baseURL: Bundle.main.resourceURL!)
       }
-      self.webView.load(data, mimeType: "text/html", characterEncodingName: "utf-8", baseURL: Bundle.main.resourceURL!)
     }
   }
 
