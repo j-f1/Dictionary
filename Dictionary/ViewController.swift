@@ -66,8 +66,7 @@ extension UINavigationController {
 
 
 
-class ViewController: UIViewController, UIScrollViewDelegate, WKScriptMessageHandler {
-
+class ViewController: UIViewController, UIScrollViewDelegate {
 
   var word: String? {
     didSet {
@@ -103,19 +102,12 @@ class ViewController: UIViewController, UIScrollViewDelegate, WKScriptMessageHan
   }
 
   func runJS(_ js: String) {
-//    print(js)
     if self.webView.isLoading {
-      self.webView.evaluateJavaScript("(window.queue || (window.queue = [])).push(() => { \(js) })") { res, err in
-        if let err = err {
-          print(err)
-        }
+      self.webView.evaluateJavaScript("(window.queue || (window.queue = [])).push(() => { \(js) })") {res, err in
+        print(res, err)
       }
     } else {
-      self.webView.evaluateJavaScript("{\(js)}") { res, err in
-        if let err = err {
-          print(err)
-        }
-      }
+      self.webView.evaluateJavaScript(js)
     }
   }
 
@@ -170,8 +162,6 @@ class ViewController: UIViewController, UIScrollViewDelegate, WKScriptMessageHan
       </script>
     """, baseURL: Bundle.main.resourceURL!)
 
-    webView.configuration.userContentController.add(self, name: "vc")
-
     labelContainer.addSubview(titleLabel)
     titleLabel.font = UIFont.boldSystemFont(ofSize: UIFont.labelFontSize)
 
@@ -220,16 +210,6 @@ class ViewController: UIViewController, UIScrollViewDelegate, WKScriptMessageHan
     preferredContentSizeChanged(nil)
   }
 
-  func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
-    switch message.body as? String {
-    case "update":
-      self.update()
-      break
-    default: break
-    }
-  }
-
-
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
     self.traitCollectionDidChange(nil)
@@ -248,7 +228,8 @@ class ViewController: UIViewController, UIScrollViewDelegate, WKScriptMessageHan
     labelContainer.sizeToFit()
   }
 
-  func update() {
+  override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+    super.traitCollectionDidChange(previousTraitCollection)
     kickTitle()
     navigationController?.isToolbarHidden = traitCollection.horizontalSizeClass == .regular
     if traitCollection.horizontalSizeClass == .regular && traitCollection.userInterfaceIdiom == .pad {
@@ -256,46 +237,10 @@ class ViewController: UIViewController, UIScrollViewDelegate, WKScriptMessageHan
     } else {
       runJS("document.body.style.marginTop = null")
     }
-    if webView.scrollView.contentSize.height <= webView.scrollView.bounds.height {
-      runJS("""
-        const padding = (window.innerWidth - document.body.scrollWidth) / 2 - \(webView.scrollView.adjustedContentInset.top)
-        if (padding > 0)
-          document.body.style.paddingTop = `${padding}px`
-        else
-          document.body.style.paddingTop = null
-      """)
-    } else {
-      runJS("document.body.style.paddingTop = null")
-    }
-  }
-
-  override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-    super.viewWillTransition(to: size, with: coordinator)
-    coordinator.animate(alongsideTransition: nil, completion: { _ in
-      self.update()
-    })
-  }
-
-  override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-    super.traitCollectionDidChange(previousTraitCollection)
-    update()
   }
 
   func scrollViewDidScroll(_ scrollView: UIScrollView) {
-    if scrollView.contentOffset.x != 0 {
-      scrollView.contentOffset.x = 0
-    }
-
     let scrollTop = scrollView.contentOffset.y + scrollView.adjustedContentInset.top
-
-    if scrollTop != 0,
-       scrollView.contentSize.height <= scrollView.bounds.height {
-      scrollView.contentOffset.y = -scrollView.adjustedContentInset.top
-      self.titleLabel.alpha = 0
-      titleShown = false
-      return
-    }
-
     if traitCollection.horizontalSizeClass == .regular && traitCollection.userInterfaceIdiom == .pad {
       self.titleLabel.alpha = max(0, min(1, scrollTop / 16))
     } else {
@@ -317,10 +262,7 @@ class ViewController: UIViewController, UIScrollViewDelegate, WKScriptMessageHan
     if let word = word {
       DictionaryProvider.shared[word] {
         let escapedBody = String(data: try! JSONEncoder().encode(String(data: $0, encoding: .utf8)), encoding: .utf8)!
-        self.runJS("""
-          document.body.innerHTML = \(escapedBody);
-          setTimeout(() => webkit.messageHandlers.vc.postMessage("update"), 20);
-        """)
+        self.runJS("document.body.innerHTML = \(escapedBody)")
       }
     }
   }
