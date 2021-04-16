@@ -33,6 +33,9 @@ class SearchBarContainerView: UIView {
   override func layoutSubviews() {
     super.layoutSubviews()
     searchBar.frame = bounds
+    if window?.windowScene?.interfaceOrientation.isPortrait ?? false {
+      searchBar.frame.origin.y -= 3
+    }
   }
 }
 
@@ -91,6 +94,11 @@ class WordsTableViewController: UITableViewController, UISearchResultsUpdating, 
         }
       }
     }
+  }
+
+  override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+    super.viewWillTransition(to: size, with: coordinator)
+    navigationItem.titleView!.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 44)
   }
 
   // MARK: - UISearchResultsUpdatingr
