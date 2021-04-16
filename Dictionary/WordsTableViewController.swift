@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 
 func loadWords(from url: URL) -> [WordLetter] {
   let data = try! JSONDecoder().decode([WordLetter].self, from: Data(contentsOf: url))
@@ -16,7 +17,7 @@ func loadWords(from url: URL) -> [WordLetter] {
 }
 
 
-class WordsTableViewController: UITableViewController, UISearchResultsUpdating, UISplitViewControllerDelegate {
+class WordsTableViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchResultsUpdating, UISplitViewControllerDelegate {
 
   let searchController = UISearchController(searchResultsController: nil)
 
@@ -24,7 +25,30 @@ class WordsTableViewController: UITableViewController, UISearchResultsUpdating, 
     self.splitViewController?.viewController(for: .secondary) ?? self.storyboard?.instantiateViewController(identifier: "DetailVC")
   }()
 
+  @IBOutlet weak var tableView: UITableView!
+  @IBOutlet weak var pasteButton: PasteButtonView!
+  @IBOutlet weak var pasteLabel: UILabel!
+  @IBOutlet weak var pasteButtonOffset: NSLayoutConstraint!
+
+  var pasteTarget: IndexPath? {
+    didSet {
+      if pasteTarget != nil {
+        UIView.animate(withDuration: 0.3) {
+          self.pasteButton.transform = .identity
+          self.pasteButton.alpha = 1
+        }
+      } else {
+        UIView.animate(withDuration: 0.3) {
+          self.pasteButton.transform = .init(translationX: 0, y: 26)
+          self.pasteButton.alpha = 0
+        }
+      }
+    }
+  }
+
   var allWords: [WordLetter]? { didSet { tableView.reloadData() } }
+
+  var pasteboardWatcher: AnyCancellable?
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -38,7 +62,13 @@ class WordsTableViewController: UITableViewController, UISearchResultsUpdating, 
     searchController.searchBar.enablesReturnKeyAutomatically = false
     navigationItem.hidesSearchBarWhenScrolling = false
     navigationItem.titleView = searchController.searchBar
-    navigationController?.isToolbarHidden = false
+    navigationController!.isToolbarHidden = false
+
+    pasteButton.transform = .init(translationX: 0, y: 26)
+    updatePasteButton()
+
+    tableView.dataSource = self
+    tableView.delegate = self
 
     DispatchQueue.main.async {
       self.splitViewController?.delegate = self
@@ -66,6 +96,62 @@ class WordsTableViewController: UITableViewController, UISearchResultsUpdating, 
        let customVC = detailVC.topViewController as? ViewController {
       customVC.loadViewIfNeeded()
     }
+
+    self.pasteboardWatcher =
+      NotificationCenter.default.publisher(for: UIPasteboard.changedNotification)
+      .merge(with: NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification))
+      .sink { _ in self.updatePasteButton() }
+  }
+
+  func updatePasteButton() {
+    if let cleaned =
+         (UIPasteboard.general.string?.lowercased()
+          .trimmingCharacters(in: .whitespacesAndNewlines)
+          .split(whereSeparator: { CharacterSet.whitespacesAndNewlines.contains($0.unicodeScalars.first!) }).first
+         ).map(String.init),
+       !cleaned.isEmpty,
+       let section = allWords!.firstIndex(where: { $0.letter == String(cleaned.first!) }) {
+
+      let row: Int?
+      if let match = allWords![section].words.firstIndex(of: cleaned) {
+        row = match
+      } else if let match = allWords![section].words.firstIndex(where: { ($0 + "s") == cleaned }) {
+        row = match
+      } else if let match = allWords![section].words.firstIndex(where: { ($0 + "es") == cleaned }) {
+        row = match
+      } else if let match = allWords![section].words.firstIndex(where: { ($0 + "ed") == cleaned }) {
+        row = match
+      } else if let match = allWords![section].words.firstIndex(where: { ($0 + "ing") == cleaned }) {
+        row = match
+//      } else if let match = allWords![section].words.firstIndex(where: { $0.count > 2 && cleaned.starts(with: $0) }) {
+//        row = match
+//      } else if let match = allWords![section].words.firstIndex(where: { $0.count > 2 && $0.starts(with: cleaned) }) {
+//        row = match
+      } else {
+        row = nil
+      }
+
+      if let row = row {
+        pasteLabel.text = allWords![section].words[row]
+        pasteTarget = IndexPath(row: row, section: section)
+      } else {
+        pasteTarget = nil
+      }
+    } else {
+      pasteTarget = nil
+    }
+  }
+
+  override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
+    navigationController!.isToolbarHidden = false
+  }
+
+
+  @IBAction func pasteButtonTapped() {
+    guard let pasteTarget = pasteTarget else { return }
+    tableView.selectRow(at: pasteTarget, animated: false, scrollPosition: .middle)
+    self.tableView(tableView, didSelectRowAt: pasteTarget)
   }
 
   // MARK: - UISearchResultsUpdatingr
@@ -87,11 +173,11 @@ class WordsTableViewController: UITableViewController, UISearchResultsUpdating, 
       section += 1
     }
     let path = IndexPath(row: row, section: section)
-    tableView.selectRow(at: path, animated: true, scrollPosition: .middle)
+    tableView.selectRow(at: path, animated: false, scrollPosition: .middle)
     self.tableView(tableView, didSelectRowAt: path)
   }
 
-  override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     if let detailVC = detailVC as? UINavigationController,
        let customVC = detailVC.topViewController as? ViewController {
       customVC.word = allWords![indexPath.section].words[indexPath.row]
@@ -101,25 +187,25 @@ class WordsTableViewController: UITableViewController, UISearchResultsUpdating, 
 
   // MARK: - Table view data source
 
-  override func numberOfSections(in tableView: UITableView) -> Int {
+  func numberOfSections(in tableView: UITableView) -> Int {
     allWords?.count ?? 0
   }
 
-  override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     allWords![section].words.count
   }
 
-  override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+  func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: "WordRow", for: indexPath)
     cell.textLabel?.text = allWords![indexPath.section].words[indexPath.row]
     return cell
   }
 
-  override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+  func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
     nil
   }
 
-  override func sectionIndexTitles(for tableView: UITableView) -> [String]? {
+  func sectionIndexTitles(for tableView: UITableView) -> [String]? {
     allWords?.map { $0.letter.uppercased() }
   }
 }
