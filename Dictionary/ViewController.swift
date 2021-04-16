@@ -102,6 +102,20 @@ class ViewController: UIViewController, UIScrollViewDelegate {
           border: 1px solid currentcolor;
           opacity: 0.5;
         }
+        body:empty {
+          overflow: hidden;
+        }
+        body:empty::after {
+          content: "Select a word";
+          font-family: system-ui;
+          opacity: 0.66;
+          font-size: 2.1em;
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          width: 100%;
+          text-align: center;
+        }
       </style>
     """, baseURL: Bundle.main.resourceURL!)
 
