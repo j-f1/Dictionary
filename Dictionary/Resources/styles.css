@@ -51,7 +51,7 @@ div {
 .hw {
   font-size: 134%;
   font-weight: bold;
-  color: maroon;
+  color: #800000;
   margin-bottom: -3px;
   display: inline;
   line-height: 0.85;
@@ -143,10 +143,9 @@ html {
   background: none !important;
 }
 
-@media (prefers-dark-interface) {
+@media (prefers-color-scheme: dark) {
   .hw {
-    /* blue is more readable on the dark background than maroon */
-    color: -webkit-link;
+    color: #ff8080;
   }
   img {
     filter: invert(100%);
