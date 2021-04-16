@@ -50,6 +50,11 @@
 		85BAEC52262685AA00E56D06 /* WordsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85BAEC51262685AA00E56D06 /* WordsTableViewController.swift */; };
 		85CF52672628F3F900E96928 /* AboutScreen in Frameworks */ = {isa = PBXBuildFile; productRef = 85CF52662628F3F900E96928 /* AboutScreen */; };
 		85CF52692628F46700E96928 /* AboutScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85CF52682628F46700E96928 /* AboutScreenViewController.swift */; };
+		85CF526A2628F6F800E96928 /* GenBasB.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 85A5F9D22628A72A00030C47 /* GenBasB.ttf */; };
+		85CF526B2628F6F800E96928 /* GentiumPlus-I-smcp.woff in Resources */ = {isa = PBXBuildFile; fileRef = 85A5F9D02628A72A00030C47 /* GentiumPlus-I-smcp.woff */; };
+		85CF526C2628F6F800E96928 /* GentiumPlus-R.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 85A5F9D12628A72A00030C47 /* GentiumPlus-R.ttf */; };
+		85CF526D2628F6F800E96928 /* GentiumPlus-I.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 85A5F9CF2628A72A00030C47 /* GentiumPlus-I.ttf */; };
+		85CF526E2628F6F800E96928 /* GentiumPlus-R-smcp.woff in Resources */ = {isa = PBXBuildFile; fileRef = 85A5F9CE2628A72A00030C47 /* GentiumPlus-R-smcp.woff */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -276,14 +281,19 @@
 				85A5FABC2628EC6500030C47 /* w.zip in Resources */,
 				85A5FAC02628EC6500030C47 /* u.zip in Resources */,
 				85A5FAB32628EC6500030C47 /* k.zip in Resources */,
+				85CF526D2628F6F800E96928 /* GentiumPlus-I.ttf in Resources */,
 				85A5FAB22628EC6500030C47 /* f.zip in Resources */,
 				85A5FAB12628EC6500030C47 /* p.zip in Resources */,
+				85CF526C2628F6F800E96928 /* GentiumPlus-R.ttf in Resources */,
+				85CF526E2628F6F800E96928 /* GentiumPlus-R-smcp.woff in Resources */,
 				85A5FAAF2628EC6500030C47 /* b.zip in Resources */,
 				85BAEC482626827F00E56D06 /* LaunchScreen.storyboard in Resources */,
 				85A5FAB02628EC6500030C47 /* d.zip in Resources */,
 				85A5FABB2628EC6500030C47 /* -.zip in Resources */,
+				85CF526A2628F6F800E96928 /* GenBasB.ttf in Resources */,
 				85A5FAC12628EC6500030C47 /* '.zip in Resources */,
 				85A5FABD2628EC6500030C47 /* s.zip in Resources */,
+				85CF526B2628F6F800E96928 /* GentiumPlus-I-smcp.woff in Resources */,
 				85A5FAC52628EC6500030C47 /* m.zip in Resources */,
 				85A5FAB62628EC6500030C47 /* r.zip in Resources */,
 				85A5FAB82628EC6500030C47 /* a.zip in Resources */,
