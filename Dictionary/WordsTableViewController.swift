@@ -177,19 +177,39 @@ class WordsTableViewController: UIViewController, UITableViewDataSource, UITable
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
     navigationController!.isToolbarHidden = false
-    self.toolbarItems = [
-      UIBarButtonItem(
-        customView: makeCirclePointerButton(UIImage(systemName: "info.circle")!, label: "About") {
-          self.performSegue(withIdentifier: "showAbout", sender: nil)
-        }
-      ),
-      .flexibleSpace(),
-      UIBarButtonItem(
-        customView: makeCirclePointerButton(UIImage(systemName: "shuffle.circle")!, label: "Random Word") {
-          self.goToRandomWord(self)
-        }
-      )
-    ]
+    if traitCollection.userInterfaceIdiom == .pad {
+      self.toolbarItems = [
+        UIBarButtonItem(
+          customView: makeCirclePointerButton(UIImage(systemName: "info.circle")!, label: "About") {
+            self.performSegue(withIdentifier: "showAbout", sender: nil)
+          }
+        ),
+        .flexibleSpace(),
+        UIBarButtonItem(
+          customView: makeCirclePointerButton(UIImage(systemName: "shuffle.circle")!, label: "Random Word") {
+            self.goToRandomWord(self)
+          }
+        )
+      ]
+    } else {
+      self.toolbarItems = [
+        UIBarButtonItem(
+          title: "About",
+          image: UIImage(systemName: "info.circle")!,
+          primaryAction: UIAction { _ in
+            self.performSegue(withIdentifier: "showAbout", sender: nil)
+          }
+        ),
+        .flexibleSpace(),
+        UIBarButtonItem(
+          title: "Random Word",
+          image: UIImage(systemName: "shuffle.circle")!,
+          primaryAction: UIAction { _ in
+            self.goToRandomWord(self)
+          }
+        )
+      ]
+    }
   }
 
 
