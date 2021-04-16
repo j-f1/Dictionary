@@ -36,7 +36,17 @@
                             <constraint firstAttribute="bottom" secondItem="L61-2I-AgG" secondAttribute="bottom" id="tVN-gg-3S3"/>
                         </constraints>
                     </view>
+                    <toolbarItems>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="CES-iG-U91"/>
+                        <barButtonItem title="Random" id="4zp-3G-Zab">
+                            <imageReference key="image" image="shuffle.circle" catalog="system" symbolScale="large"/>
+                            <connections>
+                                <action selector="randomWord:" destination="AyJ-4Y-i62" id="7oA-ZO-3DS"/>
+                            </connections>
+                        </barButtonItem>
+                    </toolbarItems>
                     <navigationItem key="navigationItem" largeTitleDisplayMode="never" id="9NA-AV-oTN"/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="webView" destination="L61-2I-AgG" id="gNz-Oq-Mm7"/>
                     </connections>
@@ -149,7 +159,7 @@
                         </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="R60-s1-W6D"/>
                         <barButtonItem title="Random" id="Qib-ok-Nja">
-                            <imageReference key="image" image="die.face.5" catalog="system" symbolScale="default"/>
+                            <imageReference key="image" image="shuffle.circle" catalog="system" symbolScale="large"/>
                             <connections>
                                 <action selector="goToRandomWord:" destination="3PA-lK-AUa" id="IN8-bJ-NAt"/>
                             </connections>
@@ -207,7 +217,7 @@
         <!--Split View Controller-->
         <scene sceneID="3ps-pT-HKV">
             <objects>
-                <splitViewController storyboardIdentifier="PrimaryNavStack" allowDoubleColumnStyle="YES" preferredDisplayMode="beside" presentsWithGesture="NO" id="0cF-Jt-apd" customClass="SplitViewController" customModule="Dictionary" customModuleProvider="target" sceneMemberID="viewController">
+                <splitViewController storyboardIdentifier="PrimaryNavStack" allowDoubleColumnStyle="YES" preferredDisplayMode="beside" behavior="tile" presentsWithGesture="NO" id="0cF-Jt-apd" customClass="SplitViewController" customModule="Dictionary" customModuleProvider="target" sceneMemberID="viewController">
                     <connections>
                         <segue destination="M4P-nU-oC6" kind="relationship" relationship="masterViewController" id="qIp-Ro-a5r"/>
                         <segue destination="fdB-PD-nF5" kind="relationship" relationship="detailViewController" id="gIC-OO-C5J"/>
@@ -236,9 +246,9 @@
     </scenes>
     <resources>
         <image name="arrow.right" catalog="system" width="128" height="98"/>
-        <image name="die.face.5" catalog="system" width="128" height="114"/>
         <image name="doc.on.clipboard" catalog="system" width="116" height="128"/>
         <image name="info.circle" catalog="system" width="128" height="121"/>
+        <image name="shuffle.circle" catalog="system" width="128" height="121"/>
         <namedColor name="AccentColor">
             <color red="0.84700000286102295" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

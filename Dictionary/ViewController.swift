@@ -97,6 +97,10 @@ class ViewController: UIViewController, UIScrollViewDelegate {
     }
   }
 
+  @IBAction func randomWord(_ sender: Any) {
+    self.wordListVC.goToRandomWord(sender)
+  }
+
   override func viewDidLoad() {
     super.viewDidLoad()
 
@@ -173,13 +177,13 @@ class ViewController: UIViewController, UIScrollViewDelegate {
     )
 
 
-    self.navigationItem.titleView = self.labelContainer
+    navigationItem.titleView = self.labelContainer
     loadPage()
     self.scrollViewDidScroll(webView.scrollView)
 
     NotificationCenter.default.addObserver(self, selector: #selector(preferredContentSizeChanged(_:)), name: UIContentSizeCategory.didChangeNotification, object: nil)
     preferredContentSizeChanged(nil)
-
+    self.traitCollectionDidChange(nil)
   }
 
   @objc private func preferredContentSizeChanged(_ notification: Notification?) {
@@ -198,6 +202,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
   override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
     super.traitCollectionDidChange(previousTraitCollection)
     kickTitle()
+    navigationController?.isToolbarHidden = traitCollection.horizontalSizeClass == .regular
   }
 
   func scrollViewDidScroll(_ scrollView: UIScrollView) {
