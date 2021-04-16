@@ -112,6 +112,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
           font-size: 2.1em;
           position: absolute;
           top: 50%;
+          left: 0;
           transform: translateY(-50%);
           width: 100%;
           text-align: center;
