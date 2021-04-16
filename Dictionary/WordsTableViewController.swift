@@ -15,37 +15,6 @@ func loadWords(from url: URL) -> [WordLetter] {
   }
 }
 
-class SearchBarContainerView: UIView {
-
-  let searchBar: UISearchBar
-
-  init(with searchBar: UISearchBar) {
-    self.searchBar = searchBar
-    super.init(frame: CGRect.zero)
-
-    addSubview(searchBar)
-  }
-
-  required init?(coder aDecoder: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
-  }
-
-  override func layoutSubviews() {
-    super.layoutSubviews()
-    if traitCollection.horizontalSizeClass == .compact {
-      if traitCollection.verticalSizeClass == .regular {
-        searchBar.frame = bounds
-        searchBar.frame.origin.y -= 3
-      } else {
-        searchBar.frame = bounds
-      }
-    } else {
-      searchBar.frame = bounds
-    }
-  }
-}
-
-
 
 class WordsTableViewController: UITableViewController, UISearchResultsUpdating, UISplitViewControllerDelegate {
 
@@ -74,10 +43,7 @@ class WordsTableViewController: UITableViewController, UISearchResultsUpdating, 
     searchController.searchBar.returnKeyType = .done
     searchController.searchBar.enablesReturnKeyAutomatically = false
     navigationItem.hidesSearchBarWhenScrolling = false
-//    navigationItem.titleView = searchController.searchBar
-    navigationItem.titleView = SearchBarContainerView(with: searchController.searchBar)
-    navigationItem.titleView!.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 44)
-
+    navigationItem.titleView = searchController.searchBar
     navigationController?.setToolbarHidden(false, animated: true)
 
     DispatchQueue.main.async {
@@ -101,24 +67,6 @@ class WordsTableViewController: UITableViewController, UISearchResultsUpdating, 
         }
       }
     }
-  }
-
-  override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-    super.traitCollectionDidChange(previousTraitCollection)
-
-    let height: CGFloat
-    if traitCollection.horizontalSizeClass == .compact,
-       traitCollection.verticalSizeClass == .compact {
-      height = 50
-    } else {
-      height = 44
-    }
-    navigationItem.titleView!.frame = CGRect(x: 0, y: 0, width: navigationItem.titleView!.frame.width, height: height)
-  }
-
-  override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-    super.viewWillTransition(to: size, with: coordinator)
-    navigationItem.titleView!.frame = CGRect(x: 0, y: 0, width: size.width, height: navigationItem.titleView!.frame.height)
   }
 
   // MARK: - UISearchResultsUpdatingr
