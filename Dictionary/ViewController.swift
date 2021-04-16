@@ -86,8 +86,22 @@ class ViewController: UIViewController, UIScrollViewDelegate {
   let titleLabel = UILabel()
   var titleShown = false
 
+  var wordListVC: WordsTableViewController!
+
+  @objc func define(_ sender: Any) {
+    webView.evaluateJavaScript("window.getSelection().toString()") { selection, _ in
+      if let selection = selection as? String {
+        self.wordListVC.updatePasteButton(input: selection)
+        self.wordListVC.pasteButtonTapped()
+        self.wordListVC.updatePasteButton()
+      }
+    }
+  }
+
   override func viewDidLoad() {
     super.viewDidLoad()
+
+    UIMenuController.shared.menuItems = [.init(title: "Define", action: #selector(define(_:)))]
 
     webView.scrollView.delegate = self
     webView.loadHTMLString("""

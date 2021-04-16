@@ -16,6 +16,13 @@ func loadWords(from url: URL) -> [WordLetter] {
   }
 }
 
+extension String {
+ func removeCharacters(from forbiddenChars: CharacterSet) -> String {
+    let passed = self.unicodeScalars.filter { !forbiddenChars.contains($0) }
+    return String(String.UnicodeScalarView(passed))
+  }
+}
+
 
 class WordsTableViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchResultsUpdating, UISplitViewControllerDelegate {
 
@@ -46,7 +53,10 @@ class WordsTableViewController: UIViewController, UITableViewDataSource, UITable
     }
   }
 
-  var allWords: [WordLetter]? { didSet { tableView.reloadData() } }
+  var allWords: [WordLetter]? { didSet {
+    tableView.reloadData()
+    updatePasteButton()
+  } }
 
   var pasteboardWatcher: AnyCancellable?
 
@@ -65,7 +75,6 @@ class WordsTableViewController: UIViewController, UITableViewDataSource, UITable
     navigationController!.isToolbarHidden = false
 
     pasteButton.transform = .init(translationX: 0, y: 26)
-    updatePasteButton()
 
     tableView.dataSource = self
     tableView.delegate = self
@@ -103,12 +112,14 @@ class WordsTableViewController: UIViewController, UITableViewDataSource, UITable
       .sink { _ in self.updatePasteButton() }
   }
 
-  func updatePasteButton() {
+  func updatePasteButton(input: String? = UIPasteboard.general.string) {
     if let cleaned =
-         (UIPasteboard.general.string?.lowercased()
-          .trimmingCharacters(in: .whitespacesAndNewlines)
-          .split(whereSeparator: { CharacterSet.whitespacesAndNewlines.contains($0.unicodeScalars.first!) }).first
-         ).map(String.init),
+         (
+          input?.lowercased()
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+            .split(whereSeparator: { CharacterSet.whitespacesAndNewlines.contains($0.unicodeScalars.first!) })
+            .first
+         ).map(String.init)?.removeCharacters(from: .letters.inverted),
        !cleaned.isEmpty,
        let section = allWords!.firstIndex(where: { $0.letter == String(cleaned.first!) }) {
 
@@ -151,7 +162,14 @@ class WordsTableViewController: UIViewController, UITableViewDataSource, UITable
   @IBAction func pasteButtonTapped() {
     guard let pasteTarget = pasteTarget else { return }
     tableView.selectRow(at: pasteTarget, animated: false, scrollPosition: .middle)
-    self.tableView(tableView, didSelectRowAt: pasteTarget)
+    if navigationController?.topViewController != self {
+      navigationController?.popToViewController(self, animated: false)
+      UIView.performWithoutAnimation {
+        self.tableView(tableView, didSelectRowAt: pasteTarget)
+      }
+    } else {
+      self.tableView(tableView, didSelectRowAt: pasteTarget)
+    }
   }
 
   // MARK: - UISearchResultsUpdatingr
@@ -181,6 +199,7 @@ class WordsTableViewController: UIViewController, UITableViewDataSource, UITable
     if let detailVC = detailVC as? UINavigationController,
        let customVC = detailVC.topViewController as? ViewController {
       customVC.word = allWords![indexPath.section].words[indexPath.row]
+      customVC.wordListVC = self
       self.showDetailViewController(detailVC, sender: self)
     }
   }
