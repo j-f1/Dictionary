@@ -175,6 +175,19 @@ class WordsTableViewController: UIViewController, UITableViewDataSource, UITable
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
     navigationController!.isToolbarHidden = false
+    self.toolbarItems = [
+      UIBarButtonItem(
+        customView: makeCirclePointerButton(UIImage(systemName: "info.circle")!, label: "About") {
+          self.performSegue(withIdentifier: "showAbout", sender: nil)
+        }
+      ),
+      .flexibleSpace(),
+      UIBarButtonItem(
+        customView: makeCirclePointerButton(UIImage(systemName: "shuffle.circle")!, label: "Random Word") {
+          self.goToRandomWord(self)
+        }
+      )
+    ]
   }
 
 

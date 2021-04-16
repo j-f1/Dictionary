@@ -11,6 +11,11 @@ import UIKit
 class PasteButtonView: UIButton {
   required init?(coder: NSCoder) {
     super.init(coder: coder)
+
+    isPointerInteractionEnabled = true
+    self.pointerStyleProvider = { button, proposedEffect, proposedShape in
+      UIPointerStyle(effect: .lift(proposedEffect.preview), shape: proposedShape)
+    }
   }
 
   override func didMoveToSuperview() {
