@@ -51,7 +51,7 @@ div {
 .hw {
   font-size: 134%;
   font-weight: bold;
-  color: #800000;
+  color: #d80000;
   margin-bottom: -3px;
   display: inline;
   line-height: 0.85;
@@ -145,7 +145,7 @@ html {
 
 @media (prefers-color-scheme: dark) {
   .hw {
-    color: #ff8080;
+    color: #ff2626;
   }
   img {
     filter: invert(100%);

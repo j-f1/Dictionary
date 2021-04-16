@@ -96,6 +96,12 @@ class ViewController: UIViewController, UIScrollViewDelegate {
       <style>
         body { margin: 20px; -webkit-text-size-adjust: 100%; }
         :root { color-scheme: light dark; }
+        hr {
+          margin-top: 2em;
+          margin-bottom: -2em;
+          border: 1px solid currentcolor;
+          opacity: 0.5;
+        }
       </style>
     """, baseURL: Bundle.main.resourceURL!)
 
