@@ -242,7 +242,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
   func scrollViewDidScroll(_ scrollView: UIScrollView) {
     let scrollTop = scrollView.contentOffset.y + scrollView.adjustedContentInset.top
     if traitCollection.horizontalSizeClass == .regular && traitCollection.userInterfaceIdiom == .pad {
-      self.titleLabel.alpha = max(0, min(1, scrollTop / 40))
+      self.titleLabel.alpha = max(0, min(1, scrollTop / 16))
     } else {
       if scrollTop > 40 && !titleShown {
         titleShown = true
