@@ -67,6 +67,11 @@ class WordsTableViewController: UITableViewController, UISearchResultsUpdating, 
         }
       }
     }
+
+    if let detailVC = detailVC as? UINavigationController,
+       let customVC = detailVC.topViewController as? ViewController {
+      customVC.loadViewIfNeeded()
+    }
   }
 
   // MARK: - UISearchResultsUpdatingr
