@@ -70,7 +70,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
 
   var word: String? {
     didSet {
-//      self.navigationItem.tile = word
+      self.navigationItem.title = word
       self.titleLabel.alpha = 0
       self.titleLabel.text = word
       self.titleLabel.sizeToFit()
@@ -188,7 +188,6 @@ class ViewController: UIViewController, UIScrollViewDelegate {
   }
 
   func scrollViewDidScroll(_ scrollView: UIScrollView) {
-    kickTitle()
     let scrollTop = scrollView.contentOffset.y + scrollView.adjustedContentInset.top
     if scrollTop > 40 && !titleShown {
       titleShown = true
@@ -201,21 +200,8 @@ class ViewController: UIViewController, UIScrollViewDelegate {
         self.titleLabel.alpha = 0
       }
     }
-
-//    let fraction = max(0, min((scrollTop - 20) / 20, 1))
-//
-//    titleLabel.alpha = fraction
-//    topConstraint.constant = -(1 - fraction) * 20
-//    bottomConstraint.constant = -(1 - fraction) * 20
   }
 
-  @IBAction func doThing(_ sender: Any) {
-    DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) { [self] in
-      print(webView.scrollView.delegate)
-//      <#code#>
-    }
-  }
-  
   func loadPage() {
     if let word = word {
       DictionaryProvider.shared[word] {
