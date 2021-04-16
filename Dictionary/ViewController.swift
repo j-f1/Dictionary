@@ -91,7 +91,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
 
     webView.scrollView.delegate = self
     webView.loadHTMLString("""
-      <meta name="viewport" content="width=device-width" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
       <link rel="stylesheet" href="styles.css" />
       <style>
         body { margin: 20px; -webkit-text-size-adjust: 100%; }
@@ -163,6 +163,16 @@ class ViewController: UIViewController, UIScrollViewDelegate {
     self.navigationItem.titleView = self.labelContainer
     loadPage()
     self.scrollViewDidScroll(webView.scrollView)
+
+    NotificationCenter.default.addObserver(self, selector: #selector(preferredContentSizeChanged(_:)), name: UIContentSizeCategory.didChangeNotification, object: nil)
+    preferredContentSizeChanged(nil)
+
+  }
+
+  @objc private func preferredContentSizeChanged(_ notification: Notification?) {
+    let font = UIFont.preferredFont(forTextStyle: .body)
+//    print("Point Size", font.pointSize)
+    webView.evaluateJavaScript("document.body.style.fontSize = '\(font.pointSize)px'")
   }
 
   func kickTitle() {
