@@ -20,6 +20,10 @@ class WordsTableViewController: UITableViewController, UISearchResultsUpdating, 
 
   let searchController = UISearchController(searchResultsController: nil)
 
+  lazy var detailVC = {
+    self.splitViewController?.viewController(for: .secondary) ?? self.storyboard?.instantiateViewController(identifier: "DetailVC")
+  }()
+
   var allWords: [WordLetter]? { didSet { tableView.reloadData() } }
 
   override func viewDidLoad() {
@@ -85,7 +89,15 @@ class WordsTableViewController: UITableViewController, UISearchResultsUpdating, 
     }
     let path = IndexPath(row: row, section: section)
     tableView.selectRow(at: path, animated: true, scrollPosition: .middle)
-    self.performSegue(withIdentifier: "selectWord", sender: tableView.cellForRow(at: path))
+    self.tableView(tableView, didSelectRowAt: path)
+  }
+
+  override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    if let detailVC = detailVC as? UINavigationController,
+       let customVC = detailVC.topViewController as? ViewController {
+      customVC.word = allWords![indexPath.section].words[indexPath.row]
+      self.showDetailViewController(detailVC, sender: self)
+    }
   }
 
   // MARK: - Table view data source
@@ -116,9 +128,5 @@ class WordsTableViewController: UITableViewController, UISearchResultsUpdating, 
 
    // In a storyboard-based application, you will often want to do a little preparation before navigation
    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-    if let dest = (segue.destination as? UINavigationController)?.topViewController as? ViewController,
-       let selection = tableView.indexPathForSelectedRow {
-      dest.word = allWords![selection.section].words[selection.row]
-    }
    }
 }

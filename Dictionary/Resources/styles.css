@@ -81,14 +81,12 @@ div {
 }
 
 *+.hw:before {
-  content: "\A\A";
+  content: "\A\A\A\A";
   white-space:pre;
 }
 
 .q+.hw:before {
   content: "\A";
-  white-space:pre;
-  line-height: 0;
 }
 
 .sn:before, .sd:before, .note:before, .def + .cs:before {

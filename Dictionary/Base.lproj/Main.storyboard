@@ -69,9 +69,6 @@
                                         </label>
                                     </subviews>
                                 </tableViewCellContentView>
-                                <connections>
-                                    <segue destination="fdB-PD-nF5" kind="showDetail" identifier="selectWord" id="bZ0-ez-V1i"/>
-                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -149,7 +146,7 @@
         <!--Navigation Controller-->
         <scene sceneID="7ix-Ua-BJ4">
             <objects>
-                <navigationController id="fdB-PD-nF5" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="DetailVC" id="fdB-PD-nF5" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="YeN-aI-RTp">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -163,9 +160,6 @@
             <point key="canvasLocation" x="512" y="-814"/>
         </scene>
     </scenes>
-    <inferredMetricsTieBreakers>
-        <segue reference="bZ0-ez-V1i"/>
-    </inferredMetricsTieBreakers>
     <resources>
         <image name="die.face.5" catalog="system" width="128" height="114"/>
         <image name="info.circle" catalog="system" width="128" height="121"/>
