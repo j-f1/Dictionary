@@ -121,8 +121,17 @@ class ViewController: UIViewController, UIScrollViewDelegate {
       <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
       <link rel="stylesheet" href="styles.css" />
       <style>
-        body { margin: 20px; -webkit-text-size-adjust: 100%; overflow-x: hidden; }
-        :root { color-scheme: light dark; overflow-x: hidden; }
+        body {
+          margin: 20px;
+          -webkit-text-size-adjust: 100%;
+          overflow-x: hidden;
+        }
+        :root {
+          color-scheme: light dark;
+          overflow-x: hidden;
+          max-width: calc(80ch + 20px);
+          margin: auto;
+        }
         hr {
           margin-top: 2em;
           margin-bottom: -2em;
