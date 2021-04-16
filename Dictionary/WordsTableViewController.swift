@@ -68,6 +68,8 @@ class WordsTableViewController: UIViewController, UITableViewDataSource, UITable
     searchController.automaticallyShowsCancelButton = false
     searchController.obscuresBackgroundDuringPresentation = false
     searchController.searchBar.searchBarStyle = .prominent
+    searchController.searchBar.autocorrectionType = .default
+    searchController.searchBar.autocapitalizationType = .none
     searchController.searchBar.returnKeyType = .done
     searchController.searchBar.enablesReturnKeyAutomatically = false
     navigationItem.hidesSearchBarWhenScrolling = false
