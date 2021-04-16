@@ -94,7 +94,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
       <meta name="viewport" content="width=device-width" />
       <link rel="stylesheet" href="styles.css" />
       <style>
-        body { margin: 20px; }
+        body { margin: 20px; -webkit-text-size-adjust: 100%; }
         :root { color-scheme: light dark; }
       </style>
     """, baseURL: Bundle.main.resourceURL!)
