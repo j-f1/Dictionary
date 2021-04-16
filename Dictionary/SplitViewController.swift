@@ -12,6 +12,8 @@ class SplitViewController: UISplitViewController, UISplitViewControllerDelegate 
   override func viewDidLoad() {
     super.viewDidLoad()
     self.delegate = self
+    self.preferredPrimaryColumnWidthFraction = 3/8
+    self.minimumPrimaryColumnWidth = 200
   }
 
 
