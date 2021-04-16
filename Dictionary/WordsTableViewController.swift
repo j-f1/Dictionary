@@ -163,8 +163,10 @@ class WordsTableViewController: UIViewController, UITableViewDataSource, UITable
   func updatePasteButton() {
     if let copiedString = UIPasteboard.general.string,
        let (word, indexPath) = lookUpWord(copiedString) {
-      pasteLabel.text = word
-      pasteTarget = indexPath
+      if word != pasteLabel.text {
+        pasteLabel.text = word
+        pasteTarget = indexPath
+      }
     } else {
       pasteTarget = nil
     }
@@ -179,6 +181,7 @@ class WordsTableViewController: UIViewController, UITableViewDataSource, UITable
   @IBAction func pasteButtonTapped() {
     if let pasteTarget = pasteTarget {
       self.openDetail(forRowAt: pasteTarget)
+      self.pasteTarget = nil
     }
   }
 
