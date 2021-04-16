@@ -112,10 +112,10 @@ class WordsTableViewController: UIViewController, UITableViewDataSource, UITable
       .sink { _ in self.updatePasteButton() }
   }
 
-  func updatePasteButton(input: String? = UIPasteboard.general.string) {
+  func lookUpWord(_ input: String) -> (word: String, indexPath: IndexPath)? {
     if let cleaned =
          (
-          input?.lowercased()
+          input.lowercased()
             .trimmingCharacters(in: .whitespacesAndNewlines)
             .split(whereSeparator: { CharacterSet.whitespacesAndNewlines.contains($0.unicodeScalars.first!) })
             .first
@@ -134,20 +134,37 @@ class WordsTableViewController: UIViewController, UITableViewDataSource, UITable
         row = match
       } else if let match = allWords![section].words.firstIndex(where: { ($0 + "ing") == cleaned }) {
         row = match
-//      } else if let match = allWords![section].words.firstIndex(where: { $0.count > 2 && cleaned.starts(with: $0) }) {
-//        row = match
-//      } else if let match = allWords![section].words.firstIndex(where: { $0.count > 2 && $0.starts(with: cleaned) }) {
-//        row = match
+        //      } else if let match = allWords![section].words.firstIndex(where: { $0.count > 2 && cleaned.starts(with: $0) }) {
+        //        row = match
+        //      } else if let match = allWords![section].words.firstIndex(where: { $0.count > 2 && $0.starts(with: cleaned) }) {
+        //        row = match
       } else {
         row = nil
       }
-
       if let row = row {
-        pasteLabel.text = allWords![section].words[row]
-        pasteTarget = IndexPath(row: row, section: section)
-      } else {
-        pasteTarget = nil
+        return (allWords![section].words[row], IndexPath(row: row, section: section))
       }
+    }
+    return nil
+  }
+
+  func openDetail(forRowAt indexPath: IndexPath) {
+    tableView.selectRow(at: indexPath, animated: false, scrollPosition: .middle)
+    if navigationController?.topViewController != self {
+      navigationController?.popToViewController(self, animated: false)
+      UIView.performWithoutAnimation {
+        self.tableView(tableView, didSelectRowAt: indexPath)
+      }
+    } else {
+      self.tableView(tableView, didSelectRowAt: indexPath)
+    }
+  }
+
+  func updatePasteButton() {
+    if let copiedString = UIPasteboard.general.string,
+       let (word, indexPath) = lookUpWord(copiedString) {
+      pasteLabel.text = word
+      pasteTarget = indexPath
     } else {
       pasteTarget = nil
     }
@@ -160,15 +177,8 @@ class WordsTableViewController: UIViewController, UITableViewDataSource, UITable
 
 
   @IBAction func pasteButtonTapped() {
-    guard let pasteTarget = pasteTarget else { return }
-    tableView.selectRow(at: pasteTarget, animated: false, scrollPosition: .middle)
-    if navigationController?.topViewController != self {
-      navigationController?.popToViewController(self, animated: false)
-      UIView.performWithoutAnimation {
-        self.tableView(tableView, didSelectRowAt: pasteTarget)
-      }
-    } else {
-      self.tableView(tableView, didSelectRowAt: pasteTarget)
+    if let pasteTarget = pasteTarget {
+      self.openDetail(forRowAt: pasteTarget)
     }
   }
 
@@ -190,9 +200,7 @@ class WordsTableViewController: UIViewController, UITableViewDataSource, UITable
       row -= lengths[section]
       section += 1
     }
-    let path = IndexPath(row: row, section: section)
-    tableView.selectRow(at: path, animated: false, scrollPosition: .middle)
-    self.tableView(tableView, didSelectRowAt: path)
+    openDetail(forRowAt: IndexPath(row: row, section: section))
   }
 
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

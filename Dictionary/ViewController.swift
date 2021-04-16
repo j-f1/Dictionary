@@ -90,10 +90,9 @@ class ViewController: UIViewController, UIScrollViewDelegate {
 
   @objc func define(_ sender: Any) {
     webView.evaluateJavaScript("window.getSelection().toString()") { selection, _ in
-      if let selection = selection as? String {
-        self.wordListVC.updatePasteButton(input: selection)
-        self.wordListVC.pasteButtonTapped()
-        self.wordListVC.updatePasteButton()
+      if let selection = selection as? String,
+         let result = self.wordListVC.lookUpWord(selection) {
+        self.wordListVC.openDetail(forRowAt: result.indexPath)
       }
     }
   }
