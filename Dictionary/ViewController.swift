@@ -101,6 +101,16 @@ class ViewController: UIViewController, UIScrollViewDelegate {
     self.wordListVC.goToRandomWord(sender)
   }
 
+  func runJS(_ js: String) {
+    if self.webView.isLoading {
+      self.webView.evaluateJavaScript("(window.queue || (window.queue = [])).push(() => { \(js) })") {res, err in
+        print(res, err)
+      }
+    } else {
+      self.webView.evaluateJavaScript(js)
+    }
+  }
+
   override func viewDidLoad() {
     super.viewDidLoad()
 
@@ -111,8 +121,8 @@ class ViewController: UIViewController, UIScrollViewDelegate {
       <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
       <link rel="stylesheet" href="styles.css" />
       <style>
-        body { margin: 20px; -webkit-text-size-adjust: 100%; }
-        :root { color-scheme: light dark; }
+        body { margin: 20px; -webkit-text-size-adjust: 100%; overflow-x: hidden; }
+        :root { color-scheme: light dark; overflow-x: hidden; }
         hr {
           margin-top: 2em;
           margin-bottom: -2em;
@@ -135,6 +145,12 @@ class ViewController: UIViewController, UIScrollViewDelegate {
           text-align: center;
         }
       </style>
+      <script>
+        window.onload = () => {
+          if (window.queue) window.queue.forEach(f => f())
+          window.queue = null
+        }
+      </script>
     """, baseURL: Bundle.main.resourceURL!)
 
     labelContainer.addSubview(titleLabel)
@@ -183,13 +199,17 @@ class ViewController: UIViewController, UIScrollViewDelegate {
 
     NotificationCenter.default.addObserver(self, selector: #selector(preferredContentSizeChanged(_:)), name: UIContentSizeCategory.didChangeNotification, object: nil)
     preferredContentSizeChanged(nil)
+  }
+
+  override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
     self.traitCollectionDidChange(nil)
   }
 
   @objc private func preferredContentSizeChanged(_ notification: Notification?) {
     let font = UIFont.preferredFont(forTextStyle: .body)
 //    print("Point Size", font.pointSize)
-    webView.evaluateJavaScript("document.body.style.fontSize = '\(font.pointSize)px'")
+    runJS("document.body.style.fontSize = '\(font.pointSize)px'")
   }
 
   func kickTitle() {
@@ -203,19 +223,28 @@ class ViewController: UIViewController, UIScrollViewDelegate {
     super.traitCollectionDidChange(previousTraitCollection)
     kickTitle()
     navigationController?.isToolbarHidden = traitCollection.horizontalSizeClass == .regular
+    if traitCollection.horizontalSizeClass == .regular && traitCollection.userInterfaceIdiom == .pad {
+      runJS("document.body.style.marginTop = '0'")
+    } else {
+      runJS("document.body.style.marginTop = null")
+    }
   }
 
   func scrollViewDidScroll(_ scrollView: UIScrollView) {
     let scrollTop = scrollView.contentOffset.y + scrollView.adjustedContentInset.top
-    if scrollTop > 40 && !titleShown {
-      titleShown = true
-      UIView.animate(withDuration: 0.4) {
-        self.titleLabel.alpha = 1
-      }
-    } else if scrollTop < 40 && titleShown {
-      titleShown = false
-      UIView.animate(withDuration: 0.4) {
-        self.titleLabel.alpha = 0
+    if traitCollection.horizontalSizeClass == .regular && traitCollection.userInterfaceIdiom == .pad {
+      self.titleLabel.alpha = max(0, min(1, scrollTop / 40))
+    } else {
+      if scrollTop > 40 && !titleShown {
+        titleShown = true
+        UIView.animate(withDuration: 0.4) {
+          self.titleLabel.alpha = 1
+        }
+      } else if scrollTop < 40 && titleShown {
+        titleShown = false
+        UIView.animate(withDuration: 0.4) {
+          self.titleLabel.alpha = 0
+        }
       }
     }
   }
@@ -224,12 +253,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
     if let word = word {
       DictionaryProvider.shared[word] {
         let escapedBody = String(data: try! JSONEncoder().encode(String(data: $0, encoding: .utf8)), encoding: .utf8)!
-        if self.webView.isLoading {
-          self.webView.evaluateJavaScript("window.onload = () => document.body.innerHTML = \(escapedBody)")
-
-        } else {
-          self.webView.evaluateJavaScript("document.body.innerHTML = \(escapedBody)")
-        }
+        self.runJS("document.body.innerHTML = \(escapedBody)")
       }
     }
   }
