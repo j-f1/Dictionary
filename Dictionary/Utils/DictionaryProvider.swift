@@ -27,9 +27,13 @@ class DictionaryProvider {
         let key = String(word.first!)
         if archives[key] == nil {
           archives[key] = ZIPFoundation.Archive(
-            url: Bundle.main.url(forResource: key, withExtension: "zip")!,
-            accessMode: .read
-          )!
+            data: try! Data(
+              contentsOf: Bundle.main.url(forResource: key, withExtension: "zip")!,
+              options: .alwaysMapped
+            ),
+            accessMode: .read,
+            preferredEncoding: .utf8
+          )
         }
         var data = Data()
         if let archive = archives[key],
