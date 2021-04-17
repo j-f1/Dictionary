@@ -238,7 +238,7 @@ class DetailViewController: UIViewController, UIScrollViewDelegate {
     webView.evaluateJavaScript("window.getSelection().toString()") { selection, _ in
       if let selection = selection as? String,
          let result = find(query: selection, in: self.wordListVC.allWords!) {
-        self.wordListVC.openDetail(forRowAt: result.indexPath)
+        self.wordListVC.history.move(to: result.indexPath)
       }
     }
   }

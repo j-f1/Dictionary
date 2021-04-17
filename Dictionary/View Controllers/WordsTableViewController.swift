@@ -105,10 +105,11 @@ class WordsTableViewController: UIViewController, UITableViewDataSource, UITable
            let customVC = detailVC.topViewController as? DetailViewController,
            let indexPath = self.history.state {
           customVC.word = self.allWords![indexPath.section].words[indexPath.row]
-          if self.navigationController?.topViewController != self
-               || self.splitViewController?.traitCollection.horizontalSizeClass == .regular {
-            self.tableView.selectRow(at: indexPath, animated: false, scrollPosition: .middle)
+          if self.tableView.indexPathForSelectedRow != indexPath {
+            self.tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
+            self.tableView.scrollToRow(at: indexPath, at: .none, animated: false)
           }
+
           if self.navigationController?.topViewController != self {
             self.navigationController?.popToViewController(self, animated: false)
             UIView.performWithoutAnimation {
@@ -184,7 +185,7 @@ class WordsTableViewController: UIViewController, UITableViewDataSource, UITable
   @IBAction func pasteButtonTapped() {
     if let pasteTarget = pasteTarget {
       tableView.selectRow(at: pasteTarget, animated: false, scrollPosition: .middle)
-      self.openDetail(forRowAt: pasteTarget)
+      history.move(to: pasteTarget)
       self.pasteTarget = nil
     }
   }
@@ -228,16 +229,6 @@ class WordsTableViewController: UIViewController, UITableViewDataSource, UITable
   }
 
   // MARK: - Navigation Actions
-  func openDetail(forRowAt indexPath: IndexPath) {
-    if navigationController?.topViewController != self {
-      UIView.performWithoutAnimation {
-        self.tableView(tableView, didSelectRowAt: indexPath)
-      }
-    } else {
-      self.tableView(tableView, didSelectRowAt: indexPath)
-    }
-  }
-
   func goToRandomWord(_ sender: Any) {
     let lengths = allWords!.map(\.words.count)
     let totalLength = lengths.reduce(0, +)
@@ -248,8 +239,8 @@ class WordsTableViewController: UIViewController, UITableViewDataSource, UITable
       section += 1
     }
     let indexPath: IndexPath = IndexPath(row: row, section: section)
-    tableView.selectRow(at: indexPath, animated: false, scrollPosition: .middle)
-    openDetail(forRowAt: indexPath)
+    tableView.scrollToRow(at: indexPath, at: .middle, animated: false)
+    history.move(to: indexPath)
   }
 
   // MARK: Next/Previous
