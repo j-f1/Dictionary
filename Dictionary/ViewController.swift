@@ -68,9 +68,11 @@ class ViewController: UIViewController, UIScrollViewDelegate {
         .merge(with: Just(Notification(name: BackForwardStackUpdated))) // immediately
         .sink { _ in
           self.backButton.isEnabled = self.wordListVC.history.canGoBack
-          self.navBarButtons[1].isEnabled = self.wordListVC.history.canGoBack
+          self.navBarButtons[0].isEnabled = self.wordListVC.history.canGoBack
           self.forwardButton.isEnabled = self.wordListVC.history.canGoForward
-          self.navBarButtons[0].isEnabled = self.wordListVC.history.canGoForward
+          self.navBarButtons[1].isEnabled = self.wordListVC.history.canGoForward
+          self.navigationItem.rightBarButtonItems![1].isEnabled = self.wordListVC.canGoToPrevious
+          self.navigationItem.rightBarButtonItems![0].isEnabled = self.wordListVC.canGoToNext
         }
     }
   }
@@ -206,19 +208,36 @@ class ViewController: UIViewController, UIScrollViewDelegate {
 
     navBarButtons = [
       UIBarButtonItem(
+        title: "Back",
+        image: UIImage(systemName: "chevron.backward")!,
+        primaryAction: UIAction { _ in
+          self.wordListVC.history.goBack()
+        }
+      ),
+      UIBarButtonItem(
         title: "Forward",
         image: UIImage(systemName: "chevron.forward")!,
         primaryAction: UIAction { _ in
           self.wordListVC.history.goForward()
         }
       ),
+    ]
+
+    navigationItem.rightBarButtonItems = [
       UIBarButtonItem(
-        title: "Back",
-        image: UIImage(systemName: "chevron.backward")!,
+        title: "Next",
+        image: UIImage(systemName: "chevron.down")!,
         primaryAction: UIAction { _ in
-          self.wordListVC.history.goBack()
+          self.wordListVC.goToNext()
         }
-      )
+      ),
+      UIBarButtonItem(
+        title: "Previous",
+        image: UIImage(systemName: "chevron.up")!,
+        primaryAction: UIAction { _ in
+          self.wordListVC.goToPrevious()
+        }
+      ),
     ]
 
     if traitCollection.userInterfaceIdiom == .pad {
@@ -287,7 +306,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
     let isRegularWidth = traitCollection.horizontalSizeClass == .regular
 
     self.navigationController?.setToolbarHidden(isRegularWidth, animated: false)
-    self.navigationItem.rightBarButtonItems = isRegularWidth ? navBarButtons : []
+    self.navigationItem.leftBarButtonItems = isRegularWidth ? navBarButtons : []
 
     if isRegularWidth && traitCollection.userInterfaceIdiom == .pad {
       runJS("document.body.style.marginTop = '0'")

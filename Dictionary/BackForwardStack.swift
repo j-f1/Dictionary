@@ -10,7 +10,7 @@ import Combine
 
 let BackForwardStackUpdated = Notification.Name("BackForwardStack.updated")
 
-class BackForwardStack<State> {
+class BackForwardStack<State: Equatable> {
   private var history: [State]
   private var cursor: Int
 
@@ -48,6 +48,9 @@ class BackForwardStack<State> {
   }
 
   func move(to state: State) {
+    // don’t duplicate states
+    if state == self.state { return }
+
     if history.isEmpty {
       history = [state]
     } else {

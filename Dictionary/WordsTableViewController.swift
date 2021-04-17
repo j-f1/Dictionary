@@ -153,12 +153,10 @@ class WordsTableViewController: UIViewController, UITableViewDataSource, UITable
         if let detailVC = self.detailVC as? UINavigationController,
            let customVC = detailVC.topViewController as? ViewController,
            let indexPath = self.history.state {
-          if self.navigationController?.topViewController != self {
-            self.navigationController?.popToViewController(self, animated: false)
-          }
           customVC.word = self.allWords![indexPath.section].words[indexPath.row]
           customVC.wordListVC = self
-          if (notif.userInfo?["isBackForward"] != nil) {
+          if self.navigationController?.topViewController != self {
+            self.navigationController?.popToViewController(self, animated: false)
             self.tableView.selectRow(at: indexPath, animated: false, scrollPosition: .middle)
             UIView.performWithoutAnimation {
               self.showDetailViewController(detailVC, sender: self)
@@ -258,6 +256,34 @@ class WordsTableViewController: UIViewController, UITableViewDataSource, UITable
     let indexPath: IndexPath = IndexPath(row: row, section: section)
     tableView.selectRow(at: indexPath, animated: false, scrollPosition: .middle)
     openDetail(forRowAt: indexPath)
+  }
+
+  var canGoToNext: Bool {
+    self.history.state != nil &&
+      self.history.state
+      != IndexPath(row: allWords!.last!.words.count - 1, section: allWords!.count - 1)
+  }
+  func goToNext() {
+    assert(canGoToNext)
+    let currentPath = self.history.state!
+    if currentPath.row == allWords![currentPath.section].words.count - 1 {
+      self.history.move(to: IndexPath(row: 0, section: currentPath.section + 1))
+    } else {
+      self.history.move(to: IndexPath(row: currentPath.row + 1, section: currentPath.section))
+    }
+  }
+
+  var canGoToPrevious: Bool {
+    self.history.state != nil && self.history.state != IndexPath(row: 0, section: 0)
+  }
+  func goToPrevious() {
+    assert(canGoToPrevious)
+    let currentPath = self.history.state!
+    if currentPath.row == 0 {
+      self.history.move(to: IndexPath(row: allWords![currentPath.section - 1].words.count - 1, section: currentPath.section - 1))
+    } else {
+      self.history.move(to: IndexPath(row: currentPath.row - 1, section: currentPath.section))
+    }
   }
 
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
