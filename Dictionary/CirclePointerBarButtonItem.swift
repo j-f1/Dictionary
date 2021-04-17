@@ -7,7 +7,7 @@
 
 import UIKit
 
-func makeCirclePointerButton(_ image: UIImage, label: String, action: @escaping () -> ()) -> UIButton {
+fileprivate func makeButton(_ image: UIImage, label: String, action: @escaping () -> ()) -> UIButton {
   let button = UIButton(type: .system)
   button.setImage(image.withConfiguration(UIImage.SymbolConfiguration(scale: .large)), for: .normal)
   button.accessibilityLabel = label
@@ -15,12 +15,17 @@ func makeCirclePointerButton(_ image: UIImage, label: String, action: @escaping 
   button.sizeToFit()
 
   button.isPointerInteractionEnabled = true
+  return button
+}
+
+func makeCirclePointerButton(_ image: UIImage, label: String, action: @escaping () -> ()) -> UIButton {
+  let button = makeButton(image, label: label, action: action)
   button.pointerStyleProvider = { button, proposedEffect, proposedShape in
     UIPointerStyle(
       effect: .highlight(proposedEffect.preview),
       shape: .roundedRect(
-        button.convert(button.bounds.insetBy(dx: -7, dy: -7), to: proposedEffect.preview.target.container),
-        radius: button.bounds.height + 14
+        button.convert(button.bounds.insetBy(dx: -10, dy: -10), to: proposedEffect.preview.target.container),
+        radius: button.bounds.height + 20
       )
     )
   }
