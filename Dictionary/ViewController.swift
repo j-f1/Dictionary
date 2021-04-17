@@ -6,43 +6,23 @@
 //
 
 import UIKit
-import ZIPFoundation
 import WebKit
 import Combine
 
-class DictionaryProvider {
-  static let shared = DictionaryProvider()
-
-  private var archives: [String: ZIPFoundation.Archive] = [:]
-
-  subscript(_ word: String, callback: @escaping (Data) -> ()) -> () {
-    get {
-      DispatchQueue.global(qos: .userInitiated).async { [self] in
-        let key = String(word.first!)
-        if archives[key] == nil {
-          archives[key] = ZIPFoundation.Archive(
-            url: Bundle.main.url(forResource: key, withExtension: "zip")!,
-            accessMode: .read
-          )!
-        }
-        var data = Data()
-        if let archive = archives[key],
-           let entry = archive["\(word).html"] {
-          _ = try! archive.extract(entry) { chunk in
-            data += chunk
-          }
-          DispatchQueue.main.async {
-            callback(data)
-          }
-        }
-      }
-    }
-  }
-}
-
-
 class ViewController: UIViewController, UIScrollViewDelegate {
 
+  @IBOutlet weak var webView: WKWebView!
+
+  let labelContainer = UIView()
+  let titleLabel = UILabel()
+  var titleShown = false
+
+  var backButton: UIBarButtonItem!
+  var forwardButton: UIBarButtonItem!
+  var navBarButtons: [UIBarButtonItem]!
+  var historySubscription: AnyCancellable?
+
+  // MARK: - Observed Properties
   var word: String? {
     didSet {
       self.navigationItem.title = word
@@ -54,12 +34,6 @@ class ViewController: UIViewController, UIScrollViewDelegate {
       }
     }
   }
-
-  @IBOutlet weak var webView: WKWebView!
-
-  let labelContainer = UIView()
-  let titleLabel = UILabel()
-  var titleShown = false
 
   var wordListVC: WordsTableViewController! {
     didSet {
@@ -77,29 +51,8 @@ class ViewController: UIViewController, UIScrollViewDelegate {
     }
   }
 
-  var backButton: UIBarButtonItem!
-  var forwardButton: UIBarButtonItem!
-  var navBarButtons: [UIBarButtonItem]!
-  var historySubscription: AnyCancellable?
 
-  @objc func define(_ sender: Any) {
-    webView.evaluateJavaScript("window.getSelection().toString()") { selection, _ in
-      if let selection = selection as? String,
-         let result = self.wordListVC.lookUpWord(selection) {
-        self.wordListVC.openDetail(forRowAt: result.indexPath)
-      }
-    }
-  }
-
-  func runJS(_ js: String) {
-    if self.webView.isLoading {
-      self.webView.evaluateJavaScript("(window.queue || (window.queue = [])).push(() => { \(js) })") {res, err in
-        print(res, err)
-      }
-    } else {
-      self.webView.evaluateJavaScript(js)
-    }
-  }
+  // MARK: - View Lifecycle
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -107,49 +60,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
     UIMenuController.shared.menuItems = [.init(title: "Define", action: #selector(define(_:)))]
 
     webView.scrollView.delegate = self
-    webView.loadHTMLString("""
-      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-      <link rel="stylesheet" href="styles.css" />
-      <style>
-        body {
-          margin: 20px;
-          -webkit-text-size-adjust: 100%;
-          overflow-x: hidden;
-        }
-        :root {
-          color-scheme: light dark;
-          max-width: calc(80ch + 20px);
-          margin: auto;
-        }
-        hr {
-          margin-top: 2em;
-          margin-bottom: -2em;
-          border: 1px solid currentcolor;
-          opacity: 0.5;
-        }
-        body:empty {
-          overflow: hidden;
-        }
-        body:empty::after {
-          content: "Select a word";
-          font-family: system-ui;
-          opacity: 0.66;
-          font-size: 2.1em;
-          position: absolute;
-          top: 50%;
-          left: 0;
-          transform: translateY(-50%);
-          width: 100%;
-          text-align: center;
-        }
-      </style>
-      <script>
-        window.onload = () => {
-          if (window.queue) window.queue.forEach(f => f())
-          window.queue = null
-        }
-      </script>
-    """, baseURL: Bundle.main.resourceURL!)
+    webView.loadFileURL(Bundle.main.url(forResource: "detail", withExtension: "html")!, allowingReadAccessTo: Bundle.main.resourceURL!)
 
     labelContainer.addSubview(titleLabel)
     titleLabel.font = UIFont.boldSystemFont(ofSize: UIFont.labelFontSize)
@@ -157,71 +68,45 @@ class ViewController: UIViewController, UIScrollViewDelegate {
     titleLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
     titleLabel.setContentCompressionResistancePriority(.required, for: .vertical)
     titleLabel.translatesAutoresizingMaskIntoConstraints = false
-    labelContainer.addConstraint(
-      NSLayoutConstraint(
-        item: labelContainer, attribute: .leading,
-        relatedBy: .equal,
-        toItem: titleLabel, attribute: .leading,
-        multiplier: 1, constant: 0
-      )
-    )
-    labelContainer.addConstraint(
-      NSLayoutConstraint(
-        item: labelContainer, attribute: .trailing,
-        relatedBy: .equal,
-        toItem: titleLabel, attribute: .trailing,
-        multiplier: 1, constant: 0
-      )
-    )
-    labelContainer.addConstraint(
-      NSLayoutConstraint(
-        item: labelContainer, attribute: .top,
-        relatedBy: .equal,
-        toItem: titleLabel, attribute: .top,
-        multiplier: 1, constant: 0
-      )
-    )
-    labelContainer.addConstraint(
-      NSLayoutConstraint(
-        item: labelContainer, attribute: .bottom,
-        relatedBy: .equal,
-        toItem: titleLabel, attribute: .bottom,
-        multiplier: 1, constant: 0
-      )
-    )
 
-    backButton = UIBarButtonItem(
-      title: "Back",
-      image: UIImage(systemName: "chevron.backward")!,
-      primaryAction: UIAction { _ in
-        self.wordListVC.history.goBack()
-      }
-    )
+    let addEqualityConstraint = { [self] (attribute: NSLayoutConstraint.Attribute) in
+      labelContainer.addConstraint(
+        NSLayoutConstraint(
+          item: labelContainer, attribute: attribute,
+          relatedBy: .equal,
+          toItem: titleLabel, attribute: attribute,
+          multiplier: 1, constant: 0
+        )
+      )
+    }
+    addEqualityConstraint(.leading)
+    addEqualityConstraint(.trailing)
+    addEqualityConstraint(.top)
+    addEqualityConstraint(.bottom)
 
-    forwardButton = UIBarButtonItem(
-      title: "Forward",
-      image: UIImage(systemName: "chevron.forward")!,
-      primaryAction: UIAction { _ in
-        self.wordListVC.history.goForward()
-      }
-    )
-
-    navBarButtons = [
+    let makeBackButton = {
       UIBarButtonItem(
         title: "Back",
         image: UIImage(systemName: "chevron.backward")!,
         primaryAction: UIAction { _ in
           self.wordListVC.history.goBack()
         }
-      ),
+      )
+    }
+
+    let makeForwardButton = {
       UIBarButtonItem(
         title: "Forward",
         image: UIImage(systemName: "chevron.forward")!,
         primaryAction: UIAction { _ in
           self.wordListVC.history.goForward()
         }
-      ),
-    ]
+      )
+    }
+
+    backButton = makeBackButton()
+    forwardButton = makeForwardButton()
+    navBarButtons = [makeBackButton(), makeForwardButton()]
 
     navigationItem.rightBarButtonItems = [
       UIBarButtonItem(
@@ -242,9 +127,9 @@ class ViewController: UIViewController, UIScrollViewDelegate {
 
     if traitCollection.userInterfaceIdiom == .pad {
       self.toolbarItems = [
-        backButton,
+        self.backButton,
         .fixedSpace(20),
-        forwardButton,
+        self.forwardButton,
         .flexibleSpace(),
         UIBarButtonItem(
           customView: makeCirclePointerButton(UIImage(systemName: "shuffle.circle")!, label: "Random Word") {
@@ -254,9 +139,9 @@ class ViewController: UIViewController, UIScrollViewDelegate {
       ]
     } else {
       self.toolbarItems = [
-        backButton,
+        self.backButton,
         .fixedSpace(20),
-        forwardButton,
+        self.forwardButton,
         .flexibleSpace(),
         UIBarButtonItem(
           title: "Random Word",
@@ -286,17 +171,10 @@ class ViewController: UIViewController, UIScrollViewDelegate {
     self.traitCollectionDidChange(nil)
   }
 
+  // MARK: - Events
   @objc private func preferredContentSizeChanged(_ notification: Notification?) {
     let font = UIFont.preferredFont(forTextStyle: .body)
-//    print("Point Size", font.pointSize)
     runJS("document.body.style.fontSize = '\(font.pointSize)px'")
-  }
-
-  func kickTitle() {
-    self.navigationItem.titleView = nil
-    self.labelContainer.removeFromSuperview()
-    self.navigationItem.titleView = self.labelContainer
-    labelContainer.sizeToFit()
   }
 
   override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -347,6 +225,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
     }
   }
 
+  // MARK: - Methods
   func loadPage() {
     if let word = word {
       DictionaryProvider.shared[word] {
@@ -354,5 +233,29 @@ class ViewController: UIViewController, UIScrollViewDelegate {
         self.runJS("document.body.innerHTML = \(escapedBody)")
       }
     }
+  }
+
+  @objc func define(_ sender: Any) {
+    webView.evaluateJavaScript("window.getSelection().toString()") { selection, _ in
+      if let selection = selection as? String,
+         let result = self.wordListVC.lookUpWord(selection) {
+        self.wordListVC.openDetail(forRowAt: result.indexPath)
+      }
+    }
+  }
+
+  func runJS(_ js: String) {
+    if self.webView.isLoading {
+      self.webView.evaluateJavaScript("(window.queue || (window.queue = [])).push(() => { \(js) })")
+    } else {
+      self.webView.evaluateJavaScript(js)
+    }
+  }
+
+  func kickTitle() {
+    self.navigationItem.titleView = nil
+    self.labelContainer.removeFromSuperview()
+    self.navigationItem.titleView = self.labelContainer
+    labelContainer.sizeToFit()
   }
 }
