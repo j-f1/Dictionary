@@ -13,6 +13,9 @@
 		8556C1E0262A95250038C35E /* DictionaryProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8556C1DF262A95250038C35E /* DictionaryProvider.swift */; };
 		8556C1E2262A972E0038C35E /* detail.html in Resources */ = {isa = PBXBuildFile; fileRef = 8556C1E1262A972E0038C35E /* detail.html */; };
 		8556C1E7262A9C0B0038C35E /* CleanString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8556C1E6262A9C0A0038C35E /* CleanString.swift */; };
+		8556C1EA262B47D60038C35E /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8556C1E9262B47D50038C35E /* SettingsView.swift */; };
+		855814AC262B55B30049A333 /* Defaults in Frameworks */ = {isa = PBXBuildFile; productRef = 855814AB262B55B30049A333 /* Defaults */; };
+		855814AE262B55C10049A333 /* Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855814AD262B55C10049A333 /* Defaults.swift */; };
 		85A5F9CB2628A44800030C47 /* ZIPFoundation in Frameworks */ = {isa = PBXBuildFile; productRef = 85A5F9CA2628A44800030C47 /* ZIPFoundation */; };
 		85A5F9CD2628A6B000030C47 /* styles.css in Resources */ = {isa = PBXBuildFile; fileRef = 85A5F9CC2628A6B000030C47 /* styles.css */; };
 		85A5FA112628EB3200030C47 /* SplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A5FA102628EB3200030C47 /* SplitViewController.swift */; };
@@ -55,7 +58,7 @@
 		85BAEC482626827F00E56D06 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 85BAEC462626827F00E56D06 /* LaunchScreen.storyboard */; };
 		85BAEC52262685AA00E56D06 /* WordsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85BAEC51262685AA00E56D06 /* WordsTableViewController.swift */; };
 		85CF52672628F3F900E96928 /* AboutScreen in Frameworks */ = {isa = PBXBuildFile; productRef = 85CF52662628F3F900E96928 /* AboutScreen */; };
-		85CF52692628F46700E96928 /* AboutScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85CF52682628F46700E96928 /* AboutScreenViewController.swift */; };
+		85CF52692628F46700E96928 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85CF52682628F46700E96928 /* SettingsViewController.swift */; };
 		85CF526A2628F6F800E96928 /* GenBasB.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 85A5F9D22628A72A00030C47 /* GenBasB.ttf */; };
 		85CF526B2628F6F800E96928 /* GentiumPlus-I-smcp.woff in Resources */ = {isa = PBXBuildFile; fileRef = 85A5F9D02628A72A00030C47 /* GentiumPlus-I-smcp.woff */; };
 		85CF526C2628F6F800E96928 /* GentiumPlus-R.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 85A5F9D12628A72A00030C47 /* GentiumPlus-R.ttf */; };
@@ -71,6 +74,8 @@
 		8556C1DF262A95250038C35E /* DictionaryProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DictionaryProvider.swift; sourceTree = "<group>"; };
 		8556C1E1262A972E0038C35E /* detail.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = detail.html; path = Dictionary/detail.html; sourceTree = SOURCE_ROOT; };
 		8556C1E6262A9C0A0038C35E /* CleanString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CleanString.swift; sourceTree = "<group>"; };
+		8556C1E9262B47D50038C35E /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		855814AD262B55C10049A333 /* Defaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Defaults.swift; sourceTree = "<group>"; };
 		85A5F9CC2628A6B000030C47 /* styles.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = styles.css; sourceTree = "<group>"; };
 		85A5F9CE2628A72A00030C47 /* GentiumPlus-R-smcp.woff */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GentiumPlus-R-smcp.woff"; sourceTree = "<group>"; };
 		85A5F9CF2628A72A00030C47 /* GentiumPlus-I.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GentiumPlus-I.ttf"; sourceTree = "<group>"; };
@@ -118,7 +123,7 @@
 		85BAEC472626827F00E56D06 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		85BAEC492626827F00E56D06 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		85BAEC51262685AA00E56D06 /* WordsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordsTableViewController.swift; sourceTree = "<group>"; };
-		85CF52682628F46700E96928 /* AboutScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutScreenViewController.swift; sourceTree = "<group>"; };
+		85CF52682628F46700E96928 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -126,6 +131,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				855814AC262B55B30049A333 /* Defaults in Frameworks */,
 				85CF52672628F3F900E96928 /* AboutScreen in Frameworks */,
 				85A5F9CB2628A44800030C47 /* ZIPFoundation in Frameworks */,
 			);
@@ -140,6 +146,7 @@
 				8556C1DB262A7BB00038C35E /* BackForwardStack.swift */,
 				8556C1DF262A95250038C35E /* DictionaryProvider.swift */,
 				8556C1E6262A9C0A0038C35E /* CleanString.swift */,
+				855814AD262B55C10049A333 /* Defaults.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -150,7 +157,7 @@
 				85A5FA102628EB3200030C47 /* SplitViewController.swift */,
 				85BAEC51262685AA00E56D06 /* WordsTableViewController.swift */,
 				85BAEC3F2626827D00E56D06 /* DetailViewController.swift */,
-				85CF52682628F46700E96928 /* AboutScreenViewController.swift */,
+				85CF52682628F46700E96928 /* SettingsViewController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -162,6 +169,14 @@
 				8556C1D726293F780038C35E /* PasteButtonView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		8556C1E8262B47C20038C35E /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				8556C1E9262B47D50038C35E /* SettingsView.swift */,
+			);
+			path = Settings;
 			sourceTree = "<group>";
 		};
 		85A5F9C82628950500030C47 /* Resources */ = {
@@ -239,6 +254,7 @@
 			children = (
 				85BAEC3B2626827D00E56D06 /* AppDelegate.swift */,
 				85BAEC3D2626827D00E56D06 /* SceneDelegate.swift */,
+				8556C1E8262B47C20038C35E /* Settings */,
 				8556C1E5262A9BEF0038C35E /* Views */,
 				8556C1E4262A9BA50038C35E /* View Controllers */,
 				8556C1E3262A9B8F0038C35E /* Utils */,
@@ -270,6 +286,7 @@
 			packageProductDependencies = (
 				85A5F9CA2628A44800030C47 /* ZIPFoundation */,
 				85CF52662628F3F900E96928 /* AboutScreen */,
+				855814AB262B55B30049A333 /* Defaults */,
 			);
 			productName = Dictionary;
 			productReference = 85BAEC382626827D00E56D06 /* Dictionary.app */;
@@ -301,6 +318,7 @@
 			packageReferences = (
 				85A5F9C92628A44800030C47 /* XCRemoteSwiftPackageReference "ZIPFoundation" */,
 				85CF52652628F3F900E96928 /* XCRemoteSwiftPackageReference "AboutScreen" */,
+				855814AA262B55B30049A333 /* XCRemoteSwiftPackageReference "Defaults" */,
 			);
 			productRefGroup = 85BAEC392626827D00E56D06 /* Products */;
 			projectDirPath = "";
@@ -367,7 +385,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				85CF52692628F46700E96928 /* AboutScreenViewController.swift in Sources */,
+				85CF52692628F46700E96928 /* SettingsViewController.swift in Sources */,
+				855814AE262B55C10049A333 /* Defaults.swift in Sources */,
 				85A5FA112628EB3200030C47 /* SplitViewController.swift in Sources */,
 				85BAEC402626827D00E56D06 /* DetailViewController.swift in Sources */,
 				8556C1D826293F7D0038C35E /* PasteButtonView.swift in Sources */,
@@ -376,6 +395,7 @@
 				85BAEC3C2626827D00E56D06 /* AppDelegate.swift in Sources */,
 				8556C1E7262A9C0B0038C35E /* CleanString.swift in Sources */,
 				85BAEC3E2626827D00E56D06 /* SceneDelegate.swift in Sources */,
+				8556C1EA262B47D60038C35E /* SettingsView.swift in Sources */,
 				85BAEC52262685AA00E56D06 /* WordsTableViewController.swift in Sources */,
 				8556C1DC262A7BB00038C35E /* BackForwardStack.swift in Sources */,
 			);
@@ -581,6 +601,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		855814AA262B55B30049A333 /* XCRemoteSwiftPackageReference "Defaults" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sindresorhus/Defaults";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.2.1;
+			};
+		};
 		85A5F9C92628A44800030C47 /* XCRemoteSwiftPackageReference "ZIPFoundation" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/weichsel/ZIPFoundation";
@@ -600,6 +628,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		855814AB262B55B30049A333 /* Defaults */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 855814AA262B55B30049A333 /* XCRemoteSwiftPackageReference "Defaults" */;
+			productName = Defaults;
+		};
 		85A5F9CA2628A44800030C47 /* ZIPFoundation */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 85A5F9C92628A44800030C47 /* XCRemoteSwiftPackageReference "ZIPFoundation" */;

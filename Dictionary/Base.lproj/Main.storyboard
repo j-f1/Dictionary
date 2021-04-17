@@ -147,27 +147,11 @@
                         <outlet property="pasteButtonOffset" destination="x68-S7-gLo" id="5ej-ks-O2x"/>
                         <outlet property="pasteLabel" destination="3qS-tw-kFP" id="RRJ-bl-26G"/>
                         <outlet property="tableView" destination="eZT-oe-FUu" id="xPc-Kx-RCB"/>
-                        <segue destination="uzy-Ak-xCo" kind="presentation" identifier="showAbout" modalPresentationStyle="formSheet" id="kKe-KN-ReF"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LfQ-At-lnY" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="385.50724637681162" y="-1583.0357142857142"/>
-        </scene>
-        <!--About Screen View Controller-->
-        <scene sceneID="dZp-zv-7mc">
-            <objects>
-                <viewController id="uzy-Ak-xCo" customClass="AboutScreenViewController" customModule="Dictionary" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="9iD-16-5gZ">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="ven-z1-Ifq"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="wtK-Ui-phZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1325" y="-1536"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="zGG-B6-Xs6">

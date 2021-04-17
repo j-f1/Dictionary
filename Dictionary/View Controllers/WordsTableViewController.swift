@@ -7,6 +7,7 @@
 
 import UIKit
 import Combine
+import Defaults
 
 class WordsTableViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchResultsUpdating, UISplitViewControllerDelegate {
 
@@ -26,6 +27,8 @@ class WordsTableViewController: UIViewController, UITableViewDataSource, UITable
   lazy var detailVC = {
     self.splitViewController?.viewController(for: .secondary) ?? self.storyboard?.instantiateViewController(identifier: "DetailVC")
   }()
+
+  lazy var settingsVC = SettingsViewController()
 
   @IBOutlet weak var tableView: UITableView!
 
@@ -50,12 +53,16 @@ class WordsTableViewController: UIViewController, UITableViewDataSource, UITable
 
 
     if traitCollection.userInterfaceIdiom == .pad {
+      var settingsItem: UIBarButtonItem! = nil
+      settingsItem = UIBarButtonItem(
+        customView: makeCirclePointerButton(UIImage(systemName: "gearshape")!, label: "Settings") {
+          self.settingsVC.modalPresentationStyle = .popover
+          self.settingsVC.popoverPresentationController?.barButtonItem = settingsItem
+          self.present(self.settingsVC, animated: true, completion: nil)
+        }
+      )
       self.toolbarItems = [
-        UIBarButtonItem(
-          customView: makeCirclePointerButton(UIImage(systemName: "info.circle")!, label: "About") {
-            self.performSegue(withIdentifier: "showAbout", sender: nil)
-          }
-        ),
+        settingsItem,
         .flexibleSpace(),
         UIBarButtonItem(
           customView: makeCirclePointerButton(UIImage(systemName: "shuffle.circle")!, label: "Random Word") {
@@ -66,10 +73,10 @@ class WordsTableViewController: UIViewController, UITableViewDataSource, UITable
     } else {
       self.toolbarItems = [
         UIBarButtonItem(
-          title: "About",
-          image: UIImage(systemName: "info.circle")!,
+          title: "Settings",
+          image: UIImage(systemName: "gearshape")!,
           primaryAction: UIAction { _ in
-            self.performSegue(withIdentifier: "showAbout", sender: nil)
+            self.present(self.settingsVC, animated: true, completion: nil)
           }
         ),
         .flexibleSpace(),
@@ -96,6 +103,8 @@ class WordsTableViewController: UIViewController, UITableViewDataSource, UITable
         scheduler: RunLoop.main,
         latest: true
       )
+      .map { _ in }
+      .merge(with: Defaults.publisher(keys: .watchPasteboard, options: []))
       .sink { _ in self.updatePasteButton() }
       .store(in: &subscriptions)
 
@@ -160,7 +169,13 @@ class WordsTableViewController: UIViewController, UITableViewDataSource, UITable
   }
 
   func updatePasteButton() {
-    guard UIPasteboard.general.hasStrings else { return }
+    guard
+      Defaults[.watchPasteboard],
+      UIPasteboard.general.hasStrings
+    else {
+      pasteTarget = nil
+      return
+    }
     UIPasteboard.general.detectPatterns(for: [.number, .probableWebSearch, .probableWebURL]) { [self] result in
       DispatchQueue.main.async {
         if case .success(let detected) = result,
@@ -168,7 +183,7 @@ class WordsTableViewController: UIViewController, UITableViewDataSource, UITable
            !detected.contains(.probableWebURL) {
           if let copiedString = UIPasteboard.general.string,
              let (word, indexPath) = find(query: copiedString, in: allWords!) {
-            if word != pasteLabel.text {
+            if pasteTarget == nil || word != pasteLabel.text {
               pasteLabel.text = word
               pasteTarget = indexPath
             }
