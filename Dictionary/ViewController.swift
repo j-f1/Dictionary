@@ -188,11 +188,6 @@ class ViewController: UIViewController, UIScrollViewDelegate {
       )
     )
 
-  }
-
-  override func viewWillAppear(_ animated: Bool) {
-    super.viewWillAppear(animated)
-
     backButton = UIBarButtonItem(
       title: "Back",
       image: UIImage(systemName: "chevron.backward")!,
@@ -253,7 +248,10 @@ class ViewController: UIViewController, UIScrollViewDelegate {
         )
       ]
     }
+  }
 
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
 
     navigationItem.titleView = self.labelContainer
     loadPage()

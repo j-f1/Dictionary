@@ -231,7 +231,7 @@ class WordsTableViewController: UIViewController, UITableViewDataSource, UITable
 
   @IBAction func pasteButtonTapped() {
     if let pasteTarget = pasteTarget {
-      tableView.selectRow(at: indexPath, animated: false, scrollPosition: .middle)
+      tableView.selectRow(at: pasteTarget, animated: false, scrollPosition: .middle)
       self.openDetail(forRowAt: pasteTarget)
       self.pasteTarget = nil
     }
