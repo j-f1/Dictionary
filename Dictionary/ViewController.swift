@@ -238,6 +238,10 @@ class ViewController: UIViewController, UIScrollViewDelegate {
   }
 
   func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    if scrollView.contentOffset.x != 0 {
+      scrollView.contentOffset.x = 0
+    }
+
     let scrollTop = scrollView.contentOffset.y + scrollView.adjustedContentInset.top
 
     if scrollTop != 0,
