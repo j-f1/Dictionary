@@ -32,12 +32,7 @@ class WordsTableViewController: UIViewController, UITableViewDataSource, UITable
   let history = BackForwardStack<IndexPath>()
   var subscriptions: Set<AnyCancellable> = Set()
 
-  var allWords: [WordLetter]? {
-    didSet {
-      tableView.reloadData()
-      updatePasteButton()
-    }
-  }
+  var allWords: [WordLetter]?
 
   // MARK: - View Lifecycle
 
@@ -91,10 +86,16 @@ class WordsTableViewController: UIViewController, UITableViewDataSource, UITable
     if let detailVC = detailVC as? UINavigationController,
        let customVC = detailVC.topViewController as? DetailViewController {
       customVC.loadViewIfNeeded()
+      customVC.wordListVC = self
     }
 
     NotificationCenter.default.publisher(for: UIPasteboard.changedNotification)
       .merge(with: NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification))
+      .throttle(
+        for: .milliseconds(500),
+        scheduler: RunLoop.main,
+        latest: true
+      )
       .sink { _ in self.updatePasteButton() }
       .store(in: &subscriptions)
 
@@ -104,10 +105,12 @@ class WordsTableViewController: UIViewController, UITableViewDataSource, UITable
            let customVC = detailVC.topViewController as? DetailViewController,
            let indexPath = self.history.state {
           customVC.word = self.allWords![indexPath.section].words[indexPath.row]
-          customVC.wordListVC = self
+          if self.navigationController?.topViewController != self
+               || self.splitViewController?.traitCollection.horizontalSizeClass == .regular {
+            self.tableView.selectRow(at: indexPath, animated: false, scrollPosition: .middle)
+          }
           if self.navigationController?.topViewController != self {
             self.navigationController?.popToViewController(self, animated: false)
-            self.tableView.selectRow(at: indexPath, animated: false, scrollPosition: .middle)
             UIView.performWithoutAnimation {
               self.showDetailViewController(detailVC, sender: self)
             }
@@ -121,11 +124,16 @@ class WordsTableViewController: UIViewController, UITableViewDataSource, UITable
 
   override func didMove(toParent parent: UIViewController?) {
     self.splitViewController?.delegate = self
-    self.allWords = DictionaryProvider.loadWords(from: "boot")
-    DispatchQueue.global(qos: .userInitiated).async {
-      let allWords = DictionaryProvider.loadWords(from: "words-by-letter")
-      DispatchQueue.main.async {
-        self.allWords = allWords
+    if self.allWords == nil {
+      self.allWords = DictionaryProvider.loadWords(from: "boot")
+      tableView.reloadData()
+      DispatchQueue.global(qos: .userInitiated).async {
+        let allWords = DictionaryProvider.loadWords(from: "words-by-letter")
+        DispatchQueue.main.async {
+          self.allWords = allWords
+          self.tableView.reloadData()
+          self.updatePasteButton()
+        }
       }
     }
   }
@@ -151,14 +159,25 @@ class WordsTableViewController: UIViewController, UITableViewDataSource, UITable
   }
 
   func updatePasteButton() {
-    if let copiedString = UIPasteboard.general.string,
-       let (word, indexPath) = find(query: copiedString, in: allWords!) {
-      if word != pasteLabel.text {
-        pasteLabel.text = word
-        pasteTarget = indexPath
+    guard UIPasteboard.general.hasStrings else { return }
+    UIPasteboard.general.detectPatterns(for: [.number, .probableWebSearch, .probableWebURL]) { [self] result in
+      DispatchQueue.main.async {
+        if case .success(let detected) = result,
+           !detected.contains(.number),
+           !detected.contains(.probableWebURL) {
+          if let copiedString = UIPasteboard.general.string,
+             let (word, indexPath) = find(query: copiedString, in: allWords!) {
+            if word != pasteLabel.text {
+              pasteLabel.text = word
+              pasteTarget = indexPath
+            }
+          } else {
+            pasteTarget = nil
+          }
+        } else {
+          pasteTarget = nil
+        }
       }
-    } else {
-      pasteTarget = nil
     }
   }
 
