@@ -8,6 +8,7 @@
 import UIKit
 import ZIPFoundation
 import WebKit
+import Combine
 
 class DictionaryProvider {
   static let shared = DictionaryProvider()
@@ -60,7 +61,24 @@ class ViewController: UIViewController, UIScrollViewDelegate {
   let titleLabel = UILabel()
   var titleShown = false
 
-  var wordListVC: WordsTableViewController!
+  var wordListVC: WordsTableViewController! {
+    didSet {
+      historySubscription = NotificationCenter.default
+        .publisher(for: BackForwardStackUpdated, object: wordListVC.history)
+        .merge(with: Just(Notification(name: BackForwardStackUpdated))) // immediately
+        .sink { _ in
+          self.backButton.isEnabled = self.wordListVC.history.canGoBack
+          self.navBarButtons[1].isEnabled = self.wordListVC.history.canGoBack
+          self.forwardButton.isEnabled = self.wordListVC.history.canGoForward
+          self.navBarButtons[0].isEnabled = self.wordListVC.history.canGoForward
+        }
+    }
+  }
+
+  var backButton: UIBarButtonItem!
+  var forwardButton: UIBarButtonItem!
+  var navBarButtons: [UIBarButtonItem]!
+  var historySubscription: AnyCancellable?
 
   @objc func define(_ sender: Any) {
     webView.evaluateJavaScript("window.getSelection().toString()") { selection, _ in
@@ -170,8 +188,49 @@ class ViewController: UIViewController, UIScrollViewDelegate {
       )
     )
 
+  }
+
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+
+    backButton = UIBarButtonItem(
+      title: "Back",
+      image: UIImage(systemName: "chevron.backward")!,
+      primaryAction: UIAction { _ in
+        self.wordListVC.history.goBack()
+      }
+    )
+
+    forwardButton = UIBarButtonItem(
+      title: "Forward",
+      image: UIImage(systemName: "chevron.forward")!,
+      primaryAction: UIAction { _ in
+        self.wordListVC.history.goForward()
+      }
+    )
+
+    navBarButtons = [
+      UIBarButtonItem(
+        title: "Forward",
+        image: UIImage(systemName: "chevron.forward")!,
+        primaryAction: UIAction { _ in
+          self.wordListVC.history.goForward()
+        }
+      ),
+      UIBarButtonItem(
+        title: "Back",
+        image: UIImage(systemName: "chevron.backward")!,
+        primaryAction: UIAction { _ in
+          self.wordListVC.history.goBack()
+        }
+      )
+    ]
+
     if traitCollection.userInterfaceIdiom == .pad {
       self.toolbarItems = [
+        backButton,
+        .fixedSpace(20),
+        forwardButton,
         .flexibleSpace(),
         UIBarButtonItem(
           customView: makeCirclePointerButton(UIImage(systemName: "shuffle.circle")!, label: "Random Word") {
@@ -181,6 +240,9 @@ class ViewController: UIViewController, UIScrollViewDelegate {
       ]
     } else {
       self.toolbarItems = [
+        backButton,
+        .fixedSpace(20),
+        forwardButton,
         .flexibleSpace(),
         UIBarButtonItem(
           title: "Random Word",
@@ -199,11 +261,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
 
     NotificationCenter.default.addObserver(self, selector: #selector(preferredContentSizeChanged(_:)), name: UIContentSizeCategory.didChangeNotification, object: nil)
     preferredContentSizeChanged(nil)
-  }
-
-  override func didMove(toParent parent: UIViewController?) {
-    super.didMove(toParent: parent)
-    self.navigationController?.setToolbarHidden(false, animated: false)
+    traitCollectionDidChange(nil)
   }
 
   override func viewDidAppear(_ animated: Bool) {
@@ -227,10 +285,13 @@ class ViewController: UIViewController, UIScrollViewDelegate {
   override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
     super.traitCollectionDidChange(previousTraitCollection)
     kickTitle()
-    
-    self.navigationController?.setToolbarHidden(traitCollection.horizontalSizeClass == .regular, animated: false)
 
-    if traitCollection.horizontalSizeClass == .regular && traitCollection.userInterfaceIdiom == .pad {
+    let isRegularWidth = traitCollection.horizontalSizeClass == .regular
+
+    self.navigationController?.setToolbarHidden(isRegularWidth, animated: false)
+    self.navigationItem.rightBarButtonItems = isRegularWidth ? navBarButtons : []
+
+    if isRegularWidth && traitCollection.userInterfaceIdiom == .pad {
       runJS("document.body.style.marginTop = '0'")
     } else {
       runJS("document.body.style.marginTop = null")

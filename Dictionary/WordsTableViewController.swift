@@ -37,6 +37,8 @@ class WordsTableViewController: UIViewController, UITableViewDataSource, UITable
   @IBOutlet weak var pasteLabel: UILabel!
   @IBOutlet weak var pasteButtonOffset: NSLayoutConstraint!
 
+  let history = BackForwardStack<IndexPath>()
+
   var pasteTarget: IndexPath? {
     didSet {
       if pasteTarget != nil {
@@ -58,7 +60,7 @@ class WordsTableViewController: UIViewController, UITableViewDataSource, UITable
     updatePasteButton()
   } }
 
-  var pasteboardWatcher: AnyCancellable?
+  var subscriptions: Set<AnyCancellable> = Set()
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -141,10 +143,32 @@ class WordsTableViewController: UIViewController, UITableViewDataSource, UITable
       customVC.loadViewIfNeeded()
     }
 
-    self.pasteboardWatcher =
-      NotificationCenter.default.publisher(for: UIPasteboard.changedNotification)
+    NotificationCenter.default.publisher(for: UIPasteboard.changedNotification)
       .merge(with: NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification))
       .sink { _ in self.updatePasteButton() }
+      .store(in: &subscriptions)
+
+    NotificationCenter.default.publisher(for: BackForwardStackUpdated, object: history)
+      .sink { notif in
+        if let detailVC = self.detailVC as? UINavigationController,
+           let customVC = detailVC.topViewController as? ViewController,
+           let indexPath = self.history.state {
+          if self.navigationController?.topViewController != self {
+            self.navigationController?.popToViewController(self, animated: false)
+          }
+          customVC.word = self.allWords![indexPath.section].words[indexPath.row]
+          customVC.wordListVC = self
+          if (notif.userInfo?["isBackForward"] != nil) {
+            self.tableView.selectRow(at: indexPath, animated: false, scrollPosition: .middle)
+            UIView.performWithoutAnimation {
+              self.showDetailViewController(detailVC, sender: self)
+            }
+          } else {
+            self.showDetailViewController(detailVC, sender: self)
+          }
+        }
+      }
+      .store(in: &subscriptions)
   }
 
   func lookUpWord(_ input: String) -> (word: String, indexPath: IndexPath)? {
@@ -184,9 +208,7 @@ class WordsTableViewController: UIViewController, UITableViewDataSource, UITable
   }
 
   func openDetail(forRowAt indexPath: IndexPath) {
-    tableView.selectRow(at: indexPath, animated: false, scrollPosition: .middle)
     if navigationController?.topViewController != self {
-      navigationController?.popToViewController(self, animated: false)
       UIView.performWithoutAnimation {
         self.tableView(tableView, didSelectRowAt: indexPath)
       }
@@ -209,6 +231,7 @@ class WordsTableViewController: UIViewController, UITableViewDataSource, UITable
 
   @IBAction func pasteButtonTapped() {
     if let pasteTarget = pasteTarget {
+      tableView.selectRow(at: indexPath, animated: false, scrollPosition: .middle)
       self.openDetail(forRowAt: pasteTarget)
       self.pasteTarget = nil
     }
@@ -232,16 +255,13 @@ class WordsTableViewController: UIViewController, UITableViewDataSource, UITable
       row -= lengths[section]
       section += 1
     }
-    openDetail(forRowAt: IndexPath(row: row, section: section))
+    let indexPath: IndexPath = IndexPath(row: row, section: section)
+    tableView.selectRow(at: indexPath, animated: false, scrollPosition: .middle)
+    openDetail(forRowAt: indexPath)
   }
 
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    if let detailVC = detailVC as? UINavigationController,
-       let customVC = detailVC.topViewController as? ViewController {
-      customVC.word = allWords![indexPath.section].words[indexPath.row]
-      customVC.wordListVC = self
-      self.showDetailViewController(detailVC, sender: self)
-    }
+    history.move(to: indexPath)
   }
 
   // MARK: - Table view data source
