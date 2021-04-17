@@ -85,11 +85,16 @@ div {
   white-space:pre;
 }
 
+.cs .col:not(:first-child):before {
+  content: "\A\A";
+  white-space:pre;
+}
+
 .q+.hw:before {
   content: "\A";
 }
 
-.sn:before, .sd:before, .note:before, .def + .cs:before {
+.sn:before, .sd:before, .note:before, .def + .cs:before  {
   content: "\A";
   white-space:pre;
 }
