@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  DetailViewController.swift
 //  Dictionary
 //
 //  Created by Jed Fox on 4/13/21.
@@ -9,7 +9,7 @@ import UIKit
 import WebKit
 import Combine
 
-class ViewController: UIViewController, UIScrollViewDelegate {
+class DetailViewController: UIViewController, UIScrollViewDelegate {
 
   @IBOutlet weak var webView: WKWebView!
 
@@ -200,8 +200,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
 
     let scrollTop = scrollView.contentOffset.y + scrollView.adjustedContentInset.top
 
-    if scrollTop != 0,
-       scrollView.contentSize.height <= scrollView.bounds.height {
+    if scrollView.contentSize.height <= scrollView.bounds.height {
       scrollView.contentOffset.y = -scrollView.adjustedContentInset.top
       self.titleLabel.alpha = 0
       titleShown = false
@@ -238,7 +237,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
   @objc func define(_ sender: Any) {
     webView.evaluateJavaScript("window.getSelection().toString()") { selection, _ in
       if let selection = selection as? String,
-         let result = self.wordListVC.lookUpWord(selection) {
+         let result = find(query: selection, in: self.wordListVC.allWords!) {
         self.wordListVC.openDetail(forRowAt: result.indexPath)
       }
     }

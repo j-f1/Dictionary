@@ -16,14 +16,12 @@ class SplitViewController: UISplitViewController, UISplitViewControllerDelegate 
     self.minimumPrimaryColumnWidth = 200
   }
 
-
-  // MARK: - UISplitViewControllerDelegate
   func splitViewController(
     _ svc: UISplitViewController,
     topColumnForCollapsingToProposedTopColumn proposedTopColumn: UISplitViewController.Column
   ) -> UISplitViewController.Column {
     if let vc = (
-      (svc.viewController(for: .secondary) as? UINavigationController)?.viewControllers.first as? ViewController
+      (svc.viewController(for: .secondary) as? UINavigationController)?.viewControllers.first as? DetailViewController
     ) {
       return vc.word == nil ? .primary : .secondary
     }

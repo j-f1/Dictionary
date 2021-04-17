@@ -10,7 +10,6 @@ import SwiftUI
 import AboutScreen
 
 class AboutScreenViewController: UIHostingController<AnyView> {
-
   required init?(coder: NSCoder) {
     super.init(coder: coder, rootView: AnyView(
       AboutScreen(
@@ -27,9 +26,5 @@ class AboutScreenViewController: UIHostingController<AnyView> {
         ]
       )
     ))
-  }
-
-  override func viewDidLoad() {
-    super.viewDidLoad()
   }
 }

@@ -13,6 +13,14 @@ class DictionaryProvider {
 
   private var archives: [String: ZIPFoundation.Archive] = [:]
 
+  static func loadWords(from fileName: String) -> [WordLetter] {
+    let data = try! JSONDecoder().decode([WordLetter].self, from: Data(contentsOf: Bundle.main.url(forResource: fileName, withExtension: "json")!))
+
+    return Array("ABCDEFGHIJKLMNOPQRSTUVWXYZ'-").map { name in
+      data.first { $0.letter.uppercased() == String(name) }!
+    }
+  }
+
   subscript(_ word: String, callback: @escaping (Data) -> ()) -> () {
     get {
       DispatchQueue.global(qos: .userInitiated).async { [self] in
