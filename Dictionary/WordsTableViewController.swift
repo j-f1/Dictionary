@@ -72,9 +72,42 @@ class WordsTableViewController: UIViewController, UITableViewDataSource, UITable
     searchController.searchBar.autocapitalizationType = .none
     searchController.searchBar.returnKeyType = .done
     searchController.searchBar.enablesReturnKeyAutomatically = false
+
     navigationItem.hidesSearchBarWhenScrolling = false
     navigationItem.titleView = searchController.searchBar
-    navigationController!.isToolbarHidden = false
+    if traitCollection.userInterfaceIdiom == .pad {
+      self.toolbarItems = [
+        UIBarButtonItem(
+          customView: makeCirclePointerButton(UIImage(systemName: "info.circle")!, label: "About") {
+            self.performSegue(withIdentifier: "showAbout", sender: nil)
+          }
+        ),
+        .flexibleSpace(),
+        UIBarButtonItem(
+          customView: makeCirclePointerButton(UIImage(systemName: "shuffle.circle")!, label: "Random Word") {
+            self.goToRandomWord(self)
+          }
+        )
+      ]
+    } else {
+      self.toolbarItems = [
+        UIBarButtonItem(
+          title: "About",
+          image: UIImage(systemName: "info.circle")!,
+          primaryAction: UIAction { _ in
+            self.performSegue(withIdentifier: "showAbout", sender: nil)
+          }
+        ),
+        .flexibleSpace(),
+        UIBarButtonItem(
+          title: "Random Word",
+          image: UIImage(systemName: "shuffle.circle")!,
+          primaryAction: UIAction { _ in
+            self.goToRandomWord(self)
+          }
+        )
+      ]
+    }
 
     pasteButton.transform = .init(translationX: 0, y: 26)
 
@@ -173,45 +206,6 @@ class WordsTableViewController: UIViewController, UITableViewDataSource, UITable
       pasteTarget = nil
     }
   }
-
-  override func viewDidAppear(_ animated: Bool) {
-    super.viewDidAppear(animated)
-    navigationController!.isToolbarHidden = false
-    if traitCollection.userInterfaceIdiom == .pad {
-      self.toolbarItems = [
-        UIBarButtonItem(
-          customView: makeCirclePointerButton(UIImage(systemName: "info.circle")!, label: "About") {
-            self.performSegue(withIdentifier: "showAbout", sender: nil)
-          }
-        ),
-        .flexibleSpace(),
-        UIBarButtonItem(
-          customView: makeCirclePointerButton(UIImage(systemName: "shuffle.circle")!, label: "Random Word") {
-            self.goToRandomWord(self)
-          }
-        )
-      ]
-    } else {
-      self.toolbarItems = [
-        UIBarButtonItem(
-          title: "About",
-          image: UIImage(systemName: "info.circle")!,
-          primaryAction: UIAction { _ in
-            self.performSegue(withIdentifier: "showAbout", sender: nil)
-          }
-        ),
-        .flexibleSpace(),
-        UIBarButtonItem(
-          title: "Random Word",
-          image: UIImage(systemName: "shuffle.circle")!,
-          primaryAction: UIAction { _ in
-            self.goToRandomWord(self)
-          }
-        )
-      ]
-    }
-  }
-
 
   @IBAction func pasteButtonTapped() {
     if let pasteTarget = pasteTarget {

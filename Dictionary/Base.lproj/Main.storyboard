@@ -36,15 +36,7 @@
                             <constraint firstAttribute="bottom" secondItem="L61-2I-AgG" secondAttribute="bottom" id="tVN-gg-3S3"/>
                         </constraints>
                     </view>
-                    <toolbarItems>
-                        <barButtonItem style="plain" systemItem="flexibleSpace" id="CES-iG-U91"/>
-                        <barButtonItem title="Random" id="4zp-3G-Zab">
-                            <imageReference key="image" image="shuffle.circle" catalog="system" symbolScale="large"/>
-                            <connections>
-                                <action selector="randomWord:" destination="AyJ-4Y-i62" id="7oA-ZO-3DS"/>
-                            </connections>
-                        </barButtonItem>
-                    </toolbarItems>
+                    <toolbarItems/>
                     <navigationItem key="navigationItem" largeTitleDisplayMode="never" id="9NA-AV-oTN"/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
@@ -29756,7 +29748,6 @@ kAAMT5UADE+bAAxPowAMT6UADE+nAAxPqQAMT6sADGFLAAxhUAAMYV0ADGFgAAxhbQAMYXIADGF6AAxh
 fQAMYYIADGGKAAAAAAAABAEAAAAAAAAAVgAAAAAAAAAAAAAAAAAMYY0
 </mutableData>
         </image>
-        <image name="shuffle.circle" catalog="system" width="128" height="121"/>
         <namedColor name="AccentColor">
             <color red="0.84700000286102295" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

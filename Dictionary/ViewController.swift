@@ -71,10 +71,6 @@ class ViewController: UIViewController, UIScrollViewDelegate {
     }
   }
 
-  @IBAction func randomWord(_ sender: Any) {
-    self.wordListVC.goToRandomWord(sender)
-  }
-
   func runJS(_ js: String) {
     if self.webView.isLoading {
       self.webView.evaluateJavaScript("(window.queue || (window.queue = [])).push(() => { \(js) })") {res, err in
@@ -102,7 +98,6 @@ class ViewController: UIViewController, UIScrollViewDelegate {
         }
         :root {
           color-scheme: light dark;
-          overflow-x: hidden;
           max-width: calc(80ch + 20px);
           margin: auto;
         }
@@ -175,6 +170,28 @@ class ViewController: UIViewController, UIScrollViewDelegate {
       )
     )
 
+    if traitCollection.userInterfaceIdiom == .pad {
+      self.toolbarItems = [
+        .flexibleSpace(),
+        UIBarButtonItem(
+          customView: makeCirclePointerButton(UIImage(systemName: "shuffle.circle")!, label: "Random Word") {
+            self.wordListVC.goToRandomWord(self)
+          }
+        )
+      ]
+    } else {
+      self.toolbarItems = [
+        .flexibleSpace(),
+        UIBarButtonItem(
+          title: "Random Word",
+          image: UIImage(systemName: "shuffle.circle")!,
+          primaryAction: UIAction { _ in
+            self.wordListVC.goToRandomWord(self)
+          }
+        )
+      ]
+    }
+
 
     navigationItem.titleView = self.labelContainer
     loadPage()
@@ -182,6 +199,11 @@ class ViewController: UIViewController, UIScrollViewDelegate {
 
     NotificationCenter.default.addObserver(self, selector: #selector(preferredContentSizeChanged(_:)), name: UIContentSizeCategory.didChangeNotification, object: nil)
     preferredContentSizeChanged(nil)
+  }
+
+  override func didMove(toParent parent: UIViewController?) {
+    super.didMove(toParent: parent)
+    self.navigationController?.setToolbarHidden(false, animated: false)
   }
 
   override func viewDidAppear(_ animated: Bool) {
@@ -205,7 +227,9 @@ class ViewController: UIViewController, UIScrollViewDelegate {
   override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
     super.traitCollectionDidChange(previousTraitCollection)
     kickTitle()
-    navigationController?.isToolbarHidden = traitCollection.horizontalSizeClass == .regular
+    
+    self.navigationController?.setToolbarHidden(traitCollection.horizontalSizeClass == .regular, animated: false)
+
     if traitCollection.horizontalSizeClass == .regular && traitCollection.userInterfaceIdiom == .pad {
       runJS("document.body.style.marginTop = '0'")
     } else {
@@ -215,17 +239,26 @@ class ViewController: UIViewController, UIScrollViewDelegate {
 
   func scrollViewDidScroll(_ scrollView: UIScrollView) {
     let scrollTop = scrollView.contentOffset.y + scrollView.adjustedContentInset.top
+
+    if scrollTop != 0,
+       scrollView.contentSize.height <= scrollView.bounds.height {
+      scrollView.contentOffset.y = -scrollView.adjustedContentInset.top
+      self.titleLabel.alpha = 0
+      titleShown = false
+      return
+    }
+
     if traitCollection.horizontalSizeClass == .regular && traitCollection.userInterfaceIdiom == .pad {
       self.titleLabel.alpha = max(0, min(1, scrollTop / 16))
     } else {
       if scrollTop > 40 && !titleShown {
         titleShown = true
-        UIView.animate(withDuration: 0.4) {
+        UIView.animate(withDuration: 0.2) {
           self.titleLabel.alpha = 1
         }
       } else if scrollTop < 40 && titleShown {
         titleShown = false
-        UIView.animate(withDuration: 0.4) {
+        UIView.animate(withDuration: 0.2) {
           self.titleLabel.alpha = 0
         }
       }
