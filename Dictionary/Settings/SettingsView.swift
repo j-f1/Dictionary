@@ -22,33 +22,7 @@ struct SettingsView: View {
           Toggle("Detect Copied Words", isOn: $watchPasteboard)
         }
 
-        NavigationLink("About", destination: Group {
-          AboutScreen(
-            copyrightYear: "2021",
-            dependencies: [
-              Dependency(
-                "ZIPFoundation",
-                url: "https://github.com/weichsel/ZIPFoundation",
-                version: "0.9.12",
-                license: .mit,
-                licenseURL: "https://github.com/weichsel/ZIPFoundation/blob/0.9.12/LICENSE",
-                description: "Effortless ZIP Handling in Swift"
-              )
-            ]
-          )
-          .overlay(
-            Color.systemGroupedBackground
-              .frame(height: 50),
-            alignment: .top
-          )
-          .padding(.top, -100)
-          .navigationBarTitleDisplayMode(.large)
-          .toolbar {
-            ToolbarItem(placement: .confirmationAction) {
-              Button("Done", action: onDismiss)
-            }
-          }
-        })
+        NavigationLink("About", destination: AboutView())
       }
       .listStyle(InsetGroupedListStyle())
       .navigationTitle("Settings")

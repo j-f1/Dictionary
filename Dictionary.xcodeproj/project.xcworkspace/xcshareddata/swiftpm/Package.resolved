@@ -6,17 +6,17 @@
         "repositoryURL": "https://github.com/j-f1/AboutScreen.git",
         "state": {
           "branch": null,
-          "revision": "06c1f027e3a547fa24dc1fe919ebba0ed1c52ebc",
-          "version": "1.5.8"
+          "revision": "4ce4b8dc3656f0cb6fa8b05d59033d36d1e586cd",
+          "version": "1.6.1"
         }
       },
       {
         "package": "BetterSafariView",
-        "repositoryURL": "https://github.com/boherna/BetterSafariView",
+        "repositoryURL": "https://github.com/stleamist/BetterSafariView",
         "state": {
           "branch": null,
-          "revision": "04e067b9a29fc634138e761d36028d22eb5bb41c",
-          "version": "2.2.5"
+          "revision": "561919b490eddf8f999b0f855cbf237001cbfccd",
+          "version": "2.3.1"
         }
       },
       {
@@ -24,8 +24,8 @@
         "repositoryURL": "https://github.com/sindresorhus/Defaults",
         "state": {
           "branch": null,
-          "revision": "63dcea312f9cbd17064294a3ae99c9147704b65f",
-          "version": "4.2.1"
+          "revision": "229dea452fee8d2205f56a12e5c21dfec00948f2",
+          "version": "4.2.2"
         }
       },
       {

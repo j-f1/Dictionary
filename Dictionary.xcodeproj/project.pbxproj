@@ -64,6 +64,7 @@
 		85CF526C2628F6F800E96928 /* GentiumPlus-R.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 85A5F9D12628A72A00030C47 /* GentiumPlus-R.ttf */; };
 		85CF526D2628F6F800E96928 /* GentiumPlus-I.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 85A5F9CF2628A72A00030C47 /* GentiumPlus-I.ttf */; };
 		85CF526E2628F6F800E96928 /* GentiumPlus-R-smcp.woff in Resources */ = {isa = PBXBuildFile; fileRef = 85A5F9CE2628A72A00030C47 /* GentiumPlus-R-smcp.woff */; };
+		85E1EC70262CC454009DD9EC /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85E1EC6F262CC454009DD9EC /* AboutView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -124,6 +125,7 @@
 		85BAEC492626827F00E56D06 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		85BAEC51262685AA00E56D06 /* WordsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordsTableViewController.swift; sourceTree = "<group>"; };
 		85CF52682628F46700E96928 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		85E1EC6F262CC454009DD9EC /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -175,6 +177,7 @@
 			isa = PBXGroup;
 			children = (
 				8556C1E9262B47D50038C35E /* SettingsView.swift */,
+				85E1EC6F262CC454009DD9EC /* AboutView.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -393,6 +396,7 @@
 				8556C1E0262A95250038C35E /* DictionaryProvider.swift in Sources */,
 				8556C1DA2629EFD20038C35E /* CirclePointerBarButtonItem.swift in Sources */,
 				85BAEC3C2626827D00E56D06 /* AppDelegate.swift in Sources */,
+				85E1EC70262CC454009DD9EC /* AboutView.swift in Sources */,
 				8556C1E7262A9C0B0038C35E /* CleanString.swift in Sources */,
 				85BAEC3E2626827D00E56D06 /* SceneDelegate.swift in Sources */,
 				8556C1EA262B47D60038C35E /* SettingsView.swift in Sources */,
