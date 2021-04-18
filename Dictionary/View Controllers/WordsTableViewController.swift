@@ -51,44 +51,23 @@ class WordsTableViewController: UIViewController, UITableViewDataSource, UITable
     tableView.dataSource = self
     tableView.delegate = self
 
-
-    if traitCollection.userInterfaceIdiom == .pad {
-      var settingsItem: UIBarButtonItem! = nil
-      settingsItem = UIBarButtonItem(
-        customView: makeCirclePointerButton(UIImage(systemName: "gearshape")!, label: "Settings") {
-          self.settingsVC.modalPresentationStyle = .popover
-          self.settingsVC.popoverPresentationController?.barButtonItem = settingsItem
+    self.toolbarItems = [
+      UIBarButtonItem(
+        title: "Settings",
+        image: UIImage(systemName: "gearshape")!,
+        primaryAction: UIAction { _ in
           self.present(self.settingsVC, animated: true, completion: nil)
         }
+      ),
+      .flexibleSpace(),
+      UIBarButtonItem(
+        title: "Random Word",
+        image: UIImage(systemName: "shuffle")!,
+        primaryAction: UIAction { _ in
+          self.goToRandomWord(self)
+        }
       )
-      self.toolbarItems = [
-        settingsItem,
-        .flexibleSpace(),
-        UIBarButtonItem(
-          customView: makeCirclePointerButton(UIImage(systemName: "shuffle.circle")!, label: "Random Word") {
-            self.goToRandomWord(self)
-          }
-        )
-      ]
-    } else {
-      self.toolbarItems = [
-        UIBarButtonItem(
-          title: "Settings",
-          image: UIImage(systemName: "gearshape")!,
-          primaryAction: UIAction { _ in
-            self.present(self.settingsVC, animated: true, completion: nil)
-          }
-        ),
-        .flexibleSpace(),
-        UIBarButtonItem(
-          title: "Random Word",
-          image: UIImage(systemName: "shuffle.circle")!,
-          primaryAction: UIAction { _ in
-            self.goToRandomWord(self)
-          }
-        )
-      ]
-    }
+    ]
 
     if let detailVC = detailVC as? UINavigationController,
        let customVC = detailVC.topViewController as? DetailViewController {

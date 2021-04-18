@@ -125,33 +125,19 @@ class DetailViewController: UIViewController, UIScrollViewDelegate {
       ),
     ]
 
-    if traitCollection.userInterfaceIdiom == .pad {
-      self.toolbarItems = [
-        self.backButton,
-        .fixedSpace(20),
-        self.forwardButton,
-        .flexibleSpace(),
-        UIBarButtonItem(
-          customView: makeCirclePointerButton(UIImage(systemName: "shuffle.circle")!, label: "Random Word") {
-            self.wordListVC.goToRandomWord(self)
-          }
-        )
-      ]
-    } else {
-      self.toolbarItems = [
-        self.backButton,
-        .fixedSpace(20),
-        self.forwardButton,
-        .flexibleSpace(),
-        UIBarButtonItem(
-          title: "Random Word",
-          image: UIImage(systemName: "shuffle.circle")!,
-          primaryAction: UIAction { _ in
-            self.wordListVC.goToRandomWord(self)
-          }
-        )
-      ]
-    }
+    self.toolbarItems = [
+      self.backButton,
+      .fixedSpace(30),
+      self.forwardButton,
+      .flexibleSpace(),
+      UIBarButtonItem(
+        title: "Random Word",
+        image: UIImage(systemName: "shuffle")!,
+        primaryAction: UIAction { _ in
+          self.wordListVC.goToRandomWord(self)
+        }
+      )
+    ]
   }
 
   override func viewWillAppear(_ animated: Bool) {
