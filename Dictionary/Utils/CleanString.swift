@@ -21,7 +21,7 @@ func find(query: String, in allWords: [WordLetter]) -> (word: String, indexPath:
           .trimmingCharacters(in: .whitespacesAndNewlines)
           .split(whereSeparator: { CharacterSet.whitespacesAndNewlines.contains($0.unicodeScalars.first!) })
           .first
-      ).map(String.init)?.removeCharacters(from: .letters.inverted),
+      ).map(String.init)?.removeCharacters(from: CharacterSet.letters.inverted),
      !cleaned.isEmpty,
      let section = allWords.firstIndex(where: { $0.letter == String(cleaned.first!) }) {
 
