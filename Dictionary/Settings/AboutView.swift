@@ -29,7 +29,8 @@ struct AboutView: View {
           licenseURL: "https://github.com/sindresorhus/Defaults/blob/4.2.1/license",
           description: Text("Swifty and modern ") + Text("UserDefaults").font(.system(.body, design: .monospaced))
         ),
-      ]
+      ],
+      icon: "App Icon"
     )
     .overlay(
       Color.systemGroupedBackground
