@@ -13,15 +13,23 @@ struct SettingsView: View {
   let onDismiss: () -> ()
 
   @Default(.watchPasteboard) private var watchPasteboard
+  @State var appIcon = AppIcon.currentID
 
   var body: some View {
     NavigationView {
       List {
-
         Section(footer: Text("Look for a word to define on your clipboard when you open the app").padding(.horizontal)) {
+          NavigationLink(destination: AppIconSettingsView(appIcon: $appIcon)) {
+            HStack {
+              Text("App Icon")
+              Spacer()
+              Text(AppIcon.allIcons.first(where: { $0.id == appIcon })!.friendlyName)
+                .foregroundColor(.secondary)
+            }
+          }
           Toggle("Detect Copied Words", isOn: $watchPasteboard)
         }
-
+ 
         NavigationLink("About This App", destination: AboutView())
         NavigationLink("About Webster’s Dictionary", destination: DictionaryInfoView())
       }
