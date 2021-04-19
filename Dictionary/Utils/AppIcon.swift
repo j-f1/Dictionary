@@ -21,7 +21,7 @@ struct AppIcon: Identifiable {
     )?.first
   }
 
-  public static var allIcons: [AppIcon] {
+  public static var allIcons: [AppIcon] = {
     if let icons = Bundle.main.object(forInfoDictionaryKey: "CFBundleIcons") as? [String: Any],
        let alternateIcons = icons["CFBundleAlternateIcons"] as? [String: Any]
     {
@@ -39,7 +39,7 @@ struct AppIcon: Identifiable {
     } else {
       return []
     }
-  }
+  }()
 
   public static var currentID: String? {
     UIApplication.shared.alternateIconName
