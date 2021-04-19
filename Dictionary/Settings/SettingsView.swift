@@ -22,7 +22,8 @@ struct SettingsView: View {
           Toggle("Detect Copied Words", isOn: $watchPasteboard)
         }
 
-        NavigationLink("About", destination: AboutView())
+        NavigationLink("About This App", destination: AboutView())
+        NavigationLink("About Webster’s Dictionary", destination: DictionaryInfoView())
       }
       .listStyle(InsetGroupedListStyle())
       .navigationTitle("Settings")

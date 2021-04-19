@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		8556C1D826293F7D0038C35E /* PasteButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8556C1D726293F780038C35E /* PasteButtonView.swift */; };
-		8556C1DA2629EFD20038C35E /* CirclePointerBarButtonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8556C1D92629EFD20038C35E /* CirclePointerBarButtonItem.swift */; };
 		8556C1DC262A7BB00038C35E /* BackForwardStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8556C1DB262A7BB00038C35E /* BackForwardStack.swift */; };
 		8556C1E0262A95250038C35E /* DictionaryProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8556C1DF262A95250038C35E /* DictionaryProvider.swift */; };
 		8556C1E2262A972E0038C35E /* detail.html in Resources */ = {isa = PBXBuildFile; fileRef = 8556C1E1262A972E0038C35E /* detail.html */; };
@@ -65,12 +64,12 @@
 		85CF526D2628F6F800E96928 /* GentiumPlus-I.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 85A5F9CF2628A72A00030C47 /* GentiumPlus-I.ttf */; };
 		85CF526E2628F6F800E96928 /* GentiumPlus-R-smcp.woff in Resources */ = {isa = PBXBuildFile; fileRef = 85A5F9CE2628A72A00030C47 /* GentiumPlus-R-smcp.woff */; };
 		85E1EC70262CC454009DD9EC /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85E1EC6F262CC454009DD9EC /* AboutView.swift */; };
+		85E1EC73262CC505009DD9EC /* DictionaryInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85E1EC72262CC505009DD9EC /* DictionaryInfoView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		852062CC2627EEE300B08C9D /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		8556C1D726293F780038C35E /* PasteButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasteButtonView.swift; sourceTree = "<group>"; };
-		8556C1D92629EFD20038C35E /* CirclePointerBarButtonItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CirclePointerBarButtonItem.swift; sourceTree = "<group>"; };
 		8556C1DB262A7BB00038C35E /* BackForwardStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackForwardStack.swift; sourceTree = "<group>"; };
 		8556C1DF262A95250038C35E /* DictionaryProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DictionaryProvider.swift; sourceTree = "<group>"; };
 		8556C1E1262A972E0038C35E /* detail.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = detail.html; path = Dictionary/detail.html; sourceTree = SOURCE_ROOT; };
@@ -126,6 +125,7 @@
 		85BAEC51262685AA00E56D06 /* WordsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordsTableViewController.swift; sourceTree = "<group>"; };
 		85CF52682628F46700E96928 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		85E1EC6F262CC454009DD9EC /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
+		85E1EC72262CC505009DD9EC /* DictionaryInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryInfoView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -167,7 +167,6 @@
 		8556C1E5262A9BEF0038C35E /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				8556C1D92629EFD20038C35E /* CirclePointerBarButtonItem.swift */,
 				8556C1D726293F780038C35E /* PasteButtonView.swift */,
 			);
 			path = Views;
@@ -178,6 +177,7 @@
 			children = (
 				8556C1E9262B47D50038C35E /* SettingsView.swift */,
 				85E1EC6F262CC454009DD9EC /* AboutView.swift */,
+				85E1EC72262CC505009DD9EC /* DictionaryInfoView.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -394,10 +394,10 @@
 				85BAEC402626827D00E56D06 /* DetailViewController.swift in Sources */,
 				8556C1D826293F7D0038C35E /* PasteButtonView.swift in Sources */,
 				8556C1E0262A95250038C35E /* DictionaryProvider.swift in Sources */,
-				8556C1DA2629EFD20038C35E /* CirclePointerBarButtonItem.swift in Sources */,
 				85BAEC3C2626827D00E56D06 /* AppDelegate.swift in Sources */,
 				85E1EC70262CC454009DD9EC /* AboutView.swift in Sources */,
 				8556C1E7262A9C0B0038C35E /* CleanString.swift in Sources */,
+				85E1EC73262CC505009DD9EC /* DictionaryInfoView.swift in Sources */,
 				85BAEC3E2626827D00E56D06 /* SceneDelegate.swift in Sources */,
 				8556C1EA262B47D60038C35E /* SettingsView.swift in Sources */,
 				85BAEC52262685AA00E56D06 /* WordsTableViewController.swift in Sources */,
