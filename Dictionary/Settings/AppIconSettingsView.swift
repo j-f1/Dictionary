@@ -33,17 +33,15 @@ struct AppIconChoice: View {
   }
 }
 
-struct AppIconSettingsView: View {
+struct AppIconPickerView: View {
   @Binding var appIcon: String?
   var body: some View {
-    List(AppIcon.allIcons) { icon in
+    ForEach(AppIcon.allIcons) { icon in
       Button(action: { appIcon = icon.id }) {
         AppIconChoice(icon: icon, isSelected: icon.id == appIcon)
           .foregroundColor(.primary)
       }
     }
-    .listStyle(InsetGroupedListStyle())
-    .navigationTitle("App Icon")
     .onChange(of: appIcon, perform: { value in
       UIApplication.shared.setAlternateIconName(value, completionHandler: { err in
         if let err = err {
@@ -55,10 +53,12 @@ struct AppIconSettingsView: View {
   }
 }
 
-struct AppIconSettingsView_Previews: PreviewProvider {
+struct AppIconPickerView_Previews: PreviewProvider {
   static var previews: some View {
     NavigationView {
-      AppIconSettingsView(appIcon: .constant(nil))
+      AppIconPickerView(appIcon: .constant(nil))
+        .listStyle(InsetGroupedListStyle())
+        .navigationTitle("App Icon")
         .navigationBarTitleDisplayMode(.inline)
     }
   }

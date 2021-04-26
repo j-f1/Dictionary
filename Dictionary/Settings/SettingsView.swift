@@ -18,18 +18,17 @@ struct SettingsView: View {
   var body: some View {
     NavigationView {
       List {
-        Section(footer: Text("Look for a word to define on your clipboard when you open the app").padding(.horizontal)) {
-          NavigationLink(destination: AppIconSettingsView(appIcon: $appIcon)) {
-            HStack {
-              Text("App Icon")
-              Spacer()
-              Text(AppIcon.allIcons.first(where: { $0.id == appIcon })!.friendlyName)
-                .foregroundColor(.secondary)
-            }
-          }
+        Section(
+          header: Text("Settings").padding(.top),
+          footer: Text("Copy a word onto your clipboard and open this app to view the definition in one tap").padding(.horizontal)
+        ) {
           Toggle("Detect Copied Words", isOn: $watchPasteboard)
         }
- 
+
+        Section(header: Text("App Icon")) {
+          AppIconPickerView(appIcon: $appIcon)
+        }
+
         NavigationLink("About This App", destination: AboutView())
         NavigationLink("About Webster’s Dictionary", destination: DictionaryInfoView())
       }
