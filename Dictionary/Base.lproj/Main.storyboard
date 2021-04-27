@@ -153,6 +153,69 @@
             </objects>
             <point key="canvasLocation" x="385.50724637681162" y="-1583.0357142857142"/>
         </scene>
+        <!--William Shakespeare-->
+        <scene sceneID="bz6-i8-B0v">
+            <objects>
+                <tableViewController id="MKP-fw-FFS" customClass="SourceTableViewController" customModule="Dictionary" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="nCG-CH-f4C">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" textLabel="lpw-6g-C3c" style="IBUITableViewCellStyleDefault" id="tyA-aL-JPf">
+                                <rect key="frame" x="0.0" y="24.5" width="414" height="43.5"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="tyA-aL-JPf" id="ohH-Tb-5gA">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="lpw-6g-C3c">
+                                            <rect key="frame" x="20" y="0.0" width="374" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="MKP-fw-FFS" id="9ae-og-5G2"/>
+                            <outlet property="delegate" destination="MKP-fw-FFS" id="Nhb-yu-DnP"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="William Shakespeare" id="sqV-q8-dWB">
+                        <barButtonItem key="rightBarButtonItem" title="Item" image="arrow.up.forward.app" catalog="system" id="GCk-Vd-nc9">
+                            <connections>
+                                <action selector="openLink:" destination="MKP-fw-FFS" id="21s-b4-Sty"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="openLinkButton" destination="GCk-Vd-nc9" id="4SK-f0-5FO"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="KO8-hW-YZH" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2287" y="-1594"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="da9-EY-BK9">
+            <objects>
+                <navigationController id="is4-kp-Xhw" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="MWW-p6-oqJ">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="MKP-fw-FFS" kind="relationship" relationship="rootViewController" id="zWj-YZ-5t0"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="lZM-jr-PKv" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1395" y="-1594"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="zGG-B6-Xs6">
             <objects>
@@ -206,6 +269,7 @@
     </scenes>
     <resources>
         <image name="arrow.right" catalog="system" width="128" height="98"/>
+        <image name="arrow.up.forward.app" catalog="system" width="128" height="114"/>
         <image name="doc.on.clipboard" catalog="system" width="116" height="128"/>
         <namedColor name="AccentColor">
             <color red="0.84700000286102295" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

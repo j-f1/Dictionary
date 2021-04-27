@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8539B94026378900009ECFF6 /* SourceTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8539B93F26378900009ECFF6 /* SourceTableViewController.swift */; };
+		8539B94326378B1C009ECFF6 /* sources-words.json in Resources */ = {isa = PBXBuildFile; fileRef = 8539B94126378B1C009ECFF6 /* sources-words.json */; };
+		8539B94426378B1C009ECFF6 /* sources-meta.json in Resources */ = {isa = PBXBuildFile; fileRef = 8539B94226378B1C009ECFF6 /* sources-meta.json */; };
 		8556C1D826293F7D0038C35E /* PasteButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8556C1D726293F780038C35E /* PasteButtonView.swift */; };
 		8556C1DC262A7BB00038C35E /* BackForwardStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8556C1DB262A7BB00038C35E /* BackForwardStack.swift */; };
 		8556C1E0262A95250038C35E /* DictionaryProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8556C1DF262A95250038C35E /* DictionaryProvider.swift */; };
@@ -77,6 +80,9 @@
 
 /* Begin PBXFileReference section */
 		852062CC2627EEE300B08C9D /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		8539B93F26378900009ECFF6 /* SourceTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SourceTableViewController.swift; path = Dictionary/SourceTableViewController.swift; sourceTree = SOURCE_ROOT; };
+		8539B94126378B1C009ECFF6 /* sources-words.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "sources-words.json"; sourceTree = "<group>"; };
+		8539B94226378B1C009ECFF6 /* sources-meta.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "sources-meta.json"; sourceTree = "<group>"; };
 		8556C1D726293F780038C35E /* PasteButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasteButtonView.swift; sourceTree = "<group>"; };
 		8556C1DB262A7BB00038C35E /* BackForwardStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackForwardStack.swift; sourceTree = "<group>"; };
 		8556C1DF262A95250038C35E /* DictionaryProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DictionaryProvider.swift; sourceTree = "<group>"; };
@@ -173,6 +179,7 @@
 		8556C1E4262A9BA50038C35E /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				8539B93F26378900009ECFF6 /* SourceTableViewController.swift */,
 				85A5FA102628EB3200030C47 /* SplitViewController.swift */,
 				85BAEC51262685AA00E56D06 /* WordsTableViewController.swift */,
 				85BAEC3F2626827D00E56D06 /* DetailViewController.swift */,
@@ -219,12 +226,15 @@
 		85A5F9D32628E0C400030C47 /* dict */ = {
 			isa = PBXGroup;
 			children = (
+				85A5FA9A2628EC6400030C47 /* boot.json */,
+				8539B94226378B1C009ECFF6 /* sources-meta.json */,
+				8539B94126378B1C009ECFF6 /* sources-words.json */,
+				85A5FA982628EC6400030C47 /* words-by-letter.json */,
 				85A5FA9C2628EC6400030C47 /* -.zip */,
 				85A5FAA22628EC6500030C47 /* '.zip */,
 				85A5FA992628EC6400030C47 /* a.zip */,
 				85A5FAAA2628EC6500030C47 /* æ.zip */,
 				85A5FA902628EC6300030C47 /* b.zip */,
-				85A5FA9A2628EC6400030C47 /* boot.json */,
 				85A5FAA52628EC6500030C47 /* c.zip */,
 				85A5FA912628EC6300030C47 /* d.zip */,
 				85A5FAAC2628EC6500030C47 /* e.zip */,
@@ -246,7 +256,6 @@
 				85A5FAA12628EC6400030C47 /* u.zip */,
 				85A5FA9B2628EC6400030C47 /* v.zip */,
 				85A5FA9D2628EC6400030C47 /* w.zip */,
-				85A5FA982628EC6400030C47 /* words-by-letter.json */,
 				85A5FA962628EC6400030C47 /* x.zip */,
 				85A5FAA92628EC6500030C47 /* y.zip */,
 				85A5FAAB2628EC6500030C47 /* z.zip */,
@@ -394,7 +403,9 @@
 				85A5FAC12628EC6500030C47 /* '.zip in Resources */,
 				85A5FABD2628EC6500030C47 /* s.zip in Resources */,
 				85CF526B2628F6F800E96928 /* GentiumPlus-I-smcp.woff in Resources */,
+				8539B94426378B1C009ECFF6 /* sources-meta.json in Resources */,
 				85A5FAC52628EC6500030C47 /* m.zip in Resources */,
+				8539B94326378B1C009ECFF6 /* sources-words.json in Resources */,
 				85A5FAB62628EC6500030C47 /* r.zip in Resources */,
 				85A5FAB82628EC6500030C47 /* a.zip in Resources */,
 				85A5FAB52628EC6500030C47 /* x.zip in Resources */,
@@ -429,6 +440,7 @@
 				85CF52692628F46700E96928 /* SettingsViewController.swift in Sources */,
 				855814AE262B55C10049A333 /* Defaults.swift in Sources */,
 				85A5FA112628EB3200030C47 /* SplitViewController.swift in Sources */,
+				8539B94026378900009ECFF6 /* SourceTableViewController.swift in Sources */,
 				85BAEC402626827D00E56D06 /* DetailViewController.swift in Sources */,
 				8556C1D826293F7D0038C35E /* PasteButtonView.swift in Sources */,
 				85C464E7262D2F5A0012AEAA /* AppIcon.swift in Sources */,

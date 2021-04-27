@@ -32,10 +32,38 @@
     width: 100%;
     text-align: center;
   }
+  a.is-attributable {
+    -webkit-tap-highlight-color: transparent;
+    color: #d80000;
+    filter: saturate(0.7);
+    transition: opacity 0.4s;
+    text-decoration: none;
+    font-style: normal;
+    font-family: system-ui;
+    font-size: 0.9em;
+    font-weight: bold;
+    -webkit-user-select: none;
+  }
+  a.is-attributable:active {
+    transition: none;
+    opacity: 0.5;
+  }
 </style>
 <script>
   window.onload = () => {
     if (window.queue) window.queue.forEach(f => f())
     window.queue = null
   }
+  document.addEventListener('pointerup', (e) => {
+    if (e.target.tagName !== 'A') return
+    if (e.target.classList.contains('is-attributable')) {
+      let { bible } = e.target.dataset
+      if (bible) {
+        bible = JSON.parse(bible)
+        console.log(bible)
+      } else {
+        console.log(e.target.textContent)
+      }
+    }
+  })
 </script>
