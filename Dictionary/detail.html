@@ -35,7 +35,7 @@
   a.is-attributable {
     -webkit-tap-highlight-color: transparent;
     color: #d80000;
-    filter: saturate(0.7);
+    filter: saturate(0.75);
     transition: opacity 0.4s;
     text-decoration: none;
     font-style: normal;
@@ -49,11 +49,8 @@
     opacity: 0.5;
   }
 </style>
+<script src="queue.js"></script>
 <script>
-  window.onload = () => {
-    if (window.queue) window.queue.forEach(f => f())
-    window.queue = null
-  }
   document.addEventListener('pointerup', (e) => {
     if (e.target.tagName !== 'A') return
     if (e.target.classList.contains('is-attributable')) {

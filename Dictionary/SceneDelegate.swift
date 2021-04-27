@@ -7,17 +7,6 @@
 
 import UIKit
 
-struct WordLetter: Decodable {
-  let letter: String
-  let words: [String]
-
-  init(from decoder: Decoder) throws {
-    var container = try decoder.unkeyedContainer()
-    letter = try container.decode(String.self)
-    words = try container.decode([String].self)
-  }
-}
-
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {  
 
   var window: UIWindow?

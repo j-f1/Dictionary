@@ -10,6 +10,12 @@
 		8539B94026378900009ECFF6 /* SourceTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8539B93F26378900009ECFF6 /* SourceTableViewController.swift */; };
 		8539B94326378B1C009ECFF6 /* sources-words.json in Resources */ = {isa = PBXBuildFile; fileRef = 8539B94126378B1C009ECFF6 /* sources-words.json */; };
 		8539B94426378B1C009ECFF6 /* sources-meta.json in Resources */ = {isa = PBXBuildFile; fileRef = 8539B94226378B1C009ECFF6 /* sources-meta.json */; };
+		8539B94726386D4A009ECFF6 /* WordLetter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8539B94626386D4A009ECFF6 /* WordLetter.swift */; };
+		8539B94926386DA5009ECFF6 /* HTMLView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8539B94826386DA5009ECFF6 /* HTMLView.swift */; };
+		8539B94B26386E83009ECFF6 /* html-view.html in Resources */ = {isa = PBXBuildFile; fileRef = 8539B94A26386E83009ECFF6 /* html-view.html */; };
+		8539B94D26386EDF009ECFF6 /* queue.js in Resources */ = {isa = PBXBuildFile; fileRef = 8539B94C26386EDF009ECFF6 /* queue.js */; };
+		8539B94F26387196009ECFF6 /* CSSColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8539B94E26387196009ECFF6 /* CSSColor.swift */; };
+		8539B951263871A9009ECFF6 /* RunJS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8539B950263871A9009ECFF6 /* RunJS.swift */; };
 		8556C1D826293F7D0038C35E /* PasteButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8556C1D726293F780038C35E /* PasteButtonView.swift */; };
 		8556C1DC262A7BB00038C35E /* BackForwardStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8556C1DB262A7BB00038C35E /* BackForwardStack.swift */; };
 		8556C1E0262A95250038C35E /* DictionaryProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8556C1DF262A95250038C35E /* DictionaryProvider.swift */; };
@@ -83,6 +89,12 @@
 		8539B93F26378900009ECFF6 /* SourceTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SourceTableViewController.swift; path = Dictionary/SourceTableViewController.swift; sourceTree = SOURCE_ROOT; };
 		8539B94126378B1C009ECFF6 /* sources-words.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "sources-words.json"; sourceTree = "<group>"; };
 		8539B94226378B1C009ECFF6 /* sources-meta.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "sources-meta.json"; sourceTree = "<group>"; };
+		8539B94626386D4A009ECFF6 /* WordLetter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordLetter.swift; sourceTree = "<group>"; };
+		8539B94826386DA5009ECFF6 /* HTMLView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTMLView.swift; sourceTree = "<group>"; };
+		8539B94A26386E83009ECFF6 /* html-view.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = "html-view.html"; sourceTree = "<group>"; };
+		8539B94C26386EDF009ECFF6 /* queue.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = queue.js; sourceTree = "<group>"; };
+		8539B94E26387196009ECFF6 /* CSSColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSSColor.swift; sourceTree = "<group>"; };
+		8539B950263871A9009ECFF6 /* RunJS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunJS.swift; sourceTree = "<group>"; };
 		8556C1D726293F780038C35E /* PasteButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasteButtonView.swift; sourceTree = "<group>"; };
 		8556C1DB262A7BB00038C35E /* BackForwardStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackForwardStack.swift; sourceTree = "<group>"; };
 		8556C1DF262A95250038C35E /* DictionaryProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DictionaryProvider.swift; sourceTree = "<group>"; };
@@ -164,14 +176,36 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8539B94526386D30009ECFF6 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				8556C1DF262A95250038C35E /* DictionaryProvider.swift */,
+				8539B94626386D4A009ECFF6 /* WordLetter.swift */,
+				8556C1DB262A7BB00038C35E /* BackForwardStack.swift */,
+				85C464E6262D2F5A0012AEAA /* AppIcon.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		8539B953263871C3009ECFF6 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				85A5F9D22628A72A00030C47 /* GenBasB.ttf */,
+				85A5F9D02628A72A00030C47 /* GentiumPlus-I-smcp.woff */,
+				85A5F9CF2628A72A00030C47 /* GentiumPlus-I.ttf */,
+				85A5F9CE2628A72A00030C47 /* GentiumPlus-R-smcp.woff */,
+				85A5F9D12628A72A00030C47 /* GentiumPlus-R.ttf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
 		8556C1E3262A9B8F0038C35E /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				8556C1DB262A7BB00038C35E /* BackForwardStack.swift */,
-				8556C1DF262A95250038C35E /* DictionaryProvider.swift */,
 				8556C1E6262A9C0A0038C35E /* CleanString.swift */,
 				855814AD262B55C10049A333 /* Defaults.swift */,
-				85C464E6262D2F5A0012AEAA /* AppIcon.swift */,
+				8539B94E26387196009ECFF6 /* CSSColor.swift */,
+				8539B950263871A9009ECFF6 /* RunJS.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -192,6 +226,7 @@
 			isa = PBXGroup;
 			children = (
 				8556C1D726293F780038C35E /* PasteButtonView.swift */,
+				8539B94826386DA5009ECFF6 /* HTMLView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -212,13 +247,11 @@
 			children = (
 				85C464DD262D2E410012AEAA /* App Icons */,
 				8556C1E1262A972E0038C35E /* detail.html */,
-				85A5F9D32628E0C400030C47 /* dict */,
+				8539B94A26386E83009ECFF6 /* html-view.html */,
+				8539B94C26386EDF009ECFF6 /* queue.js */,
 				85A5F9CC2628A6B000030C47 /* styles.css */,
-				85A5F9D22628A72A00030C47 /* GenBasB.ttf */,
-				85A5F9D02628A72A00030C47 /* GentiumPlus-I-smcp.woff */,
-				85A5F9CF2628A72A00030C47 /* GentiumPlus-I.ttf */,
-				85A5F9CE2628A72A00030C47 /* GentiumPlus-R-smcp.woff */,
-				85A5F9D12628A72A00030C47 /* GentiumPlus-R.ttf */,
+				85A5F9D32628E0C400030C47 /* dict */,
+				8539B953263871C3009ECFF6 /* Fonts */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -286,6 +319,7 @@
 				85BAEC3B2626827D00E56D06 /* AppDelegate.swift */,
 				85BAEC3D2626827D00E56D06 /* SceneDelegate.swift */,
 				8556C1E8262B47C20038C35E /* Settings */,
+				8539B94526386D30009ECFF6 /* Models */,
 				8556C1E5262A9BEF0038C35E /* Views */,
 				8556C1E4262A9BA50038C35E /* View Controllers */,
 				8556C1E3262A9B8F0038C35E /* Utils */,
@@ -412,6 +446,7 @@
 				85A5FACA2628EC6500030C47 /* z.zip in Resources */,
 				85A5FAB42628EC6500030C47 /* t.zip in Resources */,
 				85A5FAC42628EC6500030C47 /* c.zip in Resources */,
+				8539B94B26386E83009ECFF6 /* html-view.html in Resources */,
 				85A5FAAD2628EC6500030C47 /* h.zip in Resources */,
 				85A5FAC32628EC6500030C47 /* g.zip in Resources */,
 				85A5FABF2628EC6500030C47 /* i.zip in Resources */,
@@ -427,6 +462,7 @@
 				85A5FAC22628EC6500030C47 /* j.zip in Resources */,
 				85A5FAB92628EC6500030C47 /* boot.json in Resources */,
 				85A5FAC82628EC6500030C47 /* y.zip in Resources */,
+				8539B94D26386EDF009ECFF6 /* queue.js in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -438,17 +474,21 @@
 			buildActionMask = 2147483647;
 			files = (
 				85CF52692628F46700E96928 /* SettingsViewController.swift in Sources */,
+				8539B951263871A9009ECFF6 /* RunJS.swift in Sources */,
 				855814AE262B55C10049A333 /* Defaults.swift in Sources */,
 				85A5FA112628EB3200030C47 /* SplitViewController.swift in Sources */,
 				8539B94026378900009ECFF6 /* SourceTableViewController.swift in Sources */,
 				85BAEC402626827D00E56D06 /* DetailViewController.swift in Sources */,
+				8539B94F26387196009ECFF6 /* CSSColor.swift in Sources */,
 				8556C1D826293F7D0038C35E /* PasteButtonView.swift in Sources */,
 				85C464E7262D2F5A0012AEAA /* AppIcon.swift in Sources */,
 				8556C1E0262A95250038C35E /* DictionaryProvider.swift in Sources */,
 				85BAEC3C2626827D00E56D06 /* AppDelegate.swift in Sources */,
+				8539B94726386D4A009ECFF6 /* WordLetter.swift in Sources */,
 				85E1EC70262CC454009DD9EC /* AboutView.swift in Sources */,
 				8556C1E7262A9C0B0038C35E /* CleanString.swift in Sources */,
 				85831AF8262D3F2900CD5801 /* AppIconSettingsView.swift in Sources */,
+				8539B94926386DA5009ECFF6 /* HTMLView.swift in Sources */,
 				85E1EC73262CC505009DD9EC /* DictionaryInfoView.swift in Sources */,
 				85BAEC3E2626827D00E56D06 /* SceneDelegate.swift in Sources */,
 				8556C1EA262B47D60038C35E /* SettingsView.swift in Sources */,

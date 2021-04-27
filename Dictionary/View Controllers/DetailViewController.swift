@@ -160,7 +160,7 @@ class DetailViewController: UIViewController, UIScrollViewDelegate {
   // MARK: - Events
   @objc private func preferredContentSizeChanged(_ notification: Notification?) {
     let font = UIFont.preferredFont(forTextStyle: .body)
-    runJS("document.body.style.fontSize = '\(font.pointSize)px'")
+    webView.runJS("document.body.style.fontSize = '\(font.pointSize)px'")
   }
 
   override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -173,9 +173,9 @@ class DetailViewController: UIViewController, UIScrollViewDelegate {
     self.navigationItem.leftBarButtonItems = isRegularWidth ? navBarButtons : []
 
     if isRegularWidth && traitCollection.userInterfaceIdiom == .pad {
-      runJS("document.body.style.marginTop = '0'")
+      webView.runJS("document.body.style.marginTop = '0'")
     } else {
-      runJS("document.body.style.marginTop = null")
+      webView.runJS("document.body.style.marginTop = null")
     }
   }
 
@@ -215,7 +215,7 @@ class DetailViewController: UIViewController, UIScrollViewDelegate {
     if let word = word {
       DictionaryProvider.shared[word] {
         let escapedBody = String(data: try! JSONEncoder().encode(String(data: $0, encoding: .utf8)), encoding: .utf8)!
-        self.runJS("document.body.innerHTML = \(escapedBody)")
+        self.webView.runJS("document.body.innerHTML = \(escapedBody)")
       }
     }
   }
@@ -226,14 +226,6 @@ class DetailViewController: UIViewController, UIScrollViewDelegate {
          let result = find(query: selection, in: self.wordListVC.allWords!) {
         self.wordListVC.history.move(to: result.indexPath)
       }
-    }
-  }
-
-  func runJS(_ js: String) {
-    if self.webView.isLoading {
-      self.webView.evaluateJavaScript("(window.queue || (window.queue = [])).push(() => { \(js) })")
-    } else {
-      self.webView.evaluateJavaScript(js)
     }
   }
 
