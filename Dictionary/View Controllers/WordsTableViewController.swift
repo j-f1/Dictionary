@@ -9,31 +9,25 @@ import UIKit
 import Combine
 import Defaults
 
-class WordsTableViewController: UIViewController, UITableViewDelegate {
-
-
+class WordsTableViewController: WordListController, UITableViewDelegate {
   lazy var detailVC = {
     self.splitViewController?.viewController(for: .secondary) ?? self.storyboard?.instantiateViewController(identifier: VCIdentifier.detail)
   }()
 
   lazy var settingsVC = SettingsViewController()
 
-  @IBOutlet weak var tableView: UITableView!
-
   let history = BackForwardStack<IndexPath>()
   var subscriptions: Set<AnyCancellable> = Set()
-  var controller: WordListController!
 
   // MARK: - View Lifecycle
 
   override func viewDidLoad() {
     super.viewDidLoad()
 
-    self.controller = WordListController(tableView: tableView)
     tableView.delegate = self
 
     navigationItem.hidesSearchBarWhenScrolling = false
-    navigationItem.titleView = controller.searchController.searchBar
+    navigationItem.titleView = searchController.searchBar
 
     pasteButton.transform = .init(translationX: 0, y: 26)
 
@@ -78,7 +72,7 @@ class WordsTableViewController: UIViewController, UITableViewDelegate {
         if let detailVC = self.detailVC as? UINavigationController,
            let customVC = detailVC.topViewController as? DetailViewController,
            let indexPath = self.history.state {
-          customVC.word = self.controller.allWords![indexPath.section].words[indexPath.row]
+          customVC.word = self.allWords![indexPath.section].words[indexPath.row]
           if self.tableView.indexPathForSelectedRow != indexPath {
             self.tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
             self.tableView.scrollToRow(at: indexPath, at: .none, animated: false)
@@ -98,13 +92,13 @@ class WordsTableViewController: UIViewController, UITableViewDelegate {
   }
 
   override func didMove(toParent parent: UIViewController?) {
-    if controller.allWords == nil {
-      controller.allWords = DictionaryProvider.loadWords(from: "boot")
+    if allWords == nil {
+      allWords = DictionaryProvider.loadWords(from: "boot")
       tableView.reloadData()
       DispatchQueue.global(qos: .userInitiated).async {
         let allWords = DictionaryProvider.loadWords(from: "words-by-letter")
         DispatchQueue.main.async {
-          self.controller.allWords = allWords
+          self.allWords = allWords
           self.tableView.reloadData()
           self.updatePasteButton()
         }
@@ -146,7 +140,7 @@ class WordsTableViewController: UIViewController, UITableViewDelegate {
            !detected.contains(.number),
            !detected.contains(.probableWebURL) {
           if let copiedString = UIPasteboard.general.string,
-             let (word, indexPath) = find(query: copiedString, in: controller.allWords!) {
+             let (word, indexPath) = find(query: copiedString, in: allWords!) {
             if pasteTarget == nil || word != pasteLabel.text {
               pasteLabel.text = word
               pasteTarget = indexPath
@@ -176,7 +170,7 @@ class WordsTableViewController: UIViewController, UITableViewDelegate {
 
   // MARK: - Navigation Actions
   func goToRandomWord(_ sender: Any) {
-    let lengths = controller.allWords!.map(\.words.count)
+    let lengths = allWords!.map(\.words.count)
     let totalLength = lengths.reduce(0, +)
     var row = Int.random(in: 0..<totalLength)
     var section = 0
@@ -193,12 +187,12 @@ class WordsTableViewController: UIViewController, UITableViewDelegate {
   var canGoToNext: Bool {
     self.history.state != nil &&
       self.history.state
-      != IndexPath(row: controller.allWords!.last!.words.count - 1, section: controller.allWords!.count - 1)
+      != IndexPath(row: allWords!.last!.words.count - 1, section: allWords!.count - 1)
   }
   func goToNext() {
     assert(canGoToNext)
     let currentPath = self.history.state!
-    if currentPath.row == controller.allWords![currentPath.section].words.count - 1 {
+    if currentPath.row == allWords![currentPath.section].words.count - 1 {
       self.history.move(to: IndexPath(row: 0, section: currentPath.section + 1))
     } else {
       self.history.move(to: IndexPath(row: currentPath.row + 1, section: currentPath.section))
@@ -212,7 +206,7 @@ class WordsTableViewController: UIViewController, UITableViewDelegate {
     assert(canGoToPrevious)
     let currentPath = self.history.state!
     if currentPath.row == 0 {
-      self.history.move(to: IndexPath(row: controller.allWords![currentPath.section - 1].words.count - 1, section: currentPath.section - 1))
+      self.history.move(to: IndexPath(row: allWords![currentPath.section - 1].words.count - 1, section: currentPath.section - 1))
     } else {
       self.history.move(to: IndexPath(row: currentPath.row - 1, section: currentPath.section))
     }

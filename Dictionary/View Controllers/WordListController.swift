@@ -11,12 +11,12 @@ fileprivate enum CellIdentifier {
   static let word = "WordRow"
 }
 
-class WordListController: NSObject, UITableViewDataSource, UISearchResultsUpdating {
+class WordListController: UIViewController, UITableViewDataSource, UISearchResultsUpdating {
 
-  init(tableView: UITableView) {
-    self.tableView = tableView
-    super.init()
+  @IBOutlet weak var tableView: UITableView!
 
+  override func viewDidLoad() {
+    super.viewDidLoad()
     searchController.searchResultsUpdater = self
     tableView.dataSource = self
   }
@@ -33,8 +33,6 @@ class WordListController: NSObject, UITableViewDataSource, UISearchResultsUpdati
     sc.searchBar.enablesReturnKeyAutomatically = false
     return sc
   }()
-
-  let tableView: UITableView!
 
   var allWords: [WordLetter]? {
     didSet {
