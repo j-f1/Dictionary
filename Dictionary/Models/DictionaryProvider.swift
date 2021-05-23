@@ -51,9 +51,9 @@ class DictionaryProvider {
     }
     let workItem = DispatchWorkItem {
       let words = try! Self.decoder.decode([String: [String]].self, from: Bundle.main.json(named: "sources-words")!)
-      let metas = try! Self.decoder.decode([String: Source.Meta].self, from: Bundle.main.json(named: "sources-meta")!)
+      let metas = try! Self.decoder.decode([String: Source.Meta].self, from: Bundle.main.json(named: "sources-meta")!).values
       let result = Dictionary(uniqueKeysWithValues: words.map { (source, words) in
-        (source, Source(words: words, meta: metas[source]))
+        (source, Source(words: words, meta: metas.first { $0.name == source }))
       })
       self.sources = .done(result)
       DispatchQueue.main.async {
