@@ -73,6 +73,7 @@
 		85BAEC452626827F00E56D06 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 85BAEC442626827F00E56D06 /* Assets.xcassets */; };
 		85BAEC482626827F00E56D06 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 85BAEC462626827F00E56D06 /* LaunchScreen.storyboard */; };
 		85BAEC52262685AA00E56D06 /* WordsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85BAEC51262685AA00E56D06 /* WordsTableViewController.swift */; };
+		85C34E9A265AFA770000A009 /* WordListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85C34E99265AFA770000A009 /* WordListController.swift */; };
 		85C464E7262D2F5A0012AEAA /* AppIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85C464E6262D2F5A0012AEAA /* AppIcon.swift */; };
 		85CF52672628F3F900E96928 /* AboutScreen in Frameworks */ = {isa = PBXBuildFile; productRef = 85CF52662628F3F900E96928 /* AboutScreen */; };
 		85CF52692628F46700E96928 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85CF52682628F46700E96928 /* SettingsViewController.swift */; };
@@ -158,6 +159,7 @@
 		85BAEC472626827F00E56D06 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		85BAEC492626827F00E56D06 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		85BAEC51262685AA00E56D06 /* WordsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordsTableViewController.swift; sourceTree = "<group>"; };
+		85C34E99265AFA770000A009 /* WordListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordListController.swift; sourceTree = "<group>"; };
 		85C464E6262D2F5A0012AEAA /* AppIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIcon.swift; sourceTree = "<group>"; };
 		85CF52682628F46700E96928 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		85E1EC6F262CC454009DD9EC /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
@@ -219,6 +221,7 @@
 				8539B93F26378900009ECFF6 /* SourceTableViewController.swift */,
 				85A5FA102628EB3200030C47 /* SplitViewController.swift */,
 				85BAEC51262685AA00E56D06 /* WordsTableViewController.swift */,
+				85C34E99265AFA770000A009 /* WordListController.swift */,
 				85BAEC3F2626827D00E56D06 /* DetailViewController.swift */,
 				85CF52682628F46700E96928 /* SettingsViewController.swift */,
 			);
@@ -485,6 +488,7 @@
 				8539B94F26387196009ECFF6 /* CSSColor.swift in Sources */,
 				8556C1D826293F7D0038C35E /* PasteButtonView.swift in Sources */,
 				85C464E7262D2F5A0012AEAA /* AppIcon.swift in Sources */,
+				85C34E9A265AFA770000A009 /* WordListController.swift in Sources */,
 				8556C1E0262A95250038C35E /* DictionaryProvider.swift in Sources */,
 				85BAEC3C2626827D00E56D06 /* AppDelegate.swift in Sources */,
 				8539B94726386D4A009ECFF6 /* WordLetter.swift in Sources */,
