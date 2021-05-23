@@ -13,6 +13,24 @@ fileprivate enum SegueIdentifier {
   static let showSourceSheet = "showSourceSheet"
 }
 
+class NotActuallyAPromise<Result> {
+  private(set) var result: Result? = nil
+  private var listeners: [(Result) -> ()] = []
+  func fetchResult(_ cb: @escaping (Result) -> ()) {
+    if let result = result {
+      cb(result)
+    } else {
+      listeners.append(cb)
+    }
+  }
+  init(_ cb: (@escaping (Result) -> ()) -> ()) {
+    cb { result in
+      self.result = result
+      self.listeners.forEach { $0(result) }
+    }
+  }
+}
+
 class DetailViewController: UIViewController, UIScrollViewDelegate, WKScriptMessageHandler {
 
   @IBOutlet weak var webView: WKWebView!
@@ -227,11 +245,20 @@ class DetailViewController: UIViewController, UIScrollViewDelegate, WKScriptMess
 
   @objc func define(_ sender: Any) {
     webView.evaluateJavaScript("window.getSelection().toString()") { selection, _ in
-      if let selection = selection as? String,
-         let result = find(query: selection, in: self.wordListVC.allWords!) {
-        self.wordListVC.history.move(to: result.indexPath)
+      if let selection = selection as? String {
+        self.navigateDictionary(to: selection)
       }
+
     }
+  }
+
+  @discardableResult
+  func navigateDictionary(to word: String) -> Bool {
+    if let result = find(query: word, in: self.wordListVC.allWords!) {
+      self.wordListVC.history.move(to: result.indexPath)
+      return true
+    }
+    return false
   }
 
   func kickTitle() {
@@ -247,17 +274,17 @@ class DetailViewController: UIViewController, UIScrollViewDelegate, WKScriptMess
     if let bible = message.body as? [Any] {
       print(bible)
     } else if let sourceName = message.body as? String {
-      DictionaryProvider.shared[source: sourceName] { source in
-        self.performSegue(withIdentifier: SegueIdentifier.showSourceSheet, sender: source)
-      }
+      self.performSegue(
+        withIdentifier: SegueIdentifier.showSourceSheet,
+        sender: NotActuallyAPromise { DictionaryProvider.shared[source: sourceName, $0] }
+      )
     }
   }
 
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     if segue.identifier == SegueIdentifier.showSourceSheet,
-       let nav = segue.destination as? UINavigationController,
-       let vc = nav.viewControllers.first as? SourceTableViewController,
-       let sender = sender as? Source? {
+       let vc = segue.destination as? SourceTableViewController,
+       let sender = sender as? NotActuallyAPromise<Source?>? {
       vc.source = sender
     }
   }

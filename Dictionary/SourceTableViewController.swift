@@ -5,16 +5,36 @@
 //  Created by Jed Fox on 4/26/21.
 //
 
-import UIKit
+import SwiftUI
 import SafariServices
 
 fileprivate enum CellIdentifier {
   static let word = "WordRow"
 }
 
-class SourceTableViewController: UITableViewController {
+class SourceTableViewController: UIHostingController<AnyView> {
+  var source: NotActuallyAPromise<Source?>? {
+    didSet {
+      if let source = source {
+        source.fetchResult { source in
+          guard let source = source else { return }
+          self.rootView = AnyView(SourceView(source: source, onOpenLink: self.open(link:), onDismiss: { word in
+            self.dismiss(self.rootView)
+            if let word = word,
+               let presenter = self.presentingViewController as? SplitViewController,
+               let detail = presenter.detailVC {
+              detail.navigateDictionary(to: word)
+            }
+          }))
 
-  var source: Source?
+        }
+      }
+    }
+  }
+
+  required init?(coder: NSCoder) {
+    super.init(coder: coder, rootView: AnyView(EmptyView()))
+  }
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -22,14 +42,10 @@ class SourceTableViewController: UITableViewController {
 
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
-    openLinkButton.isEnabled = !(source?.meta?.href).isNil
-    navigationItem.title = source?.meta?.name
-    tableView.reloadData()
   }
 
-  @IBOutlet weak var openLinkButton: UIBarButtonItem!
-  @IBAction func openLink(_ sender: Any) {
-    let vc = SFSafariViewController(url: source!.meta!.href!)
+  func open(link url: URL) {
+    let vc = SFSafariViewController(url: url)
     vc.modalPresentationStyle = .pageSheet
     vc.dismissButtonStyle = .close
     vc.preferredControlTintColor = UIColor(named: "AccentColor")
@@ -41,22 +57,6 @@ class SourceTableViewController: UITableViewController {
   }
   // MARK: - Table view data source
 
-  override func numberOfSections(in tableView: UITableView) -> Int {
-    return 1
-  }
-
-  override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return source?.words.count ?? 0
-  }
-
-  override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let cell = tableView.dequeueReusableCell(withIdentifier: CellIdentifier.word, for: indexPath)
-
-    cell.textLabel?.text = source?.words[indexPath.row]
-
-    return cell
-  }
-
   /*
    // MARK: - Navigation
 
@@ -67,4 +67,45 @@ class SourceTableViewController: UITableViewController {
    }
    */
 
+}
+
+struct SourceView: View {
+  let source: Source
+  let onOpenLink: (URL) -> ()
+  let onDismiss: (String?) -> ()
+
+  var body: some View {
+    NavigationView {
+      List {
+        Section(header: Text("\(source.words.count) word\(source.words.count == 1 ? "" : "s")")) {
+          ForEach(source.words, id: \.self) { word in
+            Button(action: { onDismiss(word) }) {
+              NavigationLink(word, destination: EmptyView())
+            }.accentColor(.primary)
+          }
+        }
+      }
+      .listStyle(GroupedListStyle())
+      .navigationTitle(source.meta!.name)
+      .navigationBarItems(
+        leading: Button("Done") { onDismiss(nil) },
+        trailing: Group {
+          if let url = source.meta?.href {
+            Button(action: { onOpenLink(url) }) {
+              Image("wikipedia")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 30, height: 30)
+            }.buttonStyle(BorderlessButtonStyle())
+          }
+        }
+      )
+    }
+  }
+}
+
+struct SourceView_Previews: PreviewProvider {
+  static var previews: some View {
+    SourceView(source: Source(words: ["A", "Aback", "Word", "Another"], meta: .init(isPseudonym: false, name: "William Shakespeare", href: URL(string: "https://en.wikipedia.org/wiki/William_Shakespeare"))), onOpenLink: {_ in }, onDismiss: { _ in })
+  }
 }
