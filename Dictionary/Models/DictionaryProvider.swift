@@ -31,12 +31,14 @@ class DictionaryProvider {
 
   private static let decoder = JSONDecoder()
 
-  static func loadWords(from fileName: String) -> [WordLetter] {
-    let data = try! decoder.decode([WordLetter].self, from: Bundle.main.json(named: fileName)!)
-
-    return Array("ABCDEFGHIJKLMNOPQRSTUVWXYZ'-").map { name in
+  static func sortWords(_ data: [WordLetter]) -> [WordLetter] {
+    Array("ABCDEFGHIJKLMNOPQRSTUVWXYZ'-").map { name in
       data.first { $0.letter.uppercased() == String(name) }!
     }
+  }
+
+  static func loadWords(from fileName: String) -> [WordLetter] {
+    sortWords(try! decoder.decode([WordLetter].self, from: Bundle.main.json(named: fileName)!))
   }
 
   private func loadSources(callback: @escaping ([String: Source]) -> ()) {
@@ -50,7 +52,7 @@ class DictionaryProvider {
       }
     }
     let workItem = DispatchWorkItem {
-      let words = try! Self.decoder.decode([String: [String]].self, from: Bundle.main.json(named: "sources-words")!)
+      let words = try! Self.decoder.decode([String: [WordLetter]].self, from: Bundle.main.json(named: "sources-words")!)
       let metas = try! Self.decoder.decode([String: Source.Meta].self, from: Bundle.main.json(named: "sources-meta")!).values
       let result = Dictionary(uniqueKeysWithValues: words.map { (source, words) in
         (source, Source(words: words, meta: metas.first { $0.name == source }))

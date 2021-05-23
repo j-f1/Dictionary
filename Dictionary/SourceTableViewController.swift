@@ -77,11 +77,16 @@ struct SourceView: View {
   var body: some View {
     NavigationView {
       List {
-        Section(header: Text("\(source.words.count) word\(source.words.count == 1 ? "" : "s")")) {
-          ForEach(source.words, id: \.self) { word in
-            Button(action: { onDismiss(word) }) {
-              NavigationLink(word, destination: EmptyView())
-            }.accentColor(.primary)
+        let count = source.words.map { $0.words.count }.reduce(0, +)
+        Section(header: Text("\(count) word\(count == 1 ? "" : "s")")) {}
+
+        ForEach(source.words, id: \.letter) { letter in
+          Section(header: EmptyView()) {
+            ForEach(letter.words, id: \.self) { word in
+              Button(action: { onDismiss(word) }) {
+                NavigationLink(word, destination: EmptyView())
+              }.accentColor(.primary)
+            }
           }
         }
       }
@@ -106,6 +111,6 @@ struct SourceView: View {
 
 struct SourceView_Previews: PreviewProvider {
   static var previews: some View {
-    SourceView(source: Source(words: ["A", "Aback", "Word", "Another"], meta: .init(isPseudonym: false, name: "William Shakespeare", href: URL(string: "https://en.wikipedia.org/wiki/William_Shakespeare"))), onOpenLink: {_ in }, onDismiss: { _ in })
+    SourceView(source: Source(words: [.init(letter: "A", words: ["A", "Aback", "Another"]), .init(letter: "W", words: ["Word"])], meta: .init(isPseudonym: false, name: "William Shakespeare", href: URL(string: "https://en.wikipedia.org/wiki/William_Shakespeare"))), onOpenLink: {_ in }, onDismiss: { _ in })
   }
 }

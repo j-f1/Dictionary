@@ -8,7 +8,7 @@
 import Foundation
 
 struct Source {
-  let words: [String]
+  let words: [WordLetter]
   let meta: Meta?
 
   struct Meta: Codable {

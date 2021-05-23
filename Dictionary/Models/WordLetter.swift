@@ -11,6 +11,11 @@ struct WordLetter: Decodable {
   let letter: String
   let words: [String]
 
+  init(letter: String, words: [String]) {
+    self.letter = letter
+    self.words = words
+  }
+
   init(from decoder: Decoder) throws {
     var container = try decoder.unkeyedContainer()
     letter = try container.decode(String.self)
