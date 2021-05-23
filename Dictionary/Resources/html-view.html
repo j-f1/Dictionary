@@ -1,0 +1,30 @@
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<style>
+  :root {
+    color-scheme: light dark;
+    font: -apple-system-body;
+    -webkit-text-size-adjust: 100%;
+    -webkit-user-select: none;
+  }
+  body {
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    height: 100%;
+  }
+  p:first-child { margin-top: 0.5em; }
+  p:last-child { margin-bottom: 0.5em; }
+  code { font-family: ui-monospace; }
+  a { color: var(--accent-color) }
+</style>
+<script>
+  const updateHeight = () => {
+    window.webkit.messageHandlers.height.postMessage(document.getElementById("root").clientHeight)
+  }
+  setInterval(updateHeight, 500)
+  window.onload = updateHeight
+  window.onresize = updateHeight
+</script>
+<script src="queue.js"></script>
+<div id="root"></div>
