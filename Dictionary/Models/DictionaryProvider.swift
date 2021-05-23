@@ -8,20 +8,69 @@
 import Foundation
 import ZIPFoundation
 
+enum PendingResult<T> {
+  case none
+  case pending(DispatchWorkItem)
+  case done(T)
+}
+
+extension Bundle {
+  func json(named name: String) -> Data? {
+    if let url = self.url(forResource: name, withExtension: "json") {
+      return try? Data(contentsOf: url)
+    }
+    return nil
+  }
+}
+
 class DictionaryProvider {
   static let shared = DictionaryProvider()
 
   private var archives: [String: ZIPFoundation.Archive] = [:]
+  private var sources: PendingResult<[String: Source]> = .none
+
+  private static let decoder = JSONDecoder()
 
   static func loadWords(from fileName: String) -> [WordLetter] {
-    let data = try! JSONDecoder().decode([WordLetter].self, from: Data(contentsOf: Bundle.main.url(forResource: fileName, withExtension: "json")!))
+    let data = try! decoder.decode([WordLetter].self, from: Bundle.main.json(named: fileName)!)
 
     return Array("ABCDEFGHIJKLMNOPQRSTUVWXYZ'-").map { name in
       data.first { $0.letter.uppercased() == String(name) }!
     }
   }
 
-  subscript(_ word: String, callback: @escaping (Data) -> ()) -> () {
+  private func loadSources(callback: @escaping ([String: Source]) -> ()) {
+    if case .done(let result) = sources {
+      callback(result)
+      return
+    } else if case .pending(let workItem) = sources {
+      workItem.notify(queue: .main) {
+        guard case .done(let result) = self.sources else { fatalError() }
+        callback(result)
+      }
+    }
+    let workItem = DispatchWorkItem {
+      let words = try! Self.decoder.decode([String: [String]].self, from: Bundle.main.json(named: "sources-words")!)
+      let metas = try! Self.decoder.decode([String: Source.Meta].self, from: Bundle.main.json(named: "sources-meta")!)
+      let result = Dictionary(uniqueKeysWithValues: words.map { (source, words) in
+        (source, Source(words: words, meta: metas[source]))
+      })
+      self.sources = .done(result)
+      DispatchQueue.main.async {
+        callback(result)
+      }
+    }
+    sources = .pending(workItem)
+    DispatchQueue.global(qos: .utility).async(execute: workItem)
+  }
+
+  subscript(source source: String, callback: @escaping (Source?) -> ()) -> () {
+    get {
+      loadSources { callback($0[source]) }
+    }
+  }
+
+  subscript(word word: String, callback: @escaping (Data) -> ()) -> () {
     get {
       DispatchQueue.global(qos: .userInitiated).async { [self] in
         let key = String(word.first!)

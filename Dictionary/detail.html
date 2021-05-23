@@ -54,12 +54,12 @@
   document.addEventListener('pointerup', (e) => {
     if (e.target.tagName !== 'A') return
     if (e.target.classList.contains('is-attributable')) {
-      let { bible } = e.target.dataset
+      let { bible, source } = e.target.dataset
       if (bible) {
         bible = JSON.parse(bible)
-        console.log(bible)
+        window.webkit.messageHandlers.showSource.postMessage(bible)
       } else {
-        console.log(e.target.textContent)
+        window.webkit.messageHandlers.showSource.postMessage(source)
       }
     }
   })

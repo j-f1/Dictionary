@@ -9,7 +9,11 @@ import UIKit
 import WebKit
 import Combine
 
-class DetailViewController: UIViewController, UIScrollViewDelegate {
+fileprivate enum SegueIdentifier {
+  static let showSourceSheet = "showSourceSheet"
+}
+
+class DetailViewController: UIViewController, UIScrollViewDelegate, WKScriptMessageHandler {
 
   @IBOutlet weak var webView: WKWebView!
 
@@ -61,6 +65,7 @@ class DetailViewController: UIViewController, UIScrollViewDelegate {
 
     webView.scrollView.delegate = self
     webView.loadFileURL(Bundle.main.url(forResource: "detail", withExtension: "html")!, allowingReadAccessTo: Bundle.main.resourceURL!)
+    webView.configuration.userContentController.add(self, name: "showSource")
 
     labelContainer.addSubview(titleLabel)
     titleLabel.font = UIFont.boldSystemFont(ofSize: UIFont.labelFontSize)
@@ -213,7 +218,7 @@ class DetailViewController: UIViewController, UIScrollViewDelegate {
   // MARK: - Methods
   func loadPage() {
     if let word = word {
-      DictionaryProvider.shared[word] {
+      DictionaryProvider.shared[word: word] {
         let escapedBody = String(data: try! JSONEncoder().encode(String(data: $0, encoding: .utf8)), encoding: .utf8)!
         self.webView.runJS("document.body.innerHTML = \(escapedBody)")
       }
@@ -234,5 +239,26 @@ class DetailViewController: UIViewController, UIScrollViewDelegate {
     self.labelContainer.removeFromSuperview()
     self.navigationItem.titleView = self.labelContainer
     labelContainer.sizeToFit()
+  }
+
+  // MARK: - Script message handler
+
+  func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
+    if let bible = message.body as? [Any] {
+      print(bible)
+    } else if let sourceName = message.body as? String {
+      DictionaryProvider.shared[source: sourceName] { source in
+        self.performSegue(withIdentifier: SegueIdentifier.showSourceSheet, sender: source)
+      }
+    }
+  }
+
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    if segue.identifier == SegueIdentifier.showSourceSheet,
+       let nav = segue.destination as? UINavigationController,
+       let vc = nav.viewControllers.first as? SourceTableViewController,
+       let sender = sender as? Source? {
+      vc.source = sender
+    }
   }
 }

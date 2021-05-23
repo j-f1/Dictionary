@@ -9,6 +9,10 @@ import UIKit
 import Combine
 import Defaults
 
+fileprivate enum CellIdentifier {
+  static let word = "WordRow"
+}
+
 class WordsTableViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchResultsUpdating, UISplitViewControllerDelegate {
 
   let searchController: UISearchController = {
@@ -25,7 +29,7 @@ class WordsTableViewController: UIViewController, UITableViewDataSource, UITable
   }()
 
   lazy var detailVC = {
-    self.splitViewController?.viewController(for: .secondary) ?? self.storyboard?.instantiateViewController(identifier: "DetailVC")
+    self.splitViewController?.viewController(for: .secondary) ?? self.storyboard?.instantiateViewController(identifier: VCIdentifier.detail)
   }()
 
   lazy var settingsVC = SettingsViewController()
@@ -204,7 +208,7 @@ class WordsTableViewController: UIViewController, UITableViewDataSource, UITable
   }
 
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let cell = tableView.dequeueReusableCell(withIdentifier: "WordRow", for: indexPath)
+    let cell = tableView.dequeueReusableCell(withIdentifier: CellIdentifier.word, for: indexPath)
     cell.textLabel?.text = allWords![indexPath.section].words[indexPath.row]
     return cell
   }
