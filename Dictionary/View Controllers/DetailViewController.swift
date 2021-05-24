@@ -286,6 +286,7 @@ class DetailViewController: UIViewController, UIScrollViewDelegate, WKScriptMess
        let nav = segue.destination as? UINavigationController,
        let vc = nav.viewControllers.first as? SourceTableViewController,
        let sender = sender as? NotActuallyAPromise<Source?>? {
+      vc.detailVC = self
       sender?.fetchResult {
         vc.source = $0
       }

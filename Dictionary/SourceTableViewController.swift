@@ -12,7 +12,7 @@ fileprivate enum CellIdentifier {
   static let word = "WordRow"
 }
 
-class SourceTableViewController: WordListController {
+class SourceTableViewController: WordListController, UITableViewDelegate {
   var source: Source? {
     didSet {
       loadingView?.isHidden = source != nil
@@ -30,12 +30,15 @@ class SourceTableViewController: WordListController {
     }
   }
 
+  var detailVC: DetailViewController?
+
   @IBOutlet weak var loadingView: UIView!
 
   override var sectionOffset: Int { 1 }
 
   override func viewDidLoad() {
     super.viewDidLoad()
+    tableView.delegate = self
     loadingView?.isHidden = source != nil
     navigationItem.searchController = searchController
     searchController.searchBar.searchBarStyle = .minimal
@@ -69,5 +72,14 @@ class SourceTableViewController: WordListController {
       return "\(count) word\(count == 1 ? "" : "s")"
     }
     return super.tableView(tableView, titleForHeaderInSection: section)
+  }
+
+  @IBAction func dismiss(_: Any) {
+    presentingViewController?.dismiss(animated: true, completion: nil)
+  }
+
+  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    detailVC?.navigateDictionary(to: source!.words[indexPath.section - 1].words[indexPath.row])
+    self.dismiss(tableView)
   }
 }
