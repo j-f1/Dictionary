@@ -13,6 +13,8 @@ fileprivate enum CellIdentifier {
 
 class WordListController: UIViewController, UITableViewDataSource, UISearchResultsUpdating {
 
+  var sectionOffset: Int { 0 }
+
   @IBOutlet weak var tableView: UITableView!
 
   override func viewDidLoad() {
@@ -36,7 +38,7 @@ class WordListController: UIViewController, UITableViewDataSource, UISearchResul
 
   var allWords: [WordLetter]? {
     didSet {
-      tableView.reloadData()
+      tableView?.reloadData()
     }
   }
 
@@ -45,23 +47,23 @@ class WordListController: UIViewController, UITableViewDataSource, UISearchResul
     guard let query = searchController.searchBar.text?.lowercased().trimmingCharacters(in: .whitespacesAndNewlines) else { return }
     guard let section = allWords!.firstIndex(where: { query.first == $0.letter.first }) else { return }
     if let row = allWords![section].words.firstIndex(where: { $0 > query }) {
-      tableView.scrollToRow(at: IndexPath(row: row == 0 ? row : row - 1, section: section), at: .top, animated: false)
+      tableView.scrollToRow(at: IndexPath(row: row == 0 ? row : row - 1, section: section + sectionOffset), at: .top, animated: false)
     }
   }
 
   // MARK: - Table view data source
 
   func numberOfSections(in tableView: UITableView) -> Int {
-    allWords?.count ?? 0
+    (allWords?.count ?? 0) + sectionOffset
   }
 
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    allWords![section].words.count
+    allWords![section - sectionOffset].words.count
   }
 
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: CellIdentifier.word, for: indexPath)
-    cell.textLabel?.text = allWords![indexPath.section].words[indexPath.row]
+    cell.textLabel?.text = allWords![indexPath.section - sectionOffset].words[indexPath.row]
     return cell
   }
 
@@ -70,6 +72,6 @@ class WordListController: UIViewController, UITableViewDataSource, UISearchResul
   }
 
   func sectionIndexTitles(for tableView: UITableView) -> [String]? {
-    allWords?.map { $0.letter.uppercased() }
+    Array(repeating: "", count: sectionOffset) + (allWords?.map { $0.letter.uppercased() } ?? [])
   }
 }

@@ -55,7 +55,7 @@ class DictionaryProvider {
       let words = try! Self.decoder.decode([String: [WordLetter]].self, from: Bundle.main.json(named: "sources-words")!)
       let metas = try! Self.decoder.decode([String: Source.Meta].self, from: Bundle.main.json(named: "sources-meta")!).values
       let result = Dictionary(uniqueKeysWithValues: words.map { (source, words) in
-        (source, Source(words: words, meta: metas.first { $0.name == source }))
+        (source, Source(words: words.map { .init(letter: $0.letter.lowercased(), words: $0.words) }, meta: metas.first { $0.name == source }))
       })
       self.sources = .done(result)
       DispatchQueue.main.async {

@@ -218,11 +218,11 @@
 		8556C1E4262A9BA50038C35E /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				8539B93F26378900009ECFF6 /* SourceTableViewController.swift */,
 				85A5FA102628EB3200030C47 /* SplitViewController.swift */,
 				85BAEC51262685AA00E56D06 /* WordsTableViewController.swift */,
 				85C34E99265AFA770000A009 /* WordListController.swift */,
 				85BAEC3F2626827D00E56D06 /* DetailViewController.swift */,
+				8539B93F26378900009ECFF6 /* SourceTableViewController.swift */,
 				85CF52682628F46700E96928 /* SettingsViewController.swift */,
 			);
 			path = "View Controllers";

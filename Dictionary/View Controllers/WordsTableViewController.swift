@@ -140,7 +140,8 @@ class WordsTableViewController: WordListController, UITableViewDelegate {
            !detected.contains(.number),
            !detected.contains(.probableWebURL) {
           if let copiedString = UIPasteboard.general.string,
-             let (word, indexPath) = find(query: copiedString, in: allWords!) {
+             let allWords = allWords,
+             let (word, indexPath) = find(query: copiedString, in: allWords) {
             if pasteTarget == nil || word != pasteLabel.text {
               pasteLabel.text = word
               pasteTarget = indexPath

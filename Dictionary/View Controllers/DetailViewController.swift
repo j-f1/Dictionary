@@ -283,9 +283,12 @@ class DetailViewController: UIViewController, UIScrollViewDelegate, WKScriptMess
 
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     if segue.identifier == SegueIdentifier.showSourceSheet,
-       let vc = segue.destination as? SourceTableViewController,
+       let nav = segue.destination as? UINavigationController,
+       let vc = nav.viewControllers.first as? SourceTableViewController,
        let sender = sender as? NotActuallyAPromise<Source?>? {
-      vc.source = sender
+      sender?.fetchResult {
+        vc.source = $0
+      }
     }
   }
 }

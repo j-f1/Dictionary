@@ -12,105 +12,62 @@ fileprivate enum CellIdentifier {
   static let word = "WordRow"
 }
 
-class SourceTableViewController: UIHostingController<AnyView> {
-  var source: NotActuallyAPromise<Source?>? {
+class SourceTableViewController: WordListController {
+  var source: Source? {
     didSet {
-      if let source = source {
-        source.fetchResult { source in
-          guard let source = source else { return }
-          self.rootView = AnyView(SourceView(source: source, onOpenLink: self.open(link:), onDismiss: { word in
-            self.dismiss(self.rootView)
-            if let word = word,
-               let presenter = self.presentingViewController as? SplitViewController,
-               let detail = presenter.detailVC {
-              detail.navigateDictionary(to: word)
-            }
-          }))
-
-        }
-      }
+      loadingView?.isHidden = source != nil
+      allWords = source?.words
+      navigationItem.title = source?.meta?.name
+      navigationItem.rightBarButtonItem?.isEnabled = source?.meta?.href != nil
+//          self.rootView = AnyView(SourceView(source: source, onOpenLink: self.open(link:), onDismiss: { word in
+//            self.dismiss(self.rootView)
+//            if let word = word,
+//               let presenter = self.presentingViewController as? SplitViewController,
+//               let detail = presenter.detailVC {
+//              detail.navigateDictionary(to: word)
+//            }
+//          }))
     }
   }
 
-  required init?(coder: NSCoder) {
-    super.init(coder: coder, rootView: AnyView(EmptyView()))
-  }
+  @IBOutlet weak var loadingView: UIView!
+
+  override var sectionOffset: Int { 1 }
 
   override func viewDidLoad() {
     super.viewDidLoad()
+    loadingView?.isHidden = source != nil
+    navigationItem.searchController = searchController
+    searchController.searchBar.searchBarStyle = .minimal
+    navigationItem.hidesSearchBarWhenScrolling = false
   }
 
-  override func viewWillAppear(_ animated: Bool) {
-    super.viewWillAppear(animated)
-  }
 
-  func open(link url: URL) {
-    let vc = SFSafariViewController(url: url)
+  @IBAction func openURL(_: Any) {
+    let vc = SFSafariViewController(url: source!.meta!.href!)
     vc.modalPresentationStyle = .pageSheet
     vc.dismissButtonStyle = .close
     vc.preferredControlTintColor = UIColor(named: "AccentColor")
     present(vc, animated: true, completion: nil)
   }
 
-  @IBAction func dismiss(_ sender: Any) {
-    self.presentingViewController?.dismiss(animated: true, completion: nil)
+  override func viewDidDisappear(_ animated: Bool) {
+    source = nil
+    navigationItem.title = "Loading…"
   }
-  // MARK: - Table view data source
 
-  /*
-   // MARK: - Navigation
-
-   // In a storyboard-based application, you will often want to do a little preparation before navigation
-   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-   // Get the new view controller using segue.destination.
-   // Pass the selected object to the new view controller.
-   }
-   */
-
-}
-
-struct SourceView: View {
-  let source: Source
-  let onOpenLink: (URL) -> ()
-  let onDismiss: (String?) -> ()
-
-  var body: some View {
-    NavigationView {
-      List {
-        let count = source.words.map { $0.words.count }.reduce(0, +)
-        Section(header: Text("\(count) word\(count == 1 ? "" : "s")")) {}
-
-        ForEach(source.words, id: \.letter) { letter in
-          Section(header: EmptyView()) {
-            ForEach(letter.words, id: \.self) { word in
-              Button(action: { onDismiss(word) }) {
-                NavigationLink(word, destination: EmptyView())
-              }.accentColor(.primary)
-            }
-          }
-        }
-      }
-      .listStyle(GroupedListStyle())
-      .navigationTitle(source.meta!.name)
-      .navigationBarItems(
-        leading: Button("Done") { onDismiss(nil) },
-        trailing: Group {
-          if let url = source.meta?.href {
-            Button(action: { onOpenLink(url) }) {
-              Image("wikipedia")
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 30, height: 30)
-            }.buttonStyle(BorderlessButtonStyle())
-          }
-        }
-      )
+  override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    if section == 0 {
+      return 0
     }
+    return super.tableView(tableView, numberOfRowsInSection: section)
   }
-}
 
-struct SourceView_Previews: PreviewProvider {
-  static var previews: some View {
-    SourceView(source: Source(words: [.init(letter: "A", words: ["A", "Aback", "Another"]), .init(letter: "W", words: ["Word"])], meta: .init(isPseudonym: false, name: "William Shakespeare", href: URL(string: "https://en.wikipedia.org/wiki/William_Shakespeare"))), onOpenLink: {_ in }, onDismiss: { _ in })
+  override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    if section == 0,
+       let count = source?.words.map({ $0.words.count }).reduce(0, +) {
+      return "\(count) word\(count == 1 ? "" : "s")"
+    }
+    return super.tableView(tableView, titleForHeaderInSection: section)
   }
 }
