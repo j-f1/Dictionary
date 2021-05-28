@@ -13,6 +13,7 @@ class SettingsViewController: UIHostingController<SettingsView> {
   init() {
     super.init(rootView: SettingsView {})
     self.rootView = SettingsView { self.dismiss(animated: true, completion: nil) }
+    self.modalPresentationStyle = .formSheet
   }
   
   @objc required dynamic init?(coder aDecoder: NSCoder) {

@@ -6,7 +6,42 @@
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
+	<key>LSApplicationCategoryType</key>
+	<string></string>
 	<key>CFBundleIcons</key>
+	<dict>
+		<key>CFBundleAlternateIcons</key>
+		<dict>
+			<key>GrApHiC dEsIgN</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>graphic-design-icon</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<true/>
+			</dict>
+			<key>Hardcover</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>hardcover-icon</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<true/>
+			</dict>
+		</dict>
+		<key>CFBundlePrimaryIcon</key>
+		<dict>
+			<key>CFBundleIconFiles</key>
+			<array>
+				<string>default-icon</string>
+			</array>
+			<key>UIPrerenderedIcon</key>
+			<true/>
+		</dict>
+	</dict>
+	<key>CFBundleIcons~ipad</key>
 	<dict>
 		<key>CFBundleAlternateIcons</key>
 		<dict>

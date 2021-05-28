@@ -43,6 +43,7 @@ struct AppIconPickerView: View {
       }
     }
     .onChange(of: appIcon, perform: { value in
+      guard value != UIApplication.shared.alternateIconName else { return }
       UIApplication.shared.setAlternateIconName(value, completionHandler: { err in
         if let err = err {
           print(err)
