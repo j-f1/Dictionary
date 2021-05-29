@@ -83,6 +83,7 @@ class DetailViewController: UIViewController, UIScrollViewDelegate, WKScriptMess
     webView.scrollView.delegate = self
     webView.loadFileURL(Bundle.main.url(forResource: "detail", withExtension: "html")!, allowingReadAccessTo: Bundle.main.resourceURL!)
     webView.configuration.userContentController.add(self, name: "showSource")
+    webView.allowsLinkPreview = false
 
     labelContainer.addSubview(titleLabel)
     titleLabel.font = UIFont.boldSystemFont(ofSize: UIFont.labelFontSize)
@@ -177,6 +178,11 @@ class DetailViewController: UIViewController, UIScrollViewDelegate, WKScriptMess
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
     self.traitCollectionDidChange(nil)
+
+    if let contentView = webView.scrollView.subviews.first(where: { $0.interactions.count > 1 }),
+       let dragInteraction = (contentView.interactions.compactMap { $0 as? UIDragInteraction }.first)  {
+      contentView.removeInteraction(dragInteraction)
+    }
   }
 
   // MARK: - Events
