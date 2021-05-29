@@ -93,22 +93,18 @@
                                             </constraints>
                                         </view>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Showing words quoting William Shakespeare" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xct-uo-ZnV">
-                                            <rect key="frame" x="20" y="10" width="301.5" height="17"/>
+                                            <rect key="frame" x="16" y="10" width="301.5" height="17"/>
                                             <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" pointerInteraction="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IrH-gl-w0T">
-                                            <rect key="frame" x="369" y="0.0" width="37" height="37"/>
-                                            <accessibility key="accessibilityConfiguration" label="Remove Pin"/>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="close" lineBreakMode="middleTruncation" pointerInteraction="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IrH-gl-w0T">
+                                            <rect key="frame" x="368" y="3.5" width="30" height="30"/>
+                                            <accessibility key="accessibilityConfiguration" label="Remove Filter"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" secondItem="IrH-gl-w0T" secondAttribute="height" multiplier="1:1" id="IpH-N4-s1F"/>
-                                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="37" id="Pe9-rg-K8r"/>
-                                                <constraint firstAttribute="height" relation="lessThanOrEqual" constant="50" id="v7J-6t-cWv"/>
                                             </constraints>
-                                            <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                             <state key="normal">
-                                                <imageReference key="image" image="line.horizontal.3.decrease.circle.fill" catalog="system" symbolScale="large"/>
                                                 <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="font" scale="large">
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                 </preferredSymbolConfiguration>
@@ -121,7 +117,6 @@
                                     <constraints>
                                         <constraint firstItem="hlD-5n-zR4" firstAttribute="leading" secondItem="eVf-cF-7Ya" secondAttribute="leading" id="311-EB-VAm"/>
                                         <constraint firstAttribute="trailing" secondItem="hlD-5n-zR4" secondAttribute="trailing" id="5r9-RK-kSv"/>
-                                        <constraint firstItem="Xct-uo-ZnV" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="eVf-cF-7Ya" secondAttribute="leading" constant="20" symbolic="YES" id="BpV-fN-k2c"/>
                                         <constraint firstItem="IrH-gl-w0T" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Xct-uo-ZnV" secondAttribute="trailing" constant="8" symbolic="YES" id="CuZ-Mu-rKN"/>
                                         <constraint firstItem="IrH-gl-w0T" firstAttribute="top" relation="greaterThanOrEqual" secondItem="eVf-cF-7Ya" secondAttribute="top" id="Fnw-Rz-YQr"/>
                                         <constraint firstItem="IrH-gl-w0T" firstAttribute="centerY" secondItem="Xct-uo-ZnV" secondAttribute="centerY" id="Hqa-wz-rfy"/>
@@ -190,10 +185,10 @@
                         <viewLayoutGuide key="safeArea" id="2PR-qt-Nu4"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="2PR-qt-Nu4" firstAttribute="trailing" secondItem="IrH-gl-w0T" secondAttribute="trailing" constant="8" id="Ckb-U4-nYp"/>
+                            <constraint firstItem="2PR-qt-Nu4" firstAttribute="trailing" secondItem="IrH-gl-w0T" secondAttribute="trailing" constant="16" id="Ckb-U4-nYp"/>
                             <constraint firstItem="fKs-5d-nqJ" firstAttribute="centerX" secondItem="2PR-qt-Nu4" secondAttribute="centerX" id="GWg-FE-0VR"/>
                             <constraint firstAttribute="trailing" secondItem="af7-7X-vEi" secondAttribute="trailing" id="Ion-Ti-nTs"/>
-                            <constraint firstItem="Xct-uo-ZnV" firstAttribute="leading" secondItem="2PR-qt-Nu4" secondAttribute="leading" constant="20" id="Jpf-ay-u0O"/>
+                            <constraint firstItem="Xct-uo-ZnV" firstAttribute="leading" secondItem="2PR-qt-Nu4" secondAttribute="leading" constant="16" id="Jpf-ay-u0O"/>
                             <constraint firstItem="af7-7X-vEi" firstAttribute="leading" secondItem="2PR-qt-Nu4" secondAttribute="leading" id="arR-7n-ekL"/>
                             <constraint firstItem="af7-7X-vEi" firstAttribute="top" secondItem="2PR-qt-Nu4" secondAttribute="top" id="cqB-cY-0I1"/>
                             <constraint firstItem="2PR-qt-Nu4" firstAttribute="bottom" secondItem="fKs-5d-nqJ" secondAttribute="bottom" constant="16" id="x68-S7-gLo"/>
@@ -377,7 +372,6 @@
     <resources>
         <image name="arrow.right" catalog="system" width="128" height="98"/>
         <image name="doc.on.clipboard" catalog="system" width="116" height="128"/>
-        <image name="line.horizontal.3.decrease.circle.fill" catalog="system" width="128" height="121"/>
         <image name="pin" catalog="system" width="119" height="128"/>
         <image name="wikipedia" width="30" height="30"/>
         <namedColor name="AccentColor">

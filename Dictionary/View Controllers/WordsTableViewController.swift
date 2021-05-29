@@ -251,7 +251,7 @@ class WordsTableViewController: WordListController, UITableViewDelegate {
     self.countLabel.text = source.words.totalCount
     self.currentSource = source
     if let name = source.meta?.name {
-      self.pinLabel.text = "Showing words quoting \(name)"
+      self.pinLabel.text = "Entries quoting \(name)"
     }
     self.pinTopConstraint.constant = 0
     self.pinView.alpha = 1
