@@ -9,10 +9,6 @@ import UIKit
 import WebKit
 import Combine
 
-fileprivate enum SegueIdentifier {
-  static let showSourceSheet = "showSourceSheet"
-}
-
 class NotActuallyAPromise<Result> {
   private(set) var result: Result? = nil
   private var listeners: [(Result) -> ()] = []
@@ -73,11 +69,14 @@ class DetailViewController: UIViewController, UIScrollViewDelegate, WKScriptMess
     }
   }
 
+  var sourceNavVC: UINavigationController!
 
   // MARK: - View Lifecycle
 
   override func viewDidLoad() {
     super.viewDidLoad()
+
+    sourceNavVC = storyboard?.instantiateViewController(identifier: "sourceNavController") as! UINavigationController?
 
     UIMenuController.shared.menuItems = [.init(title: "Define", action: #selector(define(_:)))]
 
@@ -273,22 +272,22 @@ class DetailViewController: UIViewController, UIScrollViewDelegate, WKScriptMess
   func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
     if let bible = message.body as? [Any] {
       print(bible)
-    } else if let sourceName = message.body as? String {
-      self.performSegue(
-        withIdentifier: SegueIdentifier.showSourceSheet,
-        sender: NotActuallyAPromise { DictionaryProvider.shared[source: sourceName, $0] }
-      )
-    }
-  }
-
-  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-    if segue.identifier == SegueIdentifier.showSourceSheet,
-       let nav = segue.destination as? UINavigationController,
-       let vc = nav.viewControllers.first as? SourceTableViewController,
-       let sender = sender as? NotActuallyAPromise<Source?>? {
-      vc.detailVC = self
-      sender?.fetchResult {
-        vc.source = $0
+    } else if let body = message.body as? [String: Any],
+              let rect = body["rect"] as? [String: Double],
+              let x = rect["x"],
+              let y = rect["y"],
+              let width = rect["width"],
+              let height = rect["height"],
+              let sourceName = body["source"] as? String {
+      sourceNavVC.modalPresentationStyle = .popover
+      sourceNavVC.popoverPresentationController?.sourceView = webView.scrollView
+      sourceNavVC.popoverPresentationController?.sourceRect = CGRect(x: x, y: y, width: width, height: height)
+      present(sourceNavVC, animated: true, completion: nil)
+      DictionaryProvider.shared[source: sourceName] { source in
+        if let vc = self.sourceNavVC.viewControllers.first as? SourceTableViewController {
+          vc.detailVC = self
+          vc.source = source
+        }
       }
     }
   }

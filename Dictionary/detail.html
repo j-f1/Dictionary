@@ -52,14 +52,16 @@
 <script src="queue.js"></script>
 <script>
   document.addEventListener('pointerup', (e) => {
-    if (e.target.tagName !== 'A') return
-    if (e.target.classList.contains('is-attributable')) {
-      let { bible } = e.target.dataset
+    const el = e.target
+    if (el.tagName !== 'A') return
+    if (el.classList.contains('is-attributable')) {
+      let { bible } = el.dataset
       if (bible) {
         bible = JSON.parse(bible)
         window.webkit.messageHandlers.showSource.postMessage(bible)
       } else {
-        window.webkit.messageHandlers.showSource.postMessage(e.target.textContent)
+        const { x, y, width, height } = el.getBoundingClientRect()
+        window.webkit.messageHandlers.showSource.postMessage({ rect: { x, y, width, height }, source: el.textContent })
       }
     }
   })

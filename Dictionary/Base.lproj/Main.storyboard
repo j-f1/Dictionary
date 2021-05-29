@@ -41,7 +41,6 @@
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="webView" destination="L61-2I-AgG" id="gNz-Oq-Mm7"/>
-                        <segue destination="cNc-ex-i2K" kind="presentation" identifier="showSourceSheet" modalPresentationStyle="formSheet" id="fas-Gk-qzr"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9WD-86-jIM" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -157,14 +156,13 @@
         <!--Loading…-->
         <scene sceneID="a2X-oc-kSc">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="uui-eB-IQ0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <hostingController id="EaN-d9-lP7" customClass="SourceTableViewController" customModule="Dictionary" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="UH0-r0-aZf">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="GAs-zX-4cf">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="WordRow" textLabel="yPR-Zc-d8u" style="IBUITableViewCellStyleDefault" id="S8y-ii-FUy">
@@ -187,10 +185,10 @@
                                 </prototypes>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EoV-XY-bxk">
-                                <rect key="frame" x="0.0" y="56" width="414" height="786"/>
+                                <rect key="frame" x="0.0" y="88" width="414" height="808"/>
                                 <subviews>
                                     <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="4a4-1f-sK4">
-                                        <rect key="frame" x="188.5" y="374.5" width="37" height="37"/>
+                                        <rect key="frame" x="188.5" y="385.5" width="37" height="37"/>
                                     </activityIndicatorView>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -230,6 +228,7 @@
                         <outlet property="tableView" destination="GAs-zX-4cf" id="U4P-qS-vW6"/>
                     </connections>
                 </hostingController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="uui-eB-IQ0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2270" y="-814"/>
         </scene>
@@ -286,9 +285,9 @@
         <!--Navigation Controller-->
         <scene sceneID="hwu-7e-JWC">
             <objects>
-                <navigationController id="cNc-ex-i2K" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="sourceNavController" id="cNc-ex-i2K" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="zYO-6l-zWq">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="56"/>
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
