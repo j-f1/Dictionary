@@ -19,14 +19,6 @@ class SourceTableViewController: WordListController, UITableViewDelegate {
       allWords = source?.words
       navigationItem.title = source?.meta?.name
       navigationItem.rightBarButtonItem?.isEnabled = source?.meta?.href != nil
-//          self.rootView = AnyView(SourceView(source: source, onOpenLink: self.open(link:), onDismiss: { word in
-//            self.dismiss(self.rootView)
-//            if let word = word,
-//               let presenter = self.presentingViewController as? SplitViewController,
-//               let detail = presenter.detailVC {
-//              detail.navigateDictionary(to: word)
-//            }
-//          }))
     }
   }
 
@@ -44,7 +36,6 @@ class SourceTableViewController: WordListController, UITableViewDelegate {
     searchController.searchBar.searchBarStyle = .minimal
     navigationItem.hidesSearchBarWhenScrolling = false
   }
-
 
   @IBAction func openURL(_: Any) {
     let vc = SFSafariViewController(url: source!.meta!.href!)
