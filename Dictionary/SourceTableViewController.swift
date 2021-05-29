@@ -45,9 +45,17 @@ class SourceTableViewController: WordListController, UITableViewDelegate {
     present(vc, animated: true, completion: nil)
   }
 
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    DispatchQueue.main.async { [self] in
+      tableView.setContentOffset(CGPoint(x: 0, y: -tableView.adjustedContentInset.top), animated: false)
+    }
+  }
+
   override func viewDidDisappear(_ animated: Bool) {
+    super.viewDidDisappear(animated)
     source = nil
-    navigationItem.title = "Loading…"
+    searchController.searchBar.text = ""
   }
 
   override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
