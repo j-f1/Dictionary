@@ -52,6 +52,8 @@ class WordsTableViewController: WordListController, UITableViewDelegate {
   override func viewDidLoad() {
     super.viewDidLoad()
 
+    unpin()
+
     tableView.delegate = self
 
     navigationItem.hidesSearchBarWhenScrolling = false
@@ -257,7 +259,7 @@ class WordsTableViewController: WordListController, UITableViewDelegate {
 
   @IBAction func unpin() {
     self.words = allWords
-    self.countLabel.text = allWords!.totalCount
+    self.countLabel.text = allWords?.totalCount
     self.currentSource = nil
     self.pinTopConstraint.constant = -self.pinView.frame.height
     UIView.animate(withDuration: 0.2) {
