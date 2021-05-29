@@ -44,9 +44,12 @@ class WordListController: UIViewController, UITableViewDataSource, UISearchResul
 
   // MARK: - UISearchResultsUpdating
   func updateSearchResults(for searchController: UISearchController) {
-    guard let query = searchController.searchBar.text?.lowercased().trimmingCharacters(in: .whitespacesAndNewlines) else { return }
-    guard let section = allWords!.firstIndex(where: { query.first == $0.letter.first }) else { return }
-    if let row = allWords![section].words.firstIndex(where: { $0 > query }) {
+    guard
+      let query = searchController.searchBar.text?.lowercased().trimmingCharacters(in: .whitespacesAndNewlines),
+      let allWords = allWords
+    else { return }
+    guard let section = allWords.firstIndex(where: { query.first == $0.letter.first }) else { return }
+    if let row = allWords[section].words.firstIndex(where: { $0 > query }) {
       tableView.scrollToRow(at: IndexPath(row: row == 0 ? row : row - 1, section: section + sectionOffset), at: .top, animated: false)
     }
   }
