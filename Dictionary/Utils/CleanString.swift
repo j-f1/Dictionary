@@ -49,3 +49,12 @@ func find(query: String, in words: [WordLetter]) -> (word: String, indexPath: In
   }
   return nil
 }
+
+func find(exact word: String, in words: [WordLetter]) -> IndexPath? {
+  if !word.isEmpty,
+     let section = words.firstIndex(where: { $0.letter == String(word.first!) }),
+     let row = words[section].words.firstIndex(of: word) {
+    return IndexPath(row: row, section: section)
+  }
+  return nil
+}

@@ -75,7 +75,6 @@
 		85BAEC52262685AA00E56D06 /* WordsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85BAEC51262685AA00E56D06 /* WordsTableViewController.swift */; };
 		85C34E9A265AFA770000A009 /* WordListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85C34E99265AFA770000A009 /* WordListController.swift */; };
 		85C464E7262D2F5A0012AEAA /* AppIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85C464E6262D2F5A0012AEAA /* AppIcon.swift */; };
-		85CA6090266277A800097585 /* PinIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85CA608F266277A800097585 /* PinIndicatorView.swift */; };
 		85CF52672628F3F900E96928 /* AboutScreen in Frameworks */ = {isa = PBXBuildFile; productRef = 85CF52662628F3F900E96928 /* AboutScreen */; };
 		85CF52692628F46700E96928 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85CF52682628F46700E96928 /* SettingsViewController.swift */; };
 		85CF526A2628F6F800E96928 /* GenBasB.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 85A5F9D22628A72A00030C47 /* GenBasB.ttf */; };
@@ -162,7 +161,6 @@
 		85BAEC51262685AA00E56D06 /* WordsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordsTableViewController.swift; sourceTree = "<group>"; };
 		85C34E99265AFA770000A009 /* WordListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordListController.swift; sourceTree = "<group>"; };
 		85C464E6262D2F5A0012AEAA /* AppIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIcon.swift; sourceTree = "<group>"; };
-		85CA608F266277A800097585 /* PinIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinIndicatorView.swift; sourceTree = SOURCE_ROOT; };
 		85CF52682628F46700E96928 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		85E1EC6F262CC454009DD9EC /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
 		85E1EC72262CC505009DD9EC /* DictionaryInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryInfoView.swift; sourceTree = "<group>"; };
@@ -233,7 +231,6 @@
 		8556C1E5262A9BEF0038C35E /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				85CA608F266277A800097585 /* PinIndicatorView.swift */,
 				8556C1D726293F780038C35E /* PasteButtonView.swift */,
 				8539B94826386DA5009ECFF6 /* HTMLView.swift */,
 			);
@@ -498,7 +495,6 @@
 				85E1EC70262CC454009DD9EC /* AboutView.swift in Sources */,
 				8556C1E7262A9C0B0038C35E /* CleanString.swift in Sources */,
 				8539B95526387223009ECFF6 /* Source.swift in Sources */,
-				85CA6090266277A800097585 /* PinIndicatorView.swift in Sources */,
 				85831AF8262D3F2900CD5801 /* AppIconSettingsView.swift in Sources */,
 				8539B94926386DA5009ECFF6 /* HTMLView.swift in Sources */,
 				85E1EC73262CC505009DD9EC /* DictionaryInfoView.swift in Sources */,

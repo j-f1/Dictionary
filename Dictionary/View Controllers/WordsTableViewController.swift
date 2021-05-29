@@ -16,7 +16,7 @@ class WordsTableViewController: WordListController, UITableViewDelegate {
 
   lazy var settingsVC = SettingsViewController()
 
-  let history = BackForwardStack<IndexPath>()
+  let history = BackForwardStack<String>()
   var subscriptions: Set<AnyCancellable> = Set()
 
   var allWords: [WordLetter]?
@@ -79,9 +79,11 @@ class WordsTableViewController: WordListController, UITableViewDelegate {
       .sink { notif in
         if let detailVC = self.detailVC as? UINavigationController,
            let customVC = detailVC.topViewController as? DetailViewController,
-           let indexPath = self.history.state {
-          customVC.word = self.words![indexPath.section].words[indexPath.row]
-          if self.tableView.indexPathForSelectedRow != indexPath {
+           let word = self.history.state {
+          customVC.word = word
+          if let words = self.words,
+             let indexPath = find(exact: word, in: words),
+             self.tableView.indexPathForSelectedRow != indexPath {
             self.tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
             self.tableView.scrollToRow(at: indexPath, at: .none, animated: false)
           }
@@ -183,19 +185,20 @@ class WordsTableViewController: WordListController, UITableViewDelegate {
   @IBAction func pasteButtonTapped() {
     if let pasteTarget = pasteTarget {
       tableView.selectRow(at: pasteTarget, animated: false, scrollPosition: .middle)
-      history.move(to: pasteTarget)
+      history.move(to: pasteLabel.text!)
       self.pasteTarget = nil
     }
   }
 
   // MARK: - Table view delegate
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    history.move(to: indexPath)
+    history.move(to: words![indexPath.section].words[indexPath.row])
   }
 
   // MARK: - Navigation Actions
   func goToRandomWord(_ sender: Any) {
-    let lengths = words!.map(\.words.count)
+    guard let words = words else { return }
+    let lengths = words.map(\.words.count)
     let totalLength = lengths.reduce(0, +)
     var row = Int.random(in: 0..<totalLength)
     var section = 0
@@ -205,7 +208,7 @@ class WordsTableViewController: WordListController, UITableViewDelegate {
     }
     let indexPath: IndexPath = IndexPath(row: row, section: section)
     tableView.scrollToRow(at: indexPath, at: .middle, animated: false)
-    history.move(to: indexPath)
+    history.move(to: words[section].words[row])
   }
 
   // MARK: Pinning
@@ -236,30 +239,44 @@ class WordsTableViewController: WordListController, UITableViewDelegate {
 
   // MARK: Next/Previous
   var canGoToNext: Bool {
-    self.history.state != nil &&
-      self.history.state
-      != IndexPath(row: words!.last!.words.count - 1, section: words!.count - 1)
+    if let word = self.history.state,
+       let words = words,
+       let path = find(exact: word, in: words) {
+      return path != IndexPath(row: words.last!.words.count - 1, section: words.count - 1)
+    }
+    return false
   }
   func goToNext() {
     assert(canGoToNext)
-    let currentPath = self.history.state!
-    if currentPath.row == words![currentPath.section].words.count - 1 {
-      self.history.move(to: IndexPath(row: 0, section: currentPath.section + 1))
+    guard
+      let words = words,
+      let currentPath = find(exact: self.history.state!, in: words)
+    else { return }
+    if currentPath.row == words[currentPath.section].words.count - 1 {
+      self.history.move(to: words[currentPath.section + 1].words.first!)
     } else {
-      self.history.move(to: IndexPath(row: currentPath.row + 1, section: currentPath.section))
+      self.history.move(to: words[currentPath.section].words[currentPath.row + 1])
     }
   }
 
   var canGoToPrevious: Bool {
-    self.history.state != nil && self.history.state != IndexPath(row: 0, section: 0)
+    if let word = self.history.state,
+       let words = words,
+       let path = find(exact: word, in: words) {
+      return path != IndexPath(row: 0, section: 0)
+    }
+    return false
   }
   func goToPrevious() {
     assert(canGoToPrevious)
-    let currentPath = self.history.state!
+    guard
+      let words = words,
+      let currentPath = find(exact: self.history.state!, in: words)
+    else { return }
     if currentPath.row == 0 {
-      self.history.move(to: IndexPath(row: words![currentPath.section - 1].words.count - 1, section: currentPath.section - 1))
+      self.history.move(to: words[currentPath.section - 1].words.last!)
     } else {
-      self.history.move(to: IndexPath(row: currentPath.row - 1, section: currentPath.section))
+      self.history.move(to: words[currentPath.section].words[currentPath.row - 1])
     }
   }
 }

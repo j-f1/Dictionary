@@ -92,19 +92,8 @@
                                                 <constraint firstAttribute="height" constant="0.5" id="b8z-66-fQg"/>
                                             </constraints>
                                         </view>
-                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" adjustsImageSizeForAccessibilityContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2M6-97-Sxa">
-                                            <rect key="frame" x="20" y="10" width="17" height="18"/>
-                                            <color key="tintColor" systemColor="secondaryLabelColor"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" secondItem="2M6-97-Sxa" secondAttribute="height" multiplier="1:1" id="bKH-PM-dFf"/>
-                                            </constraints>
-                                            <imageReference key="image" image="pin.fill" catalog="system" symbolScale="medium" renderingMode="template"/>
-                                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="font">
-                                                <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
-                                            </preferredSymbolConfiguration>
-                                        </imageView>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Showing words quoting William Shakespeare" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xct-uo-ZnV">
-                                            <rect key="frame" x="45" y="10" width="288.5" height="17"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" alpha="0.75" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Showing words quoting William Shakespeare" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xct-uo-ZnV">
+                                            <rect key="frame" x="20" y="10" width="288.5" height="17"/>
                                             <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
@@ -119,7 +108,7 @@
                                             </constraints>
                                             <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                             <state key="normal">
-                                                <imageReference key="image" image="clear" catalog="system" symbolScale="large"/>
+                                                <imageReference key="image" image="line.horizontal.3.decrease.circle.fill" catalog="system" symbolScale="large"/>
                                                 <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="font" scale="large">
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                 </preferredSymbolConfiguration>
@@ -132,17 +121,14 @@
                                     <constraints>
                                         <constraint firstItem="hlD-5n-zR4" firstAttribute="leading" secondItem="eVf-cF-7Ya" secondAttribute="leading" id="311-EB-VAm"/>
                                         <constraint firstAttribute="trailing" secondItem="hlD-5n-zR4" secondAttribute="trailing" id="5r9-RK-kSv"/>
-                                        <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="IrH-gl-w0T" secondAttribute="trailing" constant="8" id="6nM-Tx-MK2"/>
+                                        <constraint firstItem="Xct-uo-ZnV" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="eVf-cF-7Ya" secondAttribute="leading" constant="20" symbolic="YES" id="BpV-fN-k2c"/>
                                         <constraint firstItem="IrH-gl-w0T" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Xct-uo-ZnV" secondAttribute="trailing" constant="8" symbolic="YES" id="CuZ-Mu-rKN"/>
-                                        <constraint firstItem="2M6-97-Sxa" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="eVf-cF-7Ya" secondAttribute="leading" constant="20" symbolic="YES" id="Dxb-1a-c1A"/>
-                                        <constraint firstItem="Xct-uo-ZnV" firstAttribute="leading" secondItem="2M6-97-Sxa" secondAttribute="trailing" constant="8" symbolic="YES" id="EiW-9k-2jl"/>
                                         <constraint firstItem="IrH-gl-w0T" firstAttribute="top" relation="greaterThanOrEqual" secondItem="eVf-cF-7Ya" secondAttribute="top" id="Fnw-Rz-YQr"/>
                                         <constraint firstItem="IrH-gl-w0T" firstAttribute="centerY" secondItem="Xct-uo-ZnV" secondAttribute="centerY" id="Hqa-wz-rfy"/>
                                         <constraint firstAttribute="bottom" secondItem="hlD-5n-zR4" secondAttribute="bottom" id="N37-Ox-hju"/>
                                         <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="IrH-gl-w0T" secondAttribute="bottom" id="eDx-Xb-sgF"/>
                                         <constraint firstItem="Xct-uo-ZnV" firstAttribute="top" secondItem="eVf-cF-7Ya" secondAttribute="top" constant="10" id="gY6-5f-7dN"/>
                                         <constraint firstAttribute="bottom" secondItem="Xct-uo-ZnV" secondAttribute="bottom" constant="10" id="hmg-xn-IR9"/>
-                                        <constraint firstItem="Xct-uo-ZnV" firstAttribute="centerY" secondItem="2M6-97-Sxa" secondAttribute="centerY" id="mco-kO-7n8"/>
                                     </constraints>
                                 </view>
                                 <blurEffect style="systemChromeMaterial"/>
@@ -204,12 +190,12 @@
                         <viewLayoutGuide key="safeArea" id="2PR-qt-Nu4"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="2PR-qt-Nu4" firstAttribute="trailing" secondItem="IrH-gl-w0T" secondAttribute="trailing" constant="8" id="Ckb-U4-nYp"/>
                             <constraint firstItem="fKs-5d-nqJ" firstAttribute="centerX" secondItem="2PR-qt-Nu4" secondAttribute="centerX" id="GWg-FE-0VR"/>
                             <constraint firstAttribute="trailing" secondItem="af7-7X-vEi" secondAttribute="trailing" id="Ion-Ti-nTs"/>
+                            <constraint firstItem="Xct-uo-ZnV" firstAttribute="leading" secondItem="2PR-qt-Nu4" secondAttribute="leading" constant="20" id="Jpf-ay-u0O"/>
                             <constraint firstItem="af7-7X-vEi" firstAttribute="leading" secondItem="2PR-qt-Nu4" secondAttribute="leading" id="arR-7n-ekL"/>
                             <constraint firstItem="af7-7X-vEi" firstAttribute="top" secondItem="2PR-qt-Nu4" secondAttribute="top" id="cqB-cY-0I1"/>
-                            <constraint firstItem="2PR-qt-Nu4" firstAttribute="trailing" secondItem="IrH-gl-w0T" secondAttribute="trailing" constant="8" id="hB4-6Z-BnG"/>
-                            <constraint firstItem="2M6-97-Sxa" firstAttribute="leading" secondItem="2PR-qt-Nu4" secondAttribute="leading" constant="20" id="kGL-NP-V1C"/>
                             <constraint firstItem="2PR-qt-Nu4" firstAttribute="bottom" secondItem="fKs-5d-nqJ" secondAttribute="bottom" constant="16" id="x68-S7-gLo"/>
                         </constraints>
                     </view>
@@ -317,14 +303,6 @@
             </objects>
             <point key="canvasLocation" x="2270" y="-814"/>
         </scene>
-        <!--Pin IndicatorVC-->
-        <scene sceneID="mrz-4w-NDF">
-            <objects>
-                <hostingController id="5WP-wQ-nGM" customClass="PinIndicatorVC" customModule="Dictionary" customModuleProvider="target" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="05i-Um-i7I" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1119" y="-1583"/>
-        </scene>
         <!--Navigation Controller-->
         <scene sceneID="zGG-B6-Xs6">
             <objects>
@@ -398,17 +376,13 @@
     </scenes>
     <resources>
         <image name="arrow.right" catalog="system" width="128" height="98"/>
-        <image name="clear" catalog="system" width="128" height="114"/>
         <image name="doc.on.clipboard" catalog="system" width="116" height="128"/>
+        <image name="line.horizontal.3.decrease.circle.fill" catalog="system" width="128" height="121"/>
         <image name="pin" catalog="system" width="119" height="128"/>
-        <image name="pin.fill" catalog="system" width="119" height="128"/>
         <image name="wikipedia" width="30" height="30"/>
         <namedColor name="AccentColor">
             <color red="0.84700000286102295" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
-        <systemColor name="secondaryLabelColor">
-            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
         <systemColor name="separatorColor">
             <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.28999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
