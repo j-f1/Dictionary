@@ -52,12 +52,14 @@ class WordsTableViewController: WordListController, UITableViewDelegate {
   override func viewDidLoad() {
     super.viewDidLoad()
 
-    unpin()
+    self.pinView.alpha = 0
+    self.pinTopConstraint.constant = -1
 
     tableView.delegate = self
 
     navigationItem.hidesSearchBarWhenScrolling = false
     navigationItem.titleView = searchController.searchBar
+    searchController.searchBar.placeholder = "Scroll to…"
 
     pasteButton.transform = .init(translationX: 0, y: 26)
 
