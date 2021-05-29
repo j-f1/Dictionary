@@ -41,7 +41,7 @@ class DictionaryProvider {
     sortWords(try! decoder.decode([WordLetter].self, from: Bundle.main.json(named: fileName)!))
   }
 
-  private func loadSources(callback: @escaping ([String: Source]) -> ()) {
+  func loadSources(callback: @escaping ([String: Source]) -> ()) {
     if case .done(let result) = sources {
       callback(result)
       return
