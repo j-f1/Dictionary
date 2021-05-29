@@ -9,24 +9,6 @@ import UIKit
 import WebKit
 import Combine
 
-class NotActuallyAPromise<Result> {
-  private(set) var result: Result? = nil
-  private var listeners: [(Result) -> ()] = []
-  func fetchResult(_ cb: @escaping (Result) -> ()) {
-    if let result = result {
-      cb(result)
-    } else {
-      listeners.append(cb)
-    }
-  }
-  init(_ cb: (@escaping (Result) -> ()) -> ()) {
-    cb { result in
-      self.result = result
-      self.listeners.forEach { $0(result) }
-    }
-  }
-}
-
 class DetailViewController: UIViewController, UIScrollViewDelegate, WKScriptMessageHandler {
 
   @IBOutlet weak var webView: WKWebView!
