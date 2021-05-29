@@ -58,9 +58,13 @@ class SourceTableViewController: WordListController, UITableViewDelegate {
   }
 
   override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    let formatter = NumberFormatter()
+    formatter.numberStyle = .decimal
+
     if section == 0,
-       let count = source?.words.map({ $0.words.count }).reduce(0, +) {
-      return "\(count) word\(count == 1 ? "" : "s")"
+       let count = source?.words.map({ $0.words.count }).reduce(0, +),
+       let formatted = formatter.string(from: count as NSNumber) {
+      return "\(formatted) word\(count == 1 ? "" : "s")"
     }
     return super.tableView(tableView, titleForHeaderInSection: section)
   }
