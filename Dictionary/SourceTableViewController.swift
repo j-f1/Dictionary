@@ -16,7 +16,7 @@ class SourceTableViewController: WordListController, UITableViewDelegate {
   var source: Source? {
     didSet {
       loadingView?.isHidden = source != nil
-      allWords = source?.words
+      words = source?.words
       navigationItem.title = source?.meta?.name
       navigationItem.rightBarButtonItem?.isEnabled = source?.meta?.href != nil
     }
@@ -79,6 +79,14 @@ class SourceTableViewController: WordListController, UITableViewDelegate {
 
   @IBAction func dismiss(_: Any) {
     presentingViewController?.dismiss(animated: true, completion: nil)
+  }
+
+  @IBAction func pin(_ sender: Any) {
+    if let detailVC = detailVC,
+       let source = source {
+      detailVC.wordListVC.pin(source)
+      self.dismiss(sender)
+    }
   }
 
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

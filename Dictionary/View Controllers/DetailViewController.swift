@@ -259,7 +259,7 @@ class DetailViewController: UIViewController, UIScrollViewDelegate, WKScriptMess
 
   @discardableResult
   func navigateDictionary(to word: String) -> Bool {
-    if let result = find(query: word, in: self.wordListVC.allWords!) {
+    if let result = find(query: word, in: self.wordListVC.words!) {
       self.wordListVC.history.move(to: result.indexPath)
       return true
     }
@@ -279,7 +279,7 @@ class DetailViewController: UIViewController, UIScrollViewDelegate, WKScriptMess
     if let bible = message.body as? [Any] {
       print(bible)
     } else if let body = message.body as? [String: Any],
-              let rect = body["rect"] as? [String: Double],
+              let rect = body["rect"] as? [String: CGFloat],
               let x = rect["x"],
               let y = rect["y"],
               let width = rect["width"],
@@ -287,8 +287,8 @@ class DetailViewController: UIViewController, UIScrollViewDelegate, WKScriptMess
               let sourceName = body["source"] as? String {
       sourceNavVC.modalPresentationStyle = .popover
       let present = { [self] in
-        sourceNavVC.popoverPresentationController?.sourceView = webView.scrollView
-        sourceNavVC.popoverPresentationController?.sourceRect = CGRect(x: x, y: y, width: width, height: height)
+        sourceNavVC.popoverPresentationController?.sourceView = webView
+        sourceNavVC.popoverPresentationController?.sourceRect = CGRect(x: x, y: y + webView.safeAreaInsets.top, width: width, height: height)
         DictionaryProvider.shared[source: sourceName] { source in
           if let vc = self.sourceNavVC.viewControllers.first as? SourceTableViewController {
             vc.detailVC = self

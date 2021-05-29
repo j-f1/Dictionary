@@ -14,7 +14,7 @@ extension String {
   }
 }
 
-func find(query: String, in allWords: [WordLetter]) -> (word: String, indexPath: IndexPath)? {
+func find(query: String, in words: [WordLetter]) -> (word: String, indexPath: IndexPath)? {
   if let cleaned =
       (
         query.lowercased()
@@ -23,28 +23,28 @@ func find(query: String, in allWords: [WordLetter]) -> (word: String, indexPath:
           .first
       ).map(String.init)?.removeCharacters(from: CharacterSet.letters.inverted),
      !cleaned.isEmpty,
-     let section = allWords.firstIndex(where: { $0.letter == String(cleaned.first!) }) {
+     let section = words.firstIndex(where: { $0.letter == String(cleaned.first!) }) {
 
     let row: Int?
-    if let match = allWords[section].words.firstIndex(of: cleaned) {
+    if let match = words[section].words.firstIndex(of: cleaned) {
       row = match
-    } else if let match = allWords[section].words.firstIndex(where: { ($0 + "s") == cleaned }) {
+    } else if let match = words[section].words.firstIndex(where: { ($0 + "s") == cleaned }) {
       row = match
-    } else if let match = allWords[section].words.firstIndex(where: { ($0 + "es") == cleaned }) {
+    } else if let match = words[section].words.firstIndex(where: { ($0 + "es") == cleaned }) {
       row = match
-    } else if let match = allWords[section].words.firstIndex(where: { ($0 + "ed") == cleaned }) {
+    } else if let match = words[section].words.firstIndex(where: { ($0 + "ed") == cleaned }) {
       row = match
-    } else if let match = allWords[section].words.firstIndex(where: { ($0 + "ing") == cleaned }) {
+    } else if let match = words[section].words.firstIndex(where: { ($0 + "ing") == cleaned }) {
       row = match
-//      } else if let match = allWords[section].words.firstIndex(where: { $0.count > 2 && cleaned.starts(with: $0) }) {
+//      } else if let match = words[section].words.firstIndex(where: { $0.count > 2 && cleaned.starts(with: $0) }) {
 //        row = match
-//      } else if let match = allWords[section].words.firstIndex(where: { $0.count > 2 && $0.starts(with: cleaned) }) {
+//      } else if let match = words[section].words.firstIndex(where: { $0.count > 2 && $0.starts(with: cleaned) }) {
 //        row = match
     } else {
       row = nil
     }
     if let row = row {
-      return (allWords[section].words[row], IndexPath(row: row, section: section))
+      return (words[section].words[row], IndexPath(row: row, section: section))
     }
   }
   return nil

@@ -19,6 +19,14 @@ class WordsTableViewController: WordListController, UITableViewDelegate {
   let history = BackForwardStack<IndexPath>()
   var subscriptions: Set<AnyCancellable> = Set()
 
+  var allWords: [WordLetter]?
+  var currentSource: Source?
+  @IBOutlet weak var pinView: UIVisualEffectView!
+  @IBOutlet weak var pinLabel: UILabel!
+  @IBOutlet weak var pinTopConstraint: NSLayoutConstraint!
+  @IBOutlet weak var pinLeadingConstraint: NSLayoutConstraint!
+
+
   // MARK: - View Lifecycle
 
   override func viewDidLoad() {
@@ -72,7 +80,7 @@ class WordsTableViewController: WordListController, UITableViewDelegate {
         if let detailVC = self.detailVC as? UINavigationController,
            let customVC = detailVC.topViewController as? DetailViewController,
            let indexPath = self.history.state {
-          customVC.word = self.allWords![indexPath.section].words[indexPath.row]
+          customVC.word = self.words![indexPath.section].words[indexPath.row]
           if self.tableView.indexPathForSelectedRow != indexPath {
             self.tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
             self.tableView.scrollToRow(at: indexPath, at: .none, animated: false)
@@ -92,17 +100,33 @@ class WordsTableViewController: WordListController, UITableViewDelegate {
   }
 
   override func didMove(toParent parent: UIViewController?) {
-    if allWords == nil {
-      allWords = DictionaryProvider.loadWords(from: "boot")
+    super.didMove(toParent: parent)
+    if words == nil {
+      words = DictionaryProvider.loadWords(from: "boot")
       tableView.reloadData()
       DispatchQueue.global(qos: .userInitiated).async {
         let allWords = DictionaryProvider.loadWords(from: "words-by-letter")
         DispatchQueue.main.async {
           self.allWords = allWords
+          self.words = allWords
           self.tableView.reloadData()
           self.updatePasteButton()
         }
       }
+    }
+  }
+
+  override func viewSafeAreaInsetsDidChange() {
+    super.viewSafeAreaInsetsDidChange()
+    pinLeadingConstraint.constant = -self.view.safeAreaInsets.left
+  }
+
+  override func viewDidLayoutSubviews() {
+    super.viewDidLayoutSubviews()
+    if pinTopConstraint.constant == 0 {
+      tableView.contentInset.top = pinView.frame.height
+    } else {
+      tableView.contentInset.top = 0
     }
   }
 
@@ -140,8 +164,8 @@ class WordsTableViewController: WordListController, UITableViewDelegate {
            !detected.contains(.number),
            !detected.contains(.probableWebURL) {
           if let copiedString = UIPasteboard.general.string,
-             let allWords = allWords,
-             let (word, indexPath) = find(query: copiedString, in: allWords) {
+             let words = words,
+             let (word, indexPath) = find(query: copiedString, in: words) {
             if pasteTarget == nil || word != pasteLabel.text {
               pasteLabel.text = word
               pasteTarget = indexPath
@@ -171,7 +195,7 @@ class WordsTableViewController: WordListController, UITableViewDelegate {
 
   // MARK: - Navigation Actions
   func goToRandomWord(_ sender: Any) {
-    let lengths = allWords!.map(\.words.count)
+    let lengths = words!.map(\.words.count)
     let totalLength = lengths.reduce(0, +)
     var row = Int.random(in: 0..<totalLength)
     var section = 0
@@ -184,16 +208,42 @@ class WordsTableViewController: WordListController, UITableViewDelegate {
     history.move(to: indexPath)
   }
 
+  // MARK: Pinning
+  func pin(_ source: Source) {
+    self.words = source.words
+    self.currentSource = source
+    if let name = source.meta?.name {
+      self.pinLabel.text = "Showing words quoting \(name)"
+    }
+    self.pinTopConstraint.constant = 0
+    self.pinView.alpha = 1
+    self.view.layoutIfNeeded()
+  }
+
+  @IBAction func unpin() {
+    self.words = allWords
+    self.currentSource = nil
+    self.pinTopConstraint.constant = -self.pinView.frame.height
+    UIView.animate(withDuration: 0.2) {
+      self.view.layoutIfNeeded()
+      self.tableView.contentInset.top = 0
+    } completion: { _ in
+      UIView.animate(withDuration: 0.2) {
+        self.pinView.alpha = 0
+      }
+    }
+  }
+
   // MARK: Next/Previous
   var canGoToNext: Bool {
     self.history.state != nil &&
       self.history.state
-      != IndexPath(row: allWords!.last!.words.count - 1, section: allWords!.count - 1)
+      != IndexPath(row: words!.last!.words.count - 1, section: words!.count - 1)
   }
   func goToNext() {
     assert(canGoToNext)
     let currentPath = self.history.state!
-    if currentPath.row == allWords![currentPath.section].words.count - 1 {
+    if currentPath.row == words![currentPath.section].words.count - 1 {
       self.history.move(to: IndexPath(row: 0, section: currentPath.section + 1))
     } else {
       self.history.move(to: IndexPath(row: currentPath.row + 1, section: currentPath.section))
@@ -207,7 +257,7 @@ class WordsTableViewController: WordListController, UITableViewDelegate {
     assert(canGoToPrevious)
     let currentPath = self.history.state!
     if currentPath.row == 0 {
-      self.history.move(to: IndexPath(row: allWords![currentPath.section - 1].words.count - 1, section: currentPath.section - 1))
+      self.history.move(to: IndexPath(row: words![currentPath.section - 1].words.count - 1, section: currentPath.section - 1))
     } else {
       self.history.move(to: IndexPath(row: currentPath.row - 1, section: currentPath.section))
     }

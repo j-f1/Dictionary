@@ -7,7 +7,7 @@
 
 import UIKit
 
-@IBDesignable
+//@IBDesignable
 class PasteButtonView: UIButton {
   required init?(coder: NSCoder) {
     super.init(coder: coder)
