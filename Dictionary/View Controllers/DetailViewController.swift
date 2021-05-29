@@ -280,14 +280,21 @@ class DetailViewController: UIViewController, UIScrollViewDelegate, WKScriptMess
               let height = rect["height"],
               let sourceName = body["source"] as? String {
       sourceNavVC.modalPresentationStyle = .popover
-      sourceNavVC.popoverPresentationController?.sourceView = webView.scrollView
-      sourceNavVC.popoverPresentationController?.sourceRect = CGRect(x: x, y: y, width: width, height: height)
-      present(sourceNavVC, animated: true, completion: nil)
-      DictionaryProvider.shared[source: sourceName] { source in
-        if let vc = self.sourceNavVC.viewControllers.first as? SourceTableViewController {
-          vc.detailVC = self
-          vc.source = source
+      let present = { [self] in
+        sourceNavVC.popoverPresentationController?.sourceView = webView.scrollView
+        sourceNavVC.popoverPresentationController?.sourceRect = CGRect(x: x, y: y, width: width, height: height)
+        DictionaryProvider.shared[source: sourceName] { source in
+          if let vc = self.sourceNavVC.viewControllers.first as? SourceTableViewController {
+            vc.detailVC = self
+            vc.source = source
+          }
         }
+        self.present(sourceNavVC, animated: true, completion: nil)
+      }
+      if sourceNavVC.presentingViewController != nil {
+        sourceNavVC.dismiss(animated: true, completion: present)
+      } else {
+        present()
       }
     }
   }
