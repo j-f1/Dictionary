@@ -9,6 +9,23 @@ import UIKit
 import Combine
 import Defaults
 
+let numberFormatter = { () -> NumberFormatter in
+  let fmt = NumberFormatter()
+  fmt.numberStyle = .decimal
+  return fmt
+}()
+
+extension Array where Element == WordLetter {
+  var totalCount: String {
+    let totalCount = reduce(0) { $0 + $1.words.count }
+    if totalCount == 1 {
+      return "1 word"
+    } else {
+      return "\(numberFormatter.string(from: totalCount as NSNumber)!) words"
+    }
+  }
+}
+
 class WordsTableViewController: WordListController, UITableViewDelegate {
   lazy var detailVC = {
     self.splitViewController?.viewController(for: .secondary) ?? self.storyboard?.instantiateViewController(identifier: VCIdentifier.detail)
@@ -21,6 +38,9 @@ class WordsTableViewController: WordListController, UITableViewDelegate {
 
   var allWords: [WordLetter]?
   var currentSource: Source?
+
+  var countLabel = UILabel()
+
   @IBOutlet weak var pinView: UIVisualEffectView!
   @IBOutlet weak var pinLabel: UILabel!
   @IBOutlet weak var pinTopConstraint: NSLayoutConstraint!
@@ -39,6 +59,13 @@ class WordsTableViewController: WordListController, UITableViewDelegate {
 
     pasteButton.transform = .init(translationX: 0, y: 26)
 
+    countLabel.textColor = .secondaryLabel
+    countLabel.font = UIFont.preferredFont(forTextStyle: .footnote)
+    countLabel.adjustsFontForContentSizeCategory = true
+    countLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
+    countLabel.setContentCompressionResistancePriority(.required, for: .vertical)
+    countLabel.translatesAutoresizingMaskIntoConstraints = false
+
     self.toolbarItems = [
       UIBarButtonItem(
         title: "Settings",
@@ -47,6 +74,8 @@ class WordsTableViewController: WordListController, UITableViewDelegate {
           self.present(self.settingsVC, animated: true, completion: nil)
         }
       ),
+      .flexibleSpace(),
+      UIBarButtonItem(customView: countLabel),
       .flexibleSpace(),
       UIBarButtonItem(
         title: "Random Word",
@@ -109,6 +138,7 @@ class WordsTableViewController: WordListController, UITableViewDelegate {
       DispatchQueue.global(qos: .userInitiated).async {
         let allWords = DictionaryProvider.loadWords(from: "words-by-letter")
         DispatchQueue.main.async {
+          self.countLabel.text = allWords.totalCount
           self.allWords = allWords
           self.words = allWords
           self.tableView.reloadData()
@@ -214,6 +244,7 @@ class WordsTableViewController: WordListController, UITableViewDelegate {
   // MARK: Pinning
   func pin(_ source: Source) {
     self.words = source.words
+    self.countLabel.text = source.words.totalCount
     self.currentSource = source
     if let name = source.meta?.name {
       self.pinLabel.text = "Showing words quoting \(name)"
@@ -221,10 +252,12 @@ class WordsTableViewController: WordListController, UITableViewDelegate {
     self.pinTopConstraint.constant = 0
     self.pinView.alpha = 1
     self.view.layoutIfNeeded()
+    splitViewController?.show(.primary)
   }
 
   @IBAction func unpin() {
     self.words = allWords
+    self.countLabel.text = allWords!.totalCount
     self.currentSource = nil
     self.pinTopConstraint.constant = -self.pinView.frame.height
     UIView.animate(withDuration: 0.2) {

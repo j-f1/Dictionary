@@ -259,7 +259,7 @@ class DetailViewController: UIViewController, UIScrollViewDelegate, WKScriptMess
 
   @discardableResult
   func navigateDictionary(to word: String) -> Bool {
-    if let (word, _) = find(query: word, in: self.wordListVC.words!) {
+    if let (word, _) = find(query: word, in: self.wordListVC.allWords!) {
       self.wordListVC.history.move(to: word)
       return true
     }
