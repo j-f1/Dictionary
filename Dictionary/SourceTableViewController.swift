@@ -48,6 +48,7 @@ class SourceTableViewController: WordListController, UITableViewDelegate {
     stack.axis = .vertical
     stack.alignment = .center
     navigationItem.titleView = stack
+    preferredContentSize = CGSize(width: 375, height: 500)
   }
 
   @IBAction func openURL(_: Any) {

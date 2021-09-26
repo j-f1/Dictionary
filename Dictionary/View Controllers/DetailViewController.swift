@@ -274,6 +274,10 @@ class DetailViewController: UIViewController, UIScrollViewDelegate, WKScriptMess
         if #available(iOS 15.0, *), let sheetController = sourceNavVC.popoverPresentationController?.adaptiveSheetPresentationController {
           sheetController.detents = [.medium(), .large()]
           sheetController.largestUndimmedDetentIdentifier = .medium
+          sheetController.widthFollowsPreferredContentSizeWhenEdgeAttached = true
+          sheetController.prefersEdgeAttachedInCompactHeight = true
+          sheetController.prefersScrollingExpandsWhenScrolledToEdge = false
+          sheetController.prefersGrabberVisible = true
         }
         DictionaryProvider.shared[source: sourceName] { source in
           if let vc = self.sourceNavVC.viewControllers.first as? SourceTableViewController {
