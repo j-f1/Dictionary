@@ -24,10 +24,12 @@ struct HTMLStringView: UIViewRepresentable {
   class Coordinator: NSObject, WKNavigationDelegate, WKScriptMessageHandler {
     @Binding var externalURL: URL?
     @Binding var height: CGFloat
+    var htmlContent: String?
 
-    init(externalURL: Binding<URL?>, height: Binding<CGFloat>) {
+    init(externalURL: Binding<URL?>, height: Binding<CGFloat>, htmlContent: String) {
       _externalURL = externalURL
       _height = height
+      self.htmlContent = htmlContent
     }
 
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
@@ -40,6 +42,22 @@ struct HTMLStringView: UIViewRepresentable {
       }
     }
 
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+      if let htmlContent = htmlContent {
+        inject(htmlContent: htmlContent, into: webView)
+        self.htmlContent = nil
+      }
+    }
+
+    func inject(htmlContent: String, into webView: WKWebView) {
+      let accentColor = "rgba(\(UIColor(named: "AccentColor")!.cgColor.components!.map { "\($0 * 100)%" }.joined(separator: ", ")))"
+      webView.runJS("""
+    debugger;
+      document.body.style.setProperty('--accent-color', '\(accentColor)');
+    document.getElementById("root").innerHTML = \(String(data: try! JSONEncoder().encode(htmlContent), encoding: .utf8)!)
+    """)
+    }
+
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
       if let height = message.body as? CGFloat {
         DispatchQueue.main.async {
@@ -50,7 +68,7 @@ struct HTMLStringView: UIViewRepresentable {
   }
 
   func makeCoordinator() -> Coordinator {
-    Coordinator(externalURL: $externalURL, height: $height)
+    Coordinator(externalURL: $externalURL, height: $height, htmlContent: htmlContent)
   }
 
   func makeUIView(context: Context) -> WKWebView {
@@ -66,11 +84,10 @@ struct HTMLStringView: UIViewRepresentable {
   }
 
   func updateUIView(_ webView: WKWebView, context: Context) {
-    let accentColor = "rgba(\(UIColor(named: "AccentColor")!.cgColor.components!.map { "\($0 * 100)%" }.joined(separator: ", ")))"
-    webView.runJS("""
-      document.body.style.setProperty('--accent-color', '\(accentColor)');
-    document.getElementById("root").innerHTML = \(String(data: try! JSONEncoder().encode(htmlContent), encoding: .utf8)!)
-    """)
+    if context.coordinator.htmlContent != nil {
+      context.coordinator.htmlContent = htmlContent
+    }
+    context.coordinator.inject(htmlContent: htmlContent, into: webView)
   }
 }
 
