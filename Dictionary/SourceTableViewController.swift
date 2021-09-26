@@ -18,7 +18,8 @@ class SourceTableViewController: WordListController, UITableViewDelegate {
       loadingView?.isHidden = source != nil
       words = source?.words
       navigationItem.title = source?.meta?.name
-      navigationItem.rightBarButtonItem?.isEnabled = source?.meta?.href != nil
+      titleLabel.text = navigationItem.title
+      wikipediaButton.isEnabled = source?.meta?.href != nil
 
       if let words = source?.words {
         countLabel.update(from: words)
@@ -29,7 +30,10 @@ class SourceTableViewController: WordListController, UITableViewDelegate {
   var detailVC: DetailViewController?
 
   @IBOutlet weak var loadingView: UIView!
-  @IBOutlet weak var statusItem: UIBarButtonItem!
+  @IBOutlet weak var wikipediaButton: UIBarButtonItem!
+  @IBOutlet weak var doneButton: UIBarButtonItem!
+
+  private let titleLabel = UILabel()
   private let countLabel = WordCountLabel()
 
   override func viewDidLoad() {
@@ -37,10 +41,13 @@ class SourceTableViewController: WordListController, UITableViewDelegate {
     tableView.delegate = self
     loadingView?.isHidden = source != nil
     navigationItem.searchController = searchController
-    searchController.searchBar.searchBarStyle = .minimal
-    navigationItem.hidesSearchBarWhenScrolling = false
-
-    statusItem.customView = countLabel
+    searchController.searchBar.searchBarStyle = .prominent
+    doneButton.customView = UIButton(type: .close, primaryAction: UIAction { [weak self] in self?.dismiss($0) })
+    titleLabel.font = UINavigationBarAppearance().titleTextAttributes[.font] as? UIFont
+    let stack = UIStackView(arrangedSubviews: [titleLabel, countLabel])
+    stack.axis = .vertical
+    stack.alignment = .center
+    navigationItem.titleView = stack
   }
 
   @IBAction func openURL(_: Any) {
@@ -77,7 +84,7 @@ class SourceTableViewController: WordListController, UITableViewDelegate {
   }
 
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    detailVC?.navigateDictionary(to: source!.words[indexPath.section - 1].words[indexPath.row])
+    detailVC?.navigateDictionary(to: source!.words[indexPath.section].words[indexPath.row])
     self.dismiss(tableView)
   }
 }

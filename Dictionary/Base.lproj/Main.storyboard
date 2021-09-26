@@ -270,33 +270,32 @@
                             <constraint firstItem="GAs-zX-4cf" firstAttribute="leading" secondItem="UH0-r0-aZf" secondAttribute="leading" id="e0L-gd-plB"/>
                         </constraints>
                     </view>
-                    <toolbarItems>
-                        <barButtonItem title="Item" image="pin" catalog="system" style="plain" id="Uta-Nr-l00">
-                            <connections>
-                                <action selector="pin:" destination="EaN-d9-lP7" id="hni-cL-HAF"/>
-                            </connections>
-                        </barButtonItem>
-                        <barButtonItem style="plain" systemItem="flexibleSpace" id="qek-YR-b8E"/>
-                        <barButtonItem title="Item" id="VOu-1e-MhU"/>
-                        <barButtonItem style="plain" systemItem="flexibleSpace" id="OvB-VN-qS5"/>
-                    </toolbarItems>
+                    <toolbarItems/>
                     <navigationItem key="navigationItem" title="Loading…" largeTitleDisplayMode="always" id="eEe-49-wAv">
-                        <barButtonItem key="leftBarButtonItem" style="done" systemItem="done" id="EAq-Db-Kns">
+                        <leftBarButtonItems>
+                            <barButtonItem title="Item" image="pin" catalog="system" style="plain" id="Uta-Nr-l00">
+                                <connections>
+                                    <action selector="pin:" destination="EaN-d9-lP7" id="hni-cL-HAF"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem enabled="NO" title="Open in Wikipedia" image="wikipedia" id="DPL-b0-vws">
+                                <connections>
+                                    <action selector="openURL:" destination="EaN-d9-lP7" id="HwT-nD-Vap"/>
+                                </connections>
+                            </barButtonItem>
+                        </leftBarButtonItems>
+                        <barButtonItem key="rightBarButtonItem" style="done" systemItem="done" id="EAq-Db-Kns">
                             <connections>
                                 <action selector="dismiss:" destination="EaN-d9-lP7" id="Qbu-0V-JQD"/>
-                            </connections>
-                        </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" enabled="NO" title="Open in Wikipedia" image="wikipedia" id="DPL-b0-vws">
-                            <connections>
-                                <action selector="openURL:" destination="EaN-d9-lP7" id="HwT-nD-Vap"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="doneButton" destination="EAq-Db-Kns" id="p32-Qt-zOL"/>
                         <outlet property="loadingView" destination="EoV-XY-bxk" id="eyY-XJ-pa1"/>
-                        <outlet property="statusItem" destination="VOu-1e-MhU" id="gdK-BA-e3h"/>
                         <outlet property="tableView" destination="GAs-zX-4cf" id="U4P-qS-vW6"/>
+                        <outlet property="wikipediaButton" destination="DPL-b0-vws" id="8ei-id-hJB"/>
                     </connections>
                 </hostingController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uui-eB-IQ0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -356,13 +355,12 @@
         <!--Navigation Controller-->
         <scene sceneID="hwu-7e-JWC">
             <objects>
-                <navigationController storyboardIdentifier="sourceNavController" toolbarHidden="NO" id="cNc-ex-i2K" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="sourceNavController" id="cNc-ex-i2K" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="zYO-6l-zWq">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="igJ-i4-h4x">
-                        <rect key="frame" x="0.0" y="813" width="414" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </toolbar>
                     <connections>

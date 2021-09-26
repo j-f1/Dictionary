@@ -271,6 +271,10 @@ class DetailViewController: UIViewController, UIScrollViewDelegate, WKScriptMess
       let present = { [self] in
         sourceNavVC.popoverPresentationController?.sourceView = webView
         sourceNavVC.popoverPresentationController?.sourceRect = CGRect(x: x, y: y + webView.safeAreaInsets.top, width: width, height: height)
+        if #available(iOS 15.0, *), let sheetController = sourceNavVC.popoverPresentationController?.adaptiveSheetPresentationController {
+          sheetController.detents = [.medium(), .large()]
+          sheetController.largestUndimmedDetentIdentifier = .medium
+        }
         DictionaryProvider.shared[source: sourceName] { source in
           if let vc = self.sourceNavVC.viewControllers.first as? SourceTableViewController {
             vc.detailVC = self
