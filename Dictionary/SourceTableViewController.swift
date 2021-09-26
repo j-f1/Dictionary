@@ -51,6 +51,13 @@ class SourceTableViewController: WordListController, UITableViewDelegate {
     preferredContentSize = CGSize(width: 375, height: 500)
   }
 
+  override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+    super.traitCollectionDidChange(previousTraitCollection)
+    if #available(iOS 15.0, *) {
+      popoverPresentationController?.adaptiveSheetPresentationController.prefersGrabberVisible = traitCollection.verticalSizeClass == .regular
+    }
+  }
+
   @IBAction func openURL(_: Any) {
     let vc = SFSafariViewController(url: source!.meta!.href!)
     vc.modalPresentationStyle = .pageSheet

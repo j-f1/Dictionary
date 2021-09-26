@@ -277,7 +277,7 @@ class DetailViewController: UIViewController, UIScrollViewDelegate, WKScriptMess
           sheetController.widthFollowsPreferredContentSizeWhenEdgeAttached = true
           sheetController.prefersEdgeAttachedInCompactHeight = true
           sheetController.prefersScrollingExpandsWhenScrolledToEdge = false
-          sheetController.prefersGrabberVisible = true
+          sheetController.prefersGrabberVisible = traitCollection.verticalSizeClass == .regular
         }
         DictionaryProvider.shared[source: sourceName] { source in
           if let vc = self.sourceNavVC.viewControllers.first as? SourceTableViewController {
