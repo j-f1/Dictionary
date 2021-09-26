@@ -9,7 +9,6 @@ import SwiftUI
 
 struct AppIconChoice: View {
   let icon: AppIcon
-  let isSelected: Bool
 
   var body: some View {
     HStack(spacing: 15) {
@@ -20,28 +19,23 @@ struct AppIconChoice: View {
         .clipShape(RoundedRectangle(cornerRadius: size / 4.3, style: .continuous))
         .padding(.vertical, 5)
       Text(icon.friendlyName)
-      Spacer()
-      if isSelected {
-        Image(systemName: "checkmark")
-          .foregroundColor(.accentColor)
-          .imageScale(.large)
-      }
     }
     .accessibilityElement(children: .ignore)
     .accessibilityLabel(icon.friendlyName)
-    .accessibilityAddTraits(isSelected ? .isSelected : [])
   }
 }
 
 struct AppIconPickerView: View {
   @Binding var appIcon: String?
   var body: some View {
-    ForEach(AppIcon.allIcons) { icon in
-      Button(action: { appIcon = icon.id }) {
-        AppIconChoice(icon: icon, isSelected: icon.id == appIcon)
+    Picker("App Icon", selection: $appIcon) {
+      ForEach(AppIcon.allIcons) { icon in
+        AppIconChoice(icon: icon)
           .foregroundColor(.primary)
+          .tag(icon.id)
       }
     }
+    .pickerStyle(.inline)
     .onChange(of: appIcon, perform: { value in
       guard value != UIApplication.shared.alternateIconName else { return }
       UIApplication.shared.setAlternateIconName(value, completionHandler: { err in

@@ -25,9 +25,7 @@ struct SettingsView: View {
           Toggle("Detect Copied Words", isOn: $watchPasteboard)
         }
 
-        Section(header: Text("App Icon")) {
-          AppIconPickerView(appIcon: $appIcon)
-        }
+        AppIconPickerView(appIcon: $appIcon)
 
         NavigationLink("About This App", destination: AboutView())
         NavigationLink("About Webster’s Dictionary", destination: DictionaryInfoView())
