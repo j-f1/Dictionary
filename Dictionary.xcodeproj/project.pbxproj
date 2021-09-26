@@ -309,7 +309,9 @@
 				85BAEC3A2626827D00E56D06 /* Dictionary */,
 				85BAEC392626827D00E56D06 /* Products */,
 			);
+			indentWidth = 2;
 			sourceTree = "<group>";
+			usesTabs = 0;
 		};
 		85BAEC392626827D00E56D06 /* Products */ = {
 			isa = PBXGroup;
