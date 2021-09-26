@@ -10,7 +10,7 @@ import SwiftUI
 struct DictionaryInfoView: View {
   var body: some View {
     Form {
-      Section(header: Text("")) {
+      Section {
         HTMLView(style: "text-align: center; font: \(UIFont.systemFontSize * 1.2)px ui-serif", """
           Webster's Revised Unabridged Dictionary<br>
           Version published 1913<br>

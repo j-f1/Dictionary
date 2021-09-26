@@ -18,10 +18,7 @@ struct SettingsView: View {
   var body: some View {
     NavigationView {
       List {
-        Section(
-          header: Text("Settings").padding(.top),
-          footer: Text("Copy a word onto your clipboard and open this app to view the definition in one tap").padding(.horizontal)
-        ) {
+        Section(footer: Text("Copy a word onto your clipboard and open this app to view the definition in one tap")) {
           Toggle("Detect Copied Words", isOn: $watchPasteboard)
         }
 
@@ -30,7 +27,7 @@ struct SettingsView: View {
         NavigationLink("About This App", destination: AboutView())
         NavigationLink("About Webster’s Dictionary", destination: DictionaryInfoView())
       }
-      .listStyle(InsetGroupedListStyle())
+      .listStyle(.insetGrouped)
       .navigationTitle("Settings")
       .navigationBarTitleDisplayMode(.inline)
       .toolbar {
@@ -38,7 +35,7 @@ struct SettingsView: View {
           Button("Done", action: onDismiss)
         }
       }
-    }.navigationViewStyle(StackNavigationViewStyle())
+    }.navigationViewStyle(.stack)
   }
 }
 
