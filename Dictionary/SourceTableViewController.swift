@@ -19,14 +19,18 @@ class SourceTableViewController: WordListController, UITableViewDelegate {
       words = source?.words
       navigationItem.title = source?.meta?.name
       navigationItem.rightBarButtonItem?.isEnabled = source?.meta?.href != nil
+
+      if let words = source?.words {
+        countLabel.update(from: words)
+      }
     }
   }
 
   var detailVC: DetailViewController?
 
   @IBOutlet weak var loadingView: UIView!
-
-  override var sectionOffset: Int { 1 }
+  @IBOutlet weak var statusItem: UIBarButtonItem!
+  private let countLabel = WordCountLabel()
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -35,6 +39,8 @@ class SourceTableViewController: WordListController, UITableViewDelegate {
     navigationItem.searchController = searchController
     searchController.searchBar.searchBarStyle = .minimal
     navigationItem.hidesSearchBarWhenScrolling = false
+
+    statusItem.customView = countLabel
   }
 
   @IBAction func openURL(_: Any) {
@@ -56,25 +62,6 @@ class SourceTableViewController: WordListController, UITableViewDelegate {
     super.viewDidDisappear(animated)
     source = nil
     searchController.searchBar.text = ""
-  }
-
-  override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    if section == 0 {
-      return 0
-    }
-    return super.tableView(tableView, numberOfRowsInSection: section)
-  }
-
-  override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-    let formatter = NumberFormatter()
-    formatter.numberStyle = .decimal
-
-    if section == 0,
-       let count = source?.words.map({ $0.words.count }).reduce(0, +),
-       let formatted = formatter.string(from: count as NSNumber) {
-      return "\(formatted) word\(count == 1 ? "" : "s")"
-    }
-    return super.tableView(tableView, titleForHeaderInSection: section)
   }
 
   @IBAction func dismiss(_: Any) {

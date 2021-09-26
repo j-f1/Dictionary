@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="0cF-Jt-apd">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="0cF-Jt-apd">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -61,7 +62,7 @@
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="WordRow" textLabel="w49-Lk-K0F" style="IBUITableViewCellStyleDefault" id="XtC-UK-1ct">
-                                        <rect key="frame" x="0.0" y="24.5" width="414" height="43.5"/>
+                                        <rect key="frame" x="0.0" y="44.5" width="414" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="XtC-UK-1ct" id="Ad6-G2-iVd">
                                             <rect key="frame" x="0.0" y="0.0" width="384.5" height="43.5"/>
@@ -129,10 +130,10 @@
                                 <blurEffect style="systemChromeMaterial"/>
                             </visualEffectView>
                             <view opaque="NO" alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fKs-5d-nqJ" customClass="PasteButtonView" customModule="Dictionary" customModuleProvider="target">
-                                <rect key="frame" x="97" y="756.5" width="220.5" height="40.5"/>
+                                <rect key="frame" x="96.5" y="756.5" width="221.5" height="40.5"/>
                                 <subviews>
                                     <stackView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" distribution="equalSpacing" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="GE5-IA-oNc">
-                                        <rect key="frame" x="16" y="10" width="188.5" height="20.5"/>
+                                        <rect key="frame" x="16" y="10" width="189.5" height="20.5"/>
                                         <subviews>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Fob-Uj-cPT">
                                                 <rect key="frame" x="0.0" y="-1" width="21" height="23"/>
@@ -162,7 +163,7 @@
                                                 </subviews>
                                             </stackView>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="arrow.right" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="PDf-2P-yAb">
-                                                <rect key="frame" x="168" y="2.5" width="20.5" height="15.5"/>
+                                                <rect key="frame" x="168" y="2" width="21.5" height="16.5"/>
                                                 <preferredSymbolConfiguration key="preferredSymbolConfiguration" weight="bold"/>
                                             </imageView>
                                         </subviews>
@@ -224,7 +225,7 @@
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="WordRow" textLabel="yPR-Zc-d8u" style="IBUITableViewCellStyleDefault" id="S8y-ii-FUy">
-                                        <rect key="frame" x="0.0" y="24.5" width="414" height="43.5"/>
+                                        <rect key="frame" x="0.0" y="44.5" width="414" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="S8y-ii-FUy" id="AG3-ZO-Xhf">
                                             <rect key="frame" x="0.0" y="0.0" width="384.5" height="43.5"/>
@@ -276,6 +277,8 @@
                             </connections>
                         </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="qek-YR-b8E"/>
+                        <barButtonItem title="Item" id="VOu-1e-MhU"/>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="OvB-VN-qS5"/>
                     </toolbarItems>
                     <navigationItem key="navigationItem" title="Loading…" largeTitleDisplayMode="always" id="eEe-49-wAv">
                         <barButtonItem key="leftBarButtonItem" style="done" systemItem="done" id="EAq-Db-Kns">
@@ -289,8 +292,10 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="loadingView" destination="EoV-XY-bxk" id="eyY-XJ-pa1"/>
+                        <outlet property="statusItem" destination="VOu-1e-MhU" id="gdK-BA-e3h"/>
                         <outlet property="tableView" destination="GAs-zX-4cf" id="U4P-qS-vW6"/>
                     </connections>
                 </hostingController>

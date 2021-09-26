@@ -9,23 +9,6 @@ import UIKit
 import Combine
 import Defaults
 
-let numberFormatter = { () -> NumberFormatter in
-  let fmt = NumberFormatter()
-  fmt.numberStyle = .decimal
-  return fmt
-}()
-
-extension Array where Element == WordLetter {
-  var totalCount: String {
-    let totalCount = reduce(0) { $0 + $1.words.count }
-    if totalCount == 1 {
-      return "1 word"
-    } else {
-      return "\(numberFormatter.string(from: totalCount as NSNumber)!) words"
-    }
-  }
-}
-
 class WordsTableViewController: WordListController, UITableViewDelegate {
   lazy var detailVC = {
     self.splitViewController?.viewController(for: .secondary) ?? self.storyboard?.instantiateViewController(identifier: VCIdentifier.detail)
@@ -39,7 +22,7 @@ class WordsTableViewController: WordListController, UITableViewDelegate {
   var allWords: [WordLetter]?
   var currentSource: Source?
 
-  var countLabel = UILabel()
+  var countLabel = WordCountLabel()
 
   @IBOutlet weak var pinView: UIVisualEffectView!
   @IBOutlet weak var pinLabel: UILabel!
@@ -62,13 +45,6 @@ class WordsTableViewController: WordListController, UITableViewDelegate {
     searchController.searchBar.placeholder = "Scroll to…"
 
     pasteButton.transform = .init(translationX: 0, y: 26)
-
-    countLabel.textColor = .secondaryLabel
-    countLabel.font = UIFont.preferredFont(forTextStyle: .footnote)
-    countLabel.adjustsFontForContentSizeCategory = true
-    countLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
-    countLabel.setContentCompressionResistancePriority(.required, for: .vertical)
-    countLabel.translatesAutoresizingMaskIntoConstraints = false
 
     self.toolbarItems = [
       UIBarButtonItem(
@@ -142,7 +118,7 @@ class WordsTableViewController: WordListController, UITableViewDelegate {
       DispatchQueue.global(qos: .userInitiated).async {
         let allWords = DictionaryProvider.loadWords(from: "words-by-letter")
         DispatchQueue.main.async {
-          self.countLabel.text = allWords.totalCount
+          self.countLabel.update(from: allWords)
           self.allWords = allWords
           self.words = allWords
           self.tableView.reloadData()
@@ -248,7 +224,7 @@ class WordsTableViewController: WordListController, UITableViewDelegate {
   // MARK: Pinning
   func pin(_ source: Source) {
     self.words = source.words
-    self.countLabel.text = source.words.totalCount
+    self.countLabel.update(from: source.words)
     self.currentSource = source
     if let name = source.meta?.name {
       self.pinLabel.text = "Entries quoting \(name)"
@@ -261,7 +237,7 @@ class WordsTableViewController: WordListController, UITableViewDelegate {
 
   @IBAction func unpin() {
     self.words = allWords
-    self.countLabel.text = allWords?.totalCount
+    allWords.map(self.countLabel.update(from:))
     self.currentSource = nil
     self.pinTopConstraint.constant = -self.pinView.frame.height
     UIView.animate(withDuration: 0.2) {
