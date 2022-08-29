@@ -11,7 +11,6 @@
 		8539B94326378B1C009ECFF6 /* sources-words.json in Resources */ = {isa = PBXBuildFile; fileRef = 8539B94126378B1C009ECFF6 /* sources-words.json */; };
 		8539B94426378B1C009ECFF6 /* sources-meta.json in Resources */ = {isa = PBXBuildFile; fileRef = 8539B94226378B1C009ECFF6 /* sources-meta.json */; };
 		8539B94726386D4A009ECFF6 /* WordLetter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8539B94626386D4A009ECFF6 /* WordLetter.swift */; };
-		8539B94926386DA5009ECFF6 /* HTMLView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8539B94826386DA5009ECFF6 /* HTMLView.swift */; };
 		8539B94B26386E83009ECFF6 /* html-view.html in Resources */ = {isa = PBXBuildFile; fileRef = 8539B94A26386E83009ECFF6 /* html-view.html */; };
 		8539B94D26386EDF009ECFF6 /* queue.js in Resources */ = {isa = PBXBuildFile; fileRef = 8539B94C26386EDF009ECFF6 /* queue.js */; };
 		8539B94F26387196009ECFF6 /* CSSColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8539B94E26387196009ECFF6 /* CSSColor.swift */; };
@@ -93,7 +92,6 @@
 		8539B94126378B1C009ECFF6 /* sources-words.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "sources-words.json"; sourceTree = "<group>"; };
 		8539B94226378B1C009ECFF6 /* sources-meta.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "sources-meta.json"; sourceTree = "<group>"; };
 		8539B94626386D4A009ECFF6 /* WordLetter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordLetter.swift; sourceTree = "<group>"; };
-		8539B94826386DA5009ECFF6 /* HTMLView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTMLView.swift; sourceTree = "<group>"; };
 		8539B94A26386E83009ECFF6 /* html-view.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = "html-view.html"; sourceTree = "<group>"; };
 		8539B94C26386EDF009ECFF6 /* queue.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = queue.js; sourceTree = "<group>"; };
 		8539B94E26387196009ECFF6 /* CSSColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSSColor.swift; sourceTree = "<group>"; };
@@ -234,7 +232,6 @@
 			isa = PBXGroup;
 			children = (
 				8556C1D726293F780038C35E /* PasteButtonView.swift */,
-				8539B94826386DA5009ECFF6 /* HTMLView.swift */,
 				858710992700AF2B0075D7EB /* WordCountLabel.swift */,
 			);
 			path = Views;
@@ -503,7 +500,6 @@
 				8556C1E7262A9C0B0038C35E /* CleanString.swift in Sources */,
 				8539B95526387223009ECFF6 /* Source.swift in Sources */,
 				85831AF8262D3F2900CD5801 /* AppIconSettingsView.swift in Sources */,
-				8539B94926386DA5009ECFF6 /* HTMLView.swift in Sources */,
 				85E1EC73262CC505009DD9EC /* DictionaryInfoView.swift in Sources */,
 				85BAEC3E2626827D00E56D06 /* SceneDelegate.swift in Sources */,
 				8556C1EA262B47D60038C35E /* SettingsView.swift in Sources */,
@@ -659,7 +655,7 @@
 				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = 288H3WAR3W;
 				INFOPLIST_FILE = Dictionary/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -680,7 +676,7 @@
 				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = 288H3WAR3W;
 				INFOPLIST_FILE = Dictionary/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

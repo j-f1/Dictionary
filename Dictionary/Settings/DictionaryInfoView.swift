@@ -11,26 +11,35 @@ struct DictionaryInfoView: View {
   var body: some View {
     Form {
       Section {
-        HTMLView(style: "text-align: center; font: \(UIFont.systemFontSize * 1.2)px ui-serif", """
-          Webster's Revised Unabridged Dictionary<br>
-          Version published 1913<br>
-          by the C. & G. Merriam Co.<br>
-          Springfield, Mass.<br>
-          Under the direction of<br>
-          Noah Porter, D.D., LL.D.
+        Text("""
+        The content of this app comes from the 1913 edition of [Webster’s Dictionary](https://en.wikipedia.org/wiki/Webster%27s_Dictionary#1913_edition).
+
+        The dictionary was digitized as part of the [GCIDE](https://gcide.gnu.org.ua) project maintained by Patrick J. Cassidy and Sergey Poznyakoff.
+
+        The GCIDE data was further processed into HTML using [`WebsterParser`](https://github.com/ponychicken/WebsterParser), written by [ponychicken](https://github.com/ponychicken), [Jeff Byrnes](https://thejeffbyrnes.com), myself, and all the other [contributors](https://github.com/ponychicken/WebsterParser/graphs/contributors).
+
+        This app is free software, and you can grab its source code [on GitHub](https://github.com/j-f1/Dictionary)!
         """)
-      }
-      Section {
-        HTMLView("The content of this app comes from the 1913 edition of <a href='https://en.wikipedia.org/wiki/Webster%27s_Dictionary#1913_edition'>Webster’s Dictionary</a>.")
-        HTMLView("The dictionary was digitized as part of the <a href='https://gcide.gnu.org.ua'>GCIDE</a> project maintained by Patrick J. Cassidy and Sergey Poznyakoff.")
-        HTMLView("""
-          The GCIDE data was further processed into HTML using <a href="https://github.com/ponychicken/WebsterParser"><code>WebsterParser</code></a>, written by <a href="https://github.com/ponychicken">ponychicken</a>, <a href="https://thejeffbyrnes.com">Jeff Byrnes</a>, myself, and all the other <a href="https://github.com/ponychicken/WebsterParser/graphs/contributors">contributors</a>.
+      } header: {
+        Text("""
+        Webster's Revised Unabridged Dictionary
+        Version published 1913
+        by the C. & G. Merriam Co.
+        Springfield, Mass.
+        Under the direction of
+        Noah Porter, D.D., LL.D.
         """)
-        HTMLView("""
-          This app is free software, and you can grab its source code <a href="https://github.com/j-f1/Dictionary">on GitHub</a>!
-        """)
+        .padding(.bottom)
+        .padding(.bottom)
+        .frame(maxWidth: .infinity)
+        .font(.system(.title3, design: .serif))
+        .multilineTextAlignment(.center)
+        .textCase(nil)
+        .foregroundColor(.primary)
+        .textSelection(.enabled)
       }
     }
+    .textSelection(.enabled)
     .navigationTitle("About Webster’s Dictionary")
   }
 }
