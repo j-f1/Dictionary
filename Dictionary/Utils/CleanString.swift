@@ -14,7 +14,7 @@ extension String {
   }
 }
 
-func find(query: String, in words: [WordLetter]) -> (word: String, indexPath: IndexPath)? {
+func searchFor(query: String, in words: [WordLetter]) -> (word: String, indexPath: IndexPath)? {
   if let cleaned =
       (
         query.lowercased()
@@ -50,7 +50,7 @@ func find(query: String, in words: [WordLetter]) -> (word: String, indexPath: In
   return nil
 }
 
-func find(exact word: String, in words: [WordLetter]) -> IndexPath? {
+func searchFor(exact word: String, in words: [WordLetter]) -> IndexPath? {
   if !word.isEmpty,
      let section = words.firstIndex(where: { $0.letter == String(word.first!) }),
      let row = words[section].words.firstIndex(of: word) {

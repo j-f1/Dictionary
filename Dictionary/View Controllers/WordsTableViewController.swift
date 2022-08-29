@@ -91,7 +91,7 @@ class WordsTableViewController: WordListController, UITableViewDelegate {
            let word = self.history.state {
           customVC.word = word
           if let words = self.words,
-             let indexPath = find(exact: word, in: words),
+             let indexPath = searchFor(exact: word, in: words),
              self.tableView.indexPathForSelectedRow != indexPath {
             self.tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
             self.tableView.scrollToRow(at: indexPath, at: .none, animated: false)
@@ -177,7 +177,7 @@ class WordsTableViewController: WordListController, UITableViewDelegate {
            !detected.contains(.probableWebURL) {
           if let copiedString = UIPasteboard.general.string,
              let words = words,
-             let (word, indexPath) = find(query: copiedString, in: words) {
+             let (word, indexPath) = searchFor(query: copiedString, in: words) {
             if pasteTarget == nil || word != pasteLabel.text {
               pasteLabel.text = word
               pasteTarget = indexPath
@@ -254,7 +254,7 @@ class WordsTableViewController: WordListController, UITableViewDelegate {
   var canGoToNext: Bool {
     if let word = self.history.state,
        let words = words,
-       let path = find(exact: word, in: words) {
+       let path = searchFor(exact: word, in: words) {
       return path != IndexPath(row: words.last!.words.count - 1, section: words.count - 1)
     }
     return false
@@ -263,7 +263,7 @@ class WordsTableViewController: WordListController, UITableViewDelegate {
     assert(canGoToNext)
     guard
       let words = words,
-      let currentPath = find(exact: self.history.state!, in: words)
+      let currentPath = searchFor(exact: self.history.state!, in: words)
     else { return }
     if currentPath.row == words[currentPath.section].words.count - 1 {
       self.history.move(to: words[currentPath.section + 1].words.first!)
@@ -275,7 +275,7 @@ class WordsTableViewController: WordListController, UITableViewDelegate {
   var canGoToPrevious: Bool {
     if let word = self.history.state,
        let words = words,
-       let path = find(exact: word, in: words) {
+       let path = searchFor(exact: word, in: words) {
       return path != IndexPath(row: 0, section: 0)
     }
     return false
@@ -284,7 +284,7 @@ class WordsTableViewController: WordListController, UITableViewDelegate {
     assert(canGoToPrevious)
     guard
       let words = words,
-      let currentPath = find(exact: self.history.state!, in: words)
+      let currentPath = searchFor(exact: self.history.state!, in: words)
     else { return }
     if currentPath.row == 0 {
       self.history.move(to: words[currentPath.section - 1].words.last!)
