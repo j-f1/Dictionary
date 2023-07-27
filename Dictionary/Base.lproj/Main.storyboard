@@ -273,7 +273,7 @@
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Loading…" largeTitleDisplayMode="always" id="eEe-49-wAv">
                         <leftBarButtonItems>
-                            <barButtonItem title="Item" image="pin" catalog="system" style="plain" id="Uta-Nr-l00">
+                            <barButtonItem title="Item" image="pin" catalog="system" id="Uta-Nr-l00">
                                 <connections>
                                     <action selector="pin:" destination="EaN-d9-lP7" id="hni-cL-HAF"/>
                                 </connections>

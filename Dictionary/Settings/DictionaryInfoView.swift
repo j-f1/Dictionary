@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+@MainActor
 struct DictionaryInfoView: View {
   var body: some View {
     Form {

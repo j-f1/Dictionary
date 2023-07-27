@@ -9,6 +9,7 @@ import UIKit
 import Combine
 import Defaults
 
+@MainActor
 class WordsTableViewController: WordListController, UITableViewDelegate {
   lazy var detailVC = {
     self.splitViewController?.viewController(for: .secondary) ?? self.storyboard?.instantiateViewController(identifier: VCIdentifier.detail)
@@ -170,8 +171,8 @@ class WordsTableViewController: WordListController, UITableViewDelegate {
       pasteTarget = nil
       return
     }
-    UIPasteboard.general.detectPatterns(for: [.number, .probableWebSearch, .probableWebURL]) { [self] result in
-      DispatchQueue.main.async {
+    UIPasteboard.general.detectPatterns(for: [.number, .probableWebSearch, .probableWebURL]) { result in
+      DispatchQueue.main.async { [self] in
         if case .success(let detected) = result,
            !detected.contains(.number),
            !detected.contains(.probableWebURL) {
@@ -237,7 +238,9 @@ class WordsTableViewController: WordListController, UITableViewDelegate {
 
   @IBAction func unpin() {
     self.words = allWords
-    allWords.map(self.countLabel.update(from:))
+    if let allWords {
+      self.countLabel.update(from: allWords)
+    }
     self.currentSource = nil
     self.pinTopConstraint.constant = -self.pinView.frame.height
     UIView.animate(withDuration: 0.2) {
